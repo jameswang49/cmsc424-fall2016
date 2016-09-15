@@ -123,7 +123,7 @@ where count = (select max(count) from count_table);
 queries[10] = """
 with flight_list as 
 (select distinct flightid, source, dest, airlineid, local_departing_time, local_arrival_time from flights order by source), 
-count_table as (select source as airlineid, count(*) from flight_list group by source order by count DESC), 
-rank_table as (select airlineid, count, rank() over (order by count DESC) from count_table)
-select * from rank_table order by rank ASC, airlineid DESC;
+count_table as (select source as airlineid, count(*) from flight_list group by source order by count DESC) 
+select airlineid, count, rank() over (order by count DESC) 
+from count_table;
 """
