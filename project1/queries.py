@@ -64,10 +64,10 @@ from flight_data natural join airlines;
 ### days from August 1 to August 9, 2016. For each such flight, list the flightid and the date.
 ### Order by flight id in the increasing order, and then by date in the increasing order.
 queries[6] = """
-with flight_table as (select distinct flightid from flights), 
-date_table as (select * from generate_series('2016-08-01', '2016-08-09', interval '1 day') as dates), 
-ref_table as (select * from flight_table cross join date_table order by flightid, dates ASC) 
-select * from ref_table except select flightid, flightdate from flights natural join flewon order by flightid, dates ASC;
+with flight_table as (select distinct flightid from flights),
+date_table as (select * from generate_series('2016-08-01', '2016-08-09', interval '1 day') as dates), new_date_table as (select date(dates) as dates from date_table),
+ref_table as (select * from flight_table cross join new_date_table order by flightid, dates ASC)
+select * from ref_table except select flightid, flightdate from flights natural join flewon order by flightid, dates ASC;;
 """
 
 ### 7. Write a query to generate a list of customers who don't list Southwest as their frequent flier airline, but
@@ -124,6 +124,6 @@ queries[10] = """
 with flight_list as 
 (select distinct flightid, source, dest, airlineid, local_departing_time, local_arrival_time from flights order by source), 
 count_table as (select source as airlineid, count(*) from flight_list group by source order by count DESC) 
-select airlineid, count, rank() over (order by count DESC) 
+select airlineid, count, rank() over (order by count DESC, airlineid DESC) 
 from count_table;
 """
