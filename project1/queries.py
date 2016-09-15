@@ -124,6 +124,6 @@ queries[10] = """
 with flight_list as 
 (select distinct flightid, source, dest, airlineid, local_departing_time, local_arrival_time from flights order by source), 
 count_table as (select source as airlineid, count(*) from flight_list group by source order by count DESC) 
-select airlineid, count, rank() over (order by count DESC, airlineid DESC) 
+select airlineid, count, rank() over (order by count DESC) order by airlineid DESC; 
 from count_table;
 """
