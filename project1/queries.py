@@ -67,9 +67,7 @@ queries[6] = """
 with flight_table as (select distinct flightid from flights), 
 date_table as (select * from generate_series('2016-08-01', '2016-08-09', interval '1 day') as dates), 
 ref_table as (select * from flight_table cross join date_table order by flightid, dates ASC) 
-select * 
-from ref_table 
-where not exists (select flightid, flightdate from flights natural join flewon);
+select * from ref_table except select flightid, flightdate from flights natural join flewon order by flightid, dates ASC;
 """
 
 ### 7. Write a query to generate a list of customers who don't list Southwest as their frequent flier airline, but
