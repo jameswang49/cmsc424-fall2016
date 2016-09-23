@@ -115,7 +115,8 @@ where count = (select max(count) from count_table);
 """
 
 
-### 10. Write a query that outputs a list: (AirportID, Airport-rank), where we rank the airports 
+### 10. Write a query that outputs a list: (AirportID, Total-Number-of-Flights, Airport-rank), where 
+### we rank the airports 
 ### by the total number of flights that depart that airport. So the airport with the maximum number
 ### of flights departing gets rank 1, and so on. If two airports tie, then they should 
 ### both get the same rank, and the next rank should be skipped.
