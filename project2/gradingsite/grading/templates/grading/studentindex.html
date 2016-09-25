@@ -4,7 +4,6 @@
     <h4> Available Assignments: </h4>
 
     <ul>
-        today = datetime.now()
         {% for a in c.assignment_set.all %}
         
             {% if today.date > a.due_date %}                                 
