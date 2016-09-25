@@ -41,7 +41,7 @@ def instructorgradesubmission(request, instructor_id, course_id, assignment_id, 
 def studentindex(request, student_id):
 	today = timezone.now()
 	student_assignments = []
-	try 
+	try: 
 		student_assignments = StudentAssignment.objects.get(pk=student_id):
 	except StudentAssignment.DoesNotExist:
 		student_assignments = []
