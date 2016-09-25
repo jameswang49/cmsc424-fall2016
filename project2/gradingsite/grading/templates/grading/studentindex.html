@@ -2,13 +2,30 @@
     {% for c in course_list %}
     <h3> {{ c.title }}</h3>
     <h4> Available Assignments: </h4>
+
     <ul>
-    {% for a in c.assignment_set.all %}
-    <li><a href="/grading/student/{{ student_id }}/assignment/{{ a.id }}">Assignment {{ a.assignment_no }}, Due Date: {{ a.due_date }}</a></li>
-    {% endfor %}
+        {% for a in c.assignment_set.all %}
+        
+            {% if timezone.now() > a.due_date %}                                 
+                <li><a href="/grading/student/{{ student_id }}/assignment/{{ a.id }}">Assignment {{ a.assignment_no }}, Due Date: {{ a.due_date }}</a></li>
+            {% endif %}
+        {% endfor %}
     </ul>
+
     <h4> Past Assignments: </h4>
+    
+    <ul>
+        {% for a in c.assignment_set.all %}
+        
+            {% if a.due_date > timezone.now() %}                                 
+                <li><a href="/grading/student/{{ student_id }}/assignment/{{ a.id }}">Assignment {{ a.assignment_no }}, Due Date: {{ a.due_date }}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+        
+        
     {% endfor %}
+
 {% else %}
     <p>No courses are available.</p>
 {% endif %}
