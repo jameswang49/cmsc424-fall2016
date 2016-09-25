@@ -39,7 +39,18 @@ def instructorgradesubmission(request, instructor_id, course_id, assignment_id, 
         return render(request, 'grading/instructorgradesubmission.html', context)
 
 def studentindex(request, student_id):
-	context = { 'student_id': student_id, 'course_list': Student.objects.get(pk=student_id).courses.all() }
+	s_courses = Student.objects.get(pk=student_id).courses.all()
+	active_list = []
+	past_due_list = []
+	
+	for c in s_courses
+		for a in c.assignment_set.all() 
+			if a.due_date < timezone.now()
+				active_list.append(a)
+		 	else:
+				past_due_list.append(a)
+	
+	context = { 'student_id': student_id, 'course_list': Student.objects.get(pk=student_id).courses.all(), 'active_list': active_list, 'past_due_list': past_due_list }
         return render(request, 'grading/studentindex.html', context)
 
 def studentassignment(request, student_id, assignment_id):
