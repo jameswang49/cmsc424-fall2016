@@ -40,9 +40,11 @@ def instructorgradesubmission(request, instructor_id, course_id, assignment_id, 
 
 def studentindex(request, student_id):
 	today = timezone.now()
-	student_assignments = StudentAssignment.objects.get(pk=student_id)
+	student_assignments = []
+	if (StudentAssignment.objects.get(pk=student) != None)
+		student_assignments = StudentAssignment.objects.get(pk=student)
 	context = { 'student_id': student_id, 'course_list': Student.objects.get(pk=student_id).courses.all(), 'today': today, 'student_assignments': student_assignments }
-        return render(request, 'grading/studentindex.html', context)
+	return render(request, 'grading/studentindex.html', context)
 
 def studentassignment(request, student_id, assignment_id):
 	context = { 'assignment': Assignment.objects.get(pk=assignment_id), 'student': Student.objects.get(pk=student_id) }
