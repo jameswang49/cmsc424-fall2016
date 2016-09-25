@@ -22,7 +22,7 @@
         
                     {% if student_assignments %}
                         {% for b in student_assignments %}
-                            {% if b == a %}
+                            {% if b.assignment == a %}
                                 Grade: {{b.score}}
                             {% endif %}
                         {% endfor %}
