@@ -19,6 +19,15 @@
         
             {% if today > a.due_date %}                                 
                 <li><a href="/grading/student/{{ student_id }}/assignment/{{ a.id }}">Assignment {{ a.assignment_no }}, Due Date: {{ a.due_date }}</a></li>
+        
+                    {% if student_assignments}
+                        {% for b in student_assignments %}
+                            {% if b == a %}
+                                Grade: {{b.score}}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                   
             {% endif %}
         {% endfor %}
     </ul>
