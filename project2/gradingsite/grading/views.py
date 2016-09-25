@@ -42,7 +42,7 @@ def studentindex(request, student_id):
 	today = timezone.now()
 	student_assignments = []
 	try: 
-		student_assignments = StudentAssignment.objects.get(pk=student_id).assignment.all()
+		student_assignments = StudentAssignment.objects.get(pk=student_id).assignment
 	except StudentAssignment.DoesNotExist:
 		student_assignments = []
 	context = { 'student_id': student_id, 'course_list': Student.objects.get(pk=student_id).courses.all(), 'today': today, 'student_assignments': student_assignments }
