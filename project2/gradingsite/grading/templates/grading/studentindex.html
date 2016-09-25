@@ -7,7 +7,7 @@
         {% for a in c.assignment_set.all %}
         
             {% if a.due_date > today %}                                 
-                <li><a href="/grading/student/{{ student_id }}/assignment/{{ a.id }}">Assignment {{ a.assignment_no }}, Due Date: {{ a.due_date }}</a></li>
+                <li><a href="/grading/student/{{ student_id }}/assignment/{{ a.id }}">Assignment {{ a.assignment_no }}, Due Date: {{ a.due_date }}, Grade: {{a.studentassignment_set.filter(assignment_id = a.id).score}}</a></li>
             {% endif %}
         {% endfor %}
     </ul>
