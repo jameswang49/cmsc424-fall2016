@@ -1,11 +1,11 @@
-{% if course_list %}
+{% if course_count_arr %}
      <h3> Courses </h3>
 <ul>
-     {% for c in course_list %}
+     {% for c, count in course_count_arr %}
        <li>{{ c.title }}</li>
           
      <ul>
-          <li>Submissions Ready for Course {{c.title}}: {{c.assignment_set.studentassignment_set.count}}</li>
+          <li>Submissions Ready for Course {{c.title}}: {{count}}</li>
      
      </ul>
      {% endfor %}
