@@ -2,7 +2,7 @@
      <h3> Courses </h3>
 <ul>
      {% for c, count in course_count_arr %}
-       <li>{{ c.title }}</li>
+          <li><a href="/grading/instructor/{{ instructor_id }}/course/{{ c.id }}">{{ c.title }}</a></li>
           
      <ul>
           <li>Submissions Ready for Course {{c.title}}: {{count}}</li>
