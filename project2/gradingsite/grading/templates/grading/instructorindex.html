@@ -4,8 +4,10 @@
      {% for c in course_list %}
        <li>{{ c.title }}</li>
           
-          Submissions Ready for Course {{c.title}}: {{c.assignment_set.studentassignment_set.all.count}}
+     <ul>
+          <li>Submissions Ready for Course {{c.title}}: {{c.assignment_set.studentassignment_set.all.count}}</li>
      
+     </ul>
      {% endfor %}
 </ul>
 
