@@ -15,7 +15,22 @@ def mainindex(request):
 
 def instructorindex(request, instructor_id):
 	i = get_object_or_404(Instructor, pk=instructor_id)
-        context = { 'course_list': i.course_set.all() }
+	c_list = i.course_set.all()
+	count_arr = []
+	j = 0;
+	count_sum = 0;
+	
+	for c in c_list
+		count_sum = 0
+		for a in c_list.assignment_set.all()
+			count_sum =  count_sum + a.studentassignment_set.count()
+			
+		count_arr[j] = count_sum
+		j = j + 1
+	
+	course_count_arr = zip(c_list, count_arr)
+	
+        context = { 'course_list': i.course_set.all(), 'course_count_arr': course_count_arr}
         return render(request, 'grading/instructorindex.html', context)
 
 def instructorcourse(request, instructor_id, course_id):
