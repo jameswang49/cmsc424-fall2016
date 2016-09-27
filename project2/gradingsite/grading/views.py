@@ -20,7 +20,7 @@ def instructorindex(request, instructor_id):
 	j = 0
 	count_sum = 0
 	
-	for c in c_list
+	for c in c_list:
 		count_sum = 0
 		for a in c_list.assignment_set.all()
 			count_sum =  count_sum + a.studentassignment_set.count()
