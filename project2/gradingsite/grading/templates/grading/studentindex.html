@@ -9,7 +9,7 @@
          <ul>
         {% for a in c.assignment_set.all %}
         
-            {% if a.due_date > today %}  
+            {% if a.due_date >= today %}  
         
                   {% for sa in sa_list %}
              
@@ -29,11 +29,11 @@
         <ul>
        {% for a in c.assignment_set.all %}
         
-            {% if a.due_date > today %}  
+            {% if a.due_date >= today %}  
         
                   {% for sa in sa_list %}
              
-                        {% if sa.assignment.id != a.id and sa.due_date > today %}
+                        {% if sa.assignment.id != a.id and sa.due_date >= today %}
              
                             <li><a href="/grading/student/{{ student_id }}/assignment/{{ a.id }}">Assignment {{ a.assignment_no }}, Due Date: {{ a.due_date }}</a></li>
                         
