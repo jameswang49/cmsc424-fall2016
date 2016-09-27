@@ -15,7 +15,8 @@ def mainindex(request):
 
 def instructorindex(request, instructor_id):
 	i = get_object_or_404(Instructor, pk=instructor_id)
-        context = { 'course_list': i.course_set.all() }
+	num_sa = i.course_set.assignment_set.studentassignment_set.count()
+        context = { 'course_list': i.course_set.all(), 'num_sa': num_sa }
         return render(request, 'grading/instructorindex.html', context)
 
 def instructorcourse(request, instructor_id, course_id):
