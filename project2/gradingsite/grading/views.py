@@ -17,7 +17,6 @@ def instructorindex(request, instructor_id):
 	i = get_object_or_404(Instructor, pk=instructor_id)
 	c_list = i.course_set.all()
 	count_arr = []
-	j = 0
 	count_sum = 0
 	
 	for c in c_list:
@@ -25,8 +24,8 @@ def instructorindex(request, instructor_id):
 		for a in c.assignment_set.all():
 			count_sum =  count_sum + a.studentassignment_set.count()
 			
-		count_arr[j] = count_sum
-		j = j + 1
+		count_arr.append(count_sum)
+	
 	
 	course_count_arr = zip(c_list, count_arr)
 	
