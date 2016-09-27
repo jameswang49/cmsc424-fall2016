@@ -16,10 +16,31 @@
                         {% if sa.assignment_no == a.assignment_no %}
              
                             <li><a href="/grading/student/{{ student_id }}/assignment/{{ a.id }}">Assignment {{ a.assignment_no }}, Due Date: {{ a.due_date }}</a></li>
+                        
                         {% endif %}                       
             
-                {% endfor %}
+                  {% endfor %}
         </ul>
+        
+        <h5> Assignments Not Submitted </h5>
+        
+        <ul>
+            {% for a in c.assignment_set.all %}
+        
+            {% if a.due_date > today %}  
+        
+                  {% for sa in sa_list %}
+             
+                        {% if sa.assignment_no != a.assignment_no %}
+             
+                            <li><a href="/grading/student/{{ student_id }}/assignment/{{ a.id }}">Assignment {{ a.assignment_no }}, Due Date: {{ a.due_date }}</a></li>
+                        
+                        {% endif %}                       
+            
+                  {% endfor %}
+            
+            
+        </ul>    
                 
             {% endif %}
         {% endfor %}
