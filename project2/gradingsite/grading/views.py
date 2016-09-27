@@ -17,8 +17,8 @@ def instructorindex(request, instructor_id):
 	i = get_object_or_404(Instructor, pk=instructor_id)
 	c_list = i.course_set.all()
 	count_arr = []
-	j = 0;
-	count_sum = 0;
+	j = 0
+	count_sum = 0
 	
 	for c in c_list
 		count_sum = 0
