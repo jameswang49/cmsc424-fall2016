@@ -20,8 +20,8 @@
             {% if today > a.due_date %}                                 
                 <li><a href="/grading/student/{{ student_id }}/assignment/{{ a.id }}">Assignment {{ a.assignment_no }}, Due Date: {{ a.due_date }}</a></li>
                     
-                    {% if a.studentassignment_set.filter(assignment__assignment_no == a.assignment_no).exists() %} 
-                            Grade: {{a.studentassignment_set.filter(assignment__assignment_no == a.assignment_no).score}}
+                    {% if StudentAssignment.objects.get(assignment__assignment_no = a.assignment_no).exists() %} 
+                            Grade: {{a.studentassignment_set.filter(assignment__assignment_no = a.assignment_no).score}}
                     {% endif %}
                    
             {% endif %}
