@@ -1,5 +1,15 @@
-<b>You need to write the template code to implement the required functionality. Look at the other files in this directory for some examples. </b><br><br><br>
+<h3> Active Assignments for {{ course.title }} </h3>
 
-<b>The below shows some debug output. The important one here is the first part -- which shows the "context". </b><br><br><br>
+{% if active_sa_list %}
 
-{% debug %}
+ <ul>
+  {% for sa in active_sa_list %}
+      
+      <li> Assignment: {{ sa.assignment.assignment_no }}, Due Date: {{ sa.assignment.due_date }}</li>
+  {% endfor %}
+
+
+</ul>
+
+   
+ {% endif %}
