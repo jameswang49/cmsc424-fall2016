@@ -5,7 +5,7 @@
        <li>{{ c.title }}</li>
           
      <ul>
-          <li>Submissions Ready for Course {{c.title}}: {{c.assignment_set.studentassignment_set.all.count}}</li>
+          <li>Submissions Ready for Course {{c.title}}: {{c.assignment_set.count}}</li>
      
      </ul>
      {% endfor %}
