@@ -29,7 +29,7 @@ def instructorindex(request, instructor_id):
 	
 	course_count_arr = zip(c_list, count_arr)
 	
-        context = { 'course_list': i.course_set.all(), 'course_count_arr': course_count_arr }
+        context = { 'instructor_id': instructor_id, 'course_list': i.course_set.all(), 'course_count_arr': course_count_arr }
         return render(request, 'grading/instructorindex.html', context)
 
 def instructorcourse(request, instructor_id, course_id):
