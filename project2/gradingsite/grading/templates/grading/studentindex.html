@@ -13,7 +13,7 @@
         
                   {% for sa in sa_list %}
              
-                        {% if sa.assignment_no == a.assignment_no %}
+                        {% if sa.assignment.id == a.id %}
              
                             <li><a href="/grading/student/{{ student_id }}/assignment/{{ a.id }}">Assignment {{ a.assignment_no }}, Due Date: {{ a.due_date }}</a></li>
                         
