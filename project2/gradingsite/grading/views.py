@@ -41,9 +41,11 @@ def instructorcourse(request, instructor_id, course_id):
 
 def instructorassignment(request, instructor_id, course_id, assignment_id):
 	# Should get a list of all submissions for this assignment, and set it in context
+	today = timezone.now()
 	
-	sa_list = Instructor.objects.get(pk=instructor_id).course_set.filter(pk=course_id).assignment_set.filter(pk=assignment_id).studentassignment_set.all()
-        context = { 'sa_list': sa_list }
+	a_list = Instructor.objects.get(pk=instructor_id).course_set.filter(pk=course_id).assignment_set.filter(pk=assignment_id).studentassignment_set.filter(assignment.due_date >= today)
+	p_list = Instructor.objects.get(pk=instructor_id).course_set.filter(pk=course_id).assignment_set.filter(pk=assignment_id).studentassignment_set.all(assignment.due_date < today)
+	context = { 'a_list': sa_list, 'p_list': p_list }
         return render(request, 'grading/instructorassignment.html', context)
 
 def instructorcreate(request, instructor_id, course_id):
