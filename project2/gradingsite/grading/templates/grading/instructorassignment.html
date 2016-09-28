@@ -24,7 +24,7 @@
   
          {% if s.studentassignment_set.all %}
        
-               {% for sa in s.studentassignment_set.a %}
+               {% for sa in s.studentassignment_set.all %}
       
                    <li><a href="/grading/instructor/{{ instructor_id }}/course/{{ course_id }}/assignment/{{ assignment_id }}/student/{{sa.student.id}}">Student Name: {{ s.name }}, Assignment: {{ assignment.assignment_no }}, Due Date: {{ assignment.due_date }}</a></li>
                {% endfor %}
