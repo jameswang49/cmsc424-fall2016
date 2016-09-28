@@ -4,11 +4,25 @@
 
  <ul>
   {% for sa in active_sa_list %}
+  
+      {% if sa.assignment.due_date >= today %}
       
       <li> Assignment: {{ sa.assignment.assignment_no }}, Due Date: {{ sa.assignment.due_date }}</li>
+      {% endfor %}
   {% endfor %}
+</ul>
 
 
+<h3> Past Assignments for {{ course.title }} </h3>
+
+<ul>
+  {% for sa in active_sa_list %}
+  
+      {% if today > sa.assignment.due_date %}
+      
+      <li> Assignment: {{ sa.assignment.assignment_no }}, Due Date: {{ sa.assignment.due_date }}</li>
+      {% endfor %}
+  {% endfor %}
 </ul>
 
    
