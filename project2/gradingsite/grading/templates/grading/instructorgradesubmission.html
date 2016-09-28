@@ -3,8 +3,7 @@
 <form action="/grading/instructor/{{ instructor_id }}/course/{{ course_id }}/assignment/{{ assignment_id }}/student/{{ student_id }}/" method="post">
     {% csrf_token %}
  
-    <h3> Submission Data </h3>
- 
+    <h3> Student Answers for Submission </h3>
     <ul>
     {% for q, a in qa_list %}
      
