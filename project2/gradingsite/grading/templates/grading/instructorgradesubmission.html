@@ -1,5 +1,12 @@
-<b>You need to write the template code to implement the required functionality. Look at the other files in this directory for some examples. </b><br><br><br>
+ {% if sa_list %}
 
-<b>The below shows some debug output. The important one here is the first part -- which shows the "context". </b><br><br><br>
+    <h3> Answers {{ assignment.assignment_no }} </h3>
 
-{% debug %}
+    <ul>
+    {% for sa in sa_list %}
+
+      <li> Answers: {{sa.answers}}</li>
+
+    </ul>
+
+ {% endif %}
