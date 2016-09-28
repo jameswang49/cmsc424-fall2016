@@ -47,7 +47,9 @@ def instructorassignment(request, instructor_id, course_id, assignment_id):
 	
 	sorted_students = Course.objects.get(pk=course_id).student_set.distinct().order_by('name')
 	sa_list = Assignment.objects.get(pk=assignment_id).studentassignment_set.all()
-	context = { 'instructor_id': instructor_id, 'course_id': course_id, 'assignment_id': assignment_id, 'sa_list': sa_list, 'sorted_students': sorted_students, 'course': course, 'assignment': assignment, 'today': today }
+	active_list = sa_list.filter(assignment__due_date >= today)
+	
+	context = { 'instructor_id': instructor_id, 'course_id': course_id, 'assignment_id': assignment_id, 'sa_list': sa_list, 'active_list': active_list, 'sorted_students': sorted_students, 'course': course, 'assignment': assignment, 'today': today }
         return render(request, 'grading/instructorassignment.html', context)
 
 def instructorcreate(request, instructor_id, course_id):
