@@ -26,13 +26,13 @@
        
                {% for sa in s.studentassignment_set.all %}
       
-                   <li><a href="/grading/instructor/{{ instructor_id }}/course/{{ course_id }}/assignment/{{ assignment_id }}/student/{{sa.student.id}}">Student Name: {{ s.name }}, Assignment: {{ assignment.assignment_no }}, Due Date: {{ assignment.due_date }}</a></li>
+                   <li><a href="/grading/instructor/{{ instructor_id }}/course/{{ course_id }}/assignment/{{ assignment_id }}/student/{{sa.student.id}}">Student Name: {{ s.name }}, Assignment: {{ sa.assignment.assignment_no }}, Due Date: {{ sa.assignment.due_date }}</a></li>
                {% endfor %}
     </ul>   
 
          {% else %}
        
-               Student Name: {{ s.name}}, No submission
+               Student Name: {{ s.name }}, No submission
          
          {% endif %}
      {% endfor %}
