@@ -100,5 +100,6 @@ def submitassignment(request, student_id, assignment_id):
 	return HttpResponseRedirect(reverse('submittedassignment', args=(student_id,assignment_id,)))
 
 def submittedassignment(request, student_id, assignment_id):
-	context = { 'student_id': student_id, 'course_list': Student.objects.get(pk=student_id).courses.all() }
+	today = timezone.now()
+	context = { 'student_id': student_id, 'course_list': Student.objects.get(pk=student_id).courses.all(), 'sa_list': Student.objects.get(pk=student_id).studentassignment_set.all(), 'today': today }
 	return render(request, 'grading/studentindex.html', context)
