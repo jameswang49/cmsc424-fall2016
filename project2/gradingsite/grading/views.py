@@ -80,7 +80,7 @@ def instructorgradesubmission(request, instructor_id, course_id, assignment_id, 
 	
 	qa_list = zip(question_list, answer_list)
 	
-	context = {'student_obj': student_obj, 'sa_list': sa_list, 'qa_list': qa_list}
+	context = {'instructor_id': instructor_id, 'course_id': course_id, 'assignment_id': assignment_id, 'student_id': student_id, 'student_obj': student_obj, 'sa_list': sa_list, 'qa_list': qa_list}
         return render(request, 'grading/instructorgradesubmission.html', context)
 
 def studentindex(request, student_id):
