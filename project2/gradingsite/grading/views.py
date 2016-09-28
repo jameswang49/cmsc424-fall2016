@@ -58,8 +58,8 @@ def instructorassignment(request, instructor_id, course_id, assignment_id):
 				else:
 					not_submitted_list.append(s)
 					
-	submitted = submitted_list.order_by('name')
-	not_submitted = not_submitted_list.order_by('name')
+	submitted = sorted(submitted_list, key=lambda student: student.name)
+	not_submitted = sorted(not_submitted_list, key=lambda student: student.name)
 					  
 	context = { 'instructor_id': instructor_id, 'course_id': course_id, 'assignment_id': assignment_id, 'sa_list': sa_list, 'sorted_students': sorted_students, 'submitted': submitted, 'not_submitted': not_submitted, 'course': course, 'assignment': assignment, 'today': today }
         return render(request, 'grading/instructorassignment.html', context)
