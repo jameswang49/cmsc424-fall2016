@@ -1,11 +1,10 @@
- {% if sa_list %}
-
-    <h3> Answers {{ assignment.assignment_no }} </h3>
+ {% if qa_list %}
 
     <ul>
+    {% for q, a in qa_list %}
 
-    <li> Answers: {{sa_list.0.answers}}</li>
+    <li> Question: {{ q }}, Answer {{ a }} </li>
 
     </ul>
 
- {% endif %}
+{% endif %}
