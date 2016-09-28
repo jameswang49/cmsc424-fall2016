@@ -8,7 +8,7 @@
       {% if sa.assignment.due_date >= today %}
       
       <li> Assignment: {{ sa.assignment.assignment_no }}, Due Date: {{ sa.assignment.due_date }}</li>
-      {% endfor %}
+      {% endif %}
   {% endfor %}
 </ul>
 
@@ -21,7 +21,7 @@
       {% if today > sa.assignment.due_date %}
       
       <li> Assignment: {{ sa.assignment.assignment_no }}, Due Date: {{ sa.assignment.due_date }}</li>
-      {% endfor %}
+      {% endif %}
   {% endfor %}
 </ul>
 
