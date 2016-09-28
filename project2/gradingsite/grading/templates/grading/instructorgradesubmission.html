@@ -3,10 +3,8 @@
     <h3> Answers {{ assignment.assignment_no }} </h3>
 
     <ul>
-    {% for sa in sa_list %}
 
-      <li> Answers: {{sa.answers}}</li>
-    {% endfor %}
+    <li> Answers: {{sa.0.answers}}</li>
 
     </ul>
 
