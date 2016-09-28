@@ -1,6 +1,4 @@
-{% if sa_list %}
-
-   {% if assignment.due_date >= today %}
+     {% if assignment.due_date >= today %}
 
       <h3> Submissions for Assignment {{ assignment.assignment_no }} </h3>
 
@@ -9,7 +7,7 @@
       <ul>
       {% for name in not_submitted %}
          
-          <li> Student: name</li>
+          <li> Student: {{name}}</li>
       {% endfor %}
       </ul>
  
@@ -18,7 +16,7 @@
       <ul>
       {% for name in submitted %}
          
-          <li> Student: name</li>
+          <li> Student: {{name}}</li>
       {% endfor %}
       </ul>
 
@@ -52,4 +50,3 @@
 
    {% endif %}
 
- {% endif %}
