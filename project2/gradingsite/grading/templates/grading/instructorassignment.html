@@ -4,14 +4,22 @@
 
       <h3> Submissions for Assignment {{ assignment.assignment_no }} </h3>
 
+      <h4> Not Submitted </h4>
+
       <ul>
-     {% for sa in sa_list %}
-  
-         {% if sa.assignment.due_date >= today %}
-      
-         <li> Assignment: {{ assignment.assignment_no }}, Due Date: {{ assignment.due_date }}</li>
-         {% endif %}
-     {% endfor %}
+      {% for name in not_submitted %}
+         
+          <li> Student: name</li>
+      {% endfor %}
+      </ul>
+ 
+      <h4> Submitted </h4>
+
+      <ul>
+      {% for name in submitted %}
+         
+          <li> Student: name</li>
+      {% endfor %}
       </ul>
 
 
