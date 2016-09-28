@@ -25,8 +25,12 @@
          {% if s.studentassignment_set.all %}
        
                {% for sa in s.studentassignment_set.all %}
+       
+                     {% if sa.assignment.assignment_no == assignment.assignment_no and sa.assignment.due_date == assignment.due_date %}
       
-                   <li><a href="/grading/instructor/{{ instructor_id }}/course/{{ course_id }}/assignment/{{ assignment_id }}/student/{{sa.student.id}}">Student Name: {{ s.name }}, Assignment: {{ sa.assignment.assignment_no }}, Due Date: {{ sa.assignment.due_date }}</a></li>
+                         <li><a href="/grading/instructor/{{ instructor_id }}/course/{{ course_id }}/assignment/{{ assignment_id }}/student/{{sa.student.id}}">Student Name: {{ s.name }}, Assignment: {{ sa.assignment.assignment_no }}, Due Date: {{ sa.assignment.due_date }}</a></li>
+               
+                     {% endif %}
                {% endfor %}
     </ul>   
 
