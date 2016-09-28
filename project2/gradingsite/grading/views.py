@@ -44,8 +44,9 @@ def instructorassignment(request, instructor_id, course_id, assignment_id):
 	today = timezone.now()
 	course = Instructor.objects.get(pk=instructor_id).course_set.filter(pk=course_id)
 	
-	active_sa_list = Assignment.objects.get(pk=assignment_id).studentassignment_set.filter(due_date >= today)
-	past_sa_list = Assignment.objects.get(pk=assignment_id).studentassignment_set.filter(due_date < today)
+	sa_list = Assignment.objects.get(pk=assignment_id).studentassignment_set.all()
+	active_sa_list = sa_list.filter(assignment__due_date >= today)
+	past_sa_list = sa_list.filter(assignment__due_date < today)
 	context = { 'active_sa_list': active_sa_list, 'past_sa_list': past_sa_list, 'course': course }
         return render(request, 'grading/instructorassignment.html', context)
 
