@@ -42,7 +42,7 @@ def instructorcourse(request, instructor_id, course_id):
 def instructorassignment(request, instructor_id, course_id, assignment_id):
 	# Should get a list of all submissions for this assignment, and set it in context
 	today = timezone.now()
-	course = Instructor.objects.get(pk=instructor_id).course_set.filter(pk=course_id)
+	course = Course.objects.get(pk=course_id)
 	
 	sa_list = Assignment.objects.get(pk=assignment_id).studentassignment_set.all()
 	context = { 'sa_list': sa_list, 'course': course }
