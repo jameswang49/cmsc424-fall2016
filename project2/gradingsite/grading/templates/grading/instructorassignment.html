@@ -20,14 +20,22 @@
     <h3> Submissions for Assignment {{ assignment.assignment_no }} </h3>
 
     <ul>
-     {% for sa in sa_list %}
+     {% for s in sorted_students %}
   
-         {% if today > sa.assignment.due_date %}
+         {% if s.studentassignment_set.all %}
+       
+               {% for sa in s.studentassignment_set.a %}
       
-         <li><a href="/grading/instructor/{{ instructor_id }}/course/{{ course_id }}/assignment/{{ assignment_id }}/student/{{sa.student.id}}">Assignment: {{ assignment.assignment_no }}, Due Date: {{ assignment.due_date }}</a></li>
+                   <li><a href="/grading/instructor/{{ instructor_id }}/course/{{ course_id }}/assignment/{{ assignment_id }}/student/{{sa.student.id}}">Student Name: {{ s.name }}, Assignment: {{ assignment.assignment_no }}, Due Date: {{ assignment.due_date }}</a></li>
+               {% endfor %}
+    </ul>   
+
+         {% else %}
+       
+               Student Name: {{ s.name}}, No submission
+         
          {% endif %}
      {% endfor %}
-   </ul>
 
 
    {% endif %}
