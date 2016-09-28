@@ -1,29 +1,35 @@
-<h3> Active Assignments for {{ course.title }} </h3>
+{% if sa_list %}
 
-{% if active_sa_list %}
+   {% if assignment.due_date >= today %}
 
- <ul>
-  {% for sa in active_sa_list %}
+      <h3> Submissions for Assignment {{ assignment.assignment_no }} </h3>
+
+      <ul>
+     {% for sa in sa_list %}
   
-      {% if sa.assignment.due_date >= today %}
+         {% if sa.assignment.due_date >= today %}
       
-      <li> Assignment: {{ sa.assignment.assignment_no }}, Due Date: {{ sa.assignment.due_date }}</li>
-      {% endif %}
-  {% endfor %}
-</ul>
+         <li> Assignment: {{ assignment.assignment_no }}, Due Date: {{ assignment.due_date }}</li>
+         {% endif %}
+     {% endfor %}
+      </ul>
 
 
-<h3> Past Assignments for {{ course.title }} </h3>
+   {% else %}
 
-<ul>
-  {% for sa in active_sa_list %}
+    <h3> Submissions for Assignment {{ assignment.assignment_no }} </h3>
+
+    <ul>
+     {% for sa in sa_list %}
   
-      {% if today > sa.assignment.due_date %}
+         {% if today > sa.assignment.due_date %}
       
-      <li> Assignment: {{ sa.assignment.assignment_no }}, Due Date: {{ sa.assignment.due_date }}</li>
-      {% endif %}
-  {% endfor %}
-</ul>
+         <li> Assignment: {{ assignment.assignment_no }}, Due Date: {{ assignment.due_date }}</li>
+         {% endif %}
+     {% endfor %}
+   </ul>
 
-   
+
+   {% endif %}
+
  {% endif %}
