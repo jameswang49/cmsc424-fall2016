@@ -58,8 +58,8 @@ def instructorassignment(request, instructor_id, course_id, assignment_id):
 				else:
 					not_submitted_list.append(s)
 		
-	no_duplicates_submitted = list(set(no_duplicates_submitted))
-	no_duplicates_not_submitted = list(set(no_duplicates_not_submitted))
+	no_duplicates_submitted = list(set(submitted_list))
+	no_duplicates_not_submitted = list(set(not_submitted_list))
 	
 	submitted = sorted(no_duplicates_submitted_list, key=lambda student: student.name)
 	not_submitted = sorted(no_duplicates_not_submitted_list, key=lambda student: student.name)
