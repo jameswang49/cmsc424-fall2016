@@ -3,7 +3,7 @@
     <ul>
     {% for q, a in qa_list %}
 
-    <li> Question: {{ q }}, Answer {{ a }} </li>
+    <li> Question #{{ q.question_no }}: {{ q.question_text }}, Answer {{ a }} </li>
 
     {% endfor %}
     </ul>
