@@ -54,12 +54,12 @@ def instructorassignment(request, instructor_id, course_id, assignment_id):
 		for s in sorted_students:
 			for sa in sa_list:
 				if sa.student.id == s.id:
-					submitted_list.append(s.name)
+					submitted_list.append(s)
 				else:
-					not_submitted_list.append(s.name)
+					not_submitted_list.append(s)
 					
-	submitted = submitted_list.sort()
-	not_submitted = not_submitted_list.sort()
+	submitted = submitted_list.order_by('name')
+	not_submitted = not_submitted_list.order_by('name')
 					  
 	context = { 'instructor_id': instructor_id, 'course_id': course_id, 'assignment_id': assignment_id, 'sa_list': sa_list, 'sorted_students': sorted_students, 'submitted': submitted, 'not_submitted': not_submitted, 'course': course, 'assignment': assignment, 'today': today }
         return render(request, 'grading/instructorassignment.html', context)
