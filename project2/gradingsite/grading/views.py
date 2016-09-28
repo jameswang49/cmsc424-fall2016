@@ -61,7 +61,7 @@ def instructorassignment(request, instructor_id, course_id, assignment_id):
 	submitted = submitted_list.sort()
 	not_submitted = not_submitted_list.sort()
 					  
-	context = { 'instructor_id': instructor_id, 'course_id': course_id, 'assignment_id': assignment_id, 'sa_list': sa_list, 'sorted_students': sorted_students, 'submitted': submited, 'not_submitted': not_submitted, 'course': course, 'assignment': assignment, 'today': today }
+	context = { 'instructor_id': instructor_id, 'course_id': course_id, 'assignment_id': assignment_id, 'sa_list': sa_list, 'sorted_students': sorted_students, 'submitted': submitted, 'not_submitted': not_submitted, 'course': course, 'assignment': assignment, 'today': today }
         return render(request, 'grading/instructorassignment.html', context)
 
 def instructorcreate(request, instructor_id, course_id):
