@@ -45,7 +45,7 @@ def instructorassignment(request, instructor_id, course_id, assignment_id):
 	course = Course.objects.get(pk=course_id)
 	
 	sa_list = Assignment.objects.get(pk=assignment_id).studentassignment_set.all()
-	context = { 'sa_list': sa_list, 'course': course }
+	context = { 'sa_list': sa_list, 'course': course, 'today': today }
         return render(request, 'grading/instructorassignment.html', context)
 
 def instructorcreate(request, instructor_id, course_id):
