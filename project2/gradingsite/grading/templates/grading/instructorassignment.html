@@ -24,7 +24,7 @@
   
          {% if today > sa.assignment.due_date %}
       
-         <li> Assignment: {{ assignment.assignment_no }}, Due Date: {{ assignment.due_date }}</li>
+         <li><a href="/grading/instructor/{{ instructor_id }}/course/{{ course_id }}/assignment/{{ assignment_id }}/student/{{sa.student.id}}">Assignment: {{ assignment.assignment_no }}, Due Date: {{ assignment.due_date }}</a></li>
          {% endif %}
      {% endfor %}
    </ul>
