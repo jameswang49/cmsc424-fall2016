@@ -54,7 +54,9 @@ def instructorcreate(request, instructor_id, course_id):
         return render(request, 'grading/instructorcreate.html', context)
 
 def instructorgradesubmission(request, instructor_id, course_id, assignment_id, student_id):
-	context = { }
+	student_obj = Student.objects.get(pk=student_id)
+	sa_list = student_obj.studentassignment_set.all()
+	context = {'student_obj': student_obj, 'sa_list': sa_list}
         return render(request, 'grading/instructorgradesubmission.html', context)
 
 def studentindex(request, student_id):
