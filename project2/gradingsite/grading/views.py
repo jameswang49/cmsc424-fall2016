@@ -46,7 +46,7 @@ def instructorassignment(request, instructor_id, course_id, assignment_id):
 	assignment = Assignment.objects.get(pk=assignment_id)
 	
 	course_students = Course.objects.get(pk=course_id).student_set.all()
-	sorted_students = sorted(course_students, key=lambda Student: student__name)
+	sorted_students = sorted(course_students, key=lambda Student: name)
 	sa_list = Assignment.objects.get(pk=assignment_id).studentassignment_set.all()
 	context = { 'instructor_id': instructor_id, 'course_id': course_id, 'assignment_id': assignment_id, 'sa_list': sa_list, 'sorted_students': sorted_students, 'course': course, 'assignment': assignment, 'today': today }
         return render(request, 'grading/instructorassignment.html', context)
