@@ -74,7 +74,7 @@ def instructorcreate(request, instructor_id, course_id):
 def instructorgradesubmission(request, instructor_id, course_id, assignment_id, student_id):
 	
 	if request.method == 'POST':
-		sa_list = Student.objects.get(pk=student_id).studentassignment.filter(assignment__id = assignment_id)
+		sa_list = Student.objects.get(pk=student_id).studentassignment_set.filter(assignment__id = assignment_id)
 		answer = answer_list[0].answers
 		
 		sa = StudentAssignment(student=Student.objects.get(pk=student_id), assignment=Assignment.objects.get(pk=assignment_id), answers=answer, score= request.POST['score_given'])
