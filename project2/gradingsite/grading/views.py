@@ -84,7 +84,7 @@ def instructorgradesubmission(request, instructor_id, course_id, assignment_id, 
 	answer_list = Student.objects.get(pk=student_id).studentassignment_set.filter(assignment__id = assignment_id)
 	answer = answer_list[0].answers
 	
-	score = request.POST.get['score_given']
+	score = request.POST['score_given']
 	
 	sa = StudentAssignment(student=Student.objects.get(pk=student_id), assignment=Assignment.objects.get(pk=assignment_id), answers=answer, score=score)
 	sa.save()
