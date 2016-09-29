@@ -80,14 +80,16 @@ def instructorgradesubmission(request, instructor_id, course_id, assignment_id, 
 	
 	qa_list = zip(question_list, answer_list)
 	
-	score = 0
+	initial_score = 0
 	answer_list = Student.objects.get(pk=student_id).studentassignment_set.filter(assignment__id = assignment_id)
 	answer = answer_list[0].answers
 	
-	sa = StudentAssignment(student=Student.objects.get(pk=student_id), assignment=Assignment.objects.get(pk=assignment_id), answers=answer, score=request.POST.get["score_given"])
+	score = request.POST.get['score_given']
+	
+	sa = StudentAssignment(student=Student.objects.get(pk=student_id), assignment=Assignment.objects.get(pk=assignment_id), answers=answer, score=score)
 	sa.save()
 	
-	context = {'score': score, 'instructor_id': instructor_id, 'course_id': course_id, 'assignment_id': assignment_id, 'student_id': student_id, 'student_obj': student_obj, 'sa_list': sa_list, 'qa_list': qa_list}
+	context = {'initial_score': initial_score, 'instructor_id': instructor_id, 'course_id': course_id, 'assignment_id': assignment_id, 'student_id': student_id, 'student_obj': student_obj, 'sa_list': sa_list, 'qa_list': qa_list}
         return render(request, 'grading/instructorgradesubmission.html', context)
 
 def studentindex(request, student_id):
