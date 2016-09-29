@@ -92,7 +92,7 @@ def instructorgradesubmission(request, instructor_id, course_id, assignment_id, 
 		initial_score = 0
 	
 		context = {'initial_score': initial_score, 'instructor_id': instructor_id, 'course_id': course_id, 'assignment_id': assignment_id, 'student_id': student_id, 'student_obj': student_obj, 'sa_list': sa_list, 'qa_list': qa_list}
-        return render(request, 'grading/instructorgradesubmission.html', context)
+        	return render(request, 'grading/instructorgradesubmission.html', context)
 
 def studentindex(request, student_id):
 	today = timezone.now()
