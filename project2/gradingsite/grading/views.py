@@ -79,7 +79,7 @@ def instructorgradesubmission(request, instructor_id, course_id, assignment_id, 
 		score = request.POST['score_given']
 		new_score = int(score)
 		sa_list[0].score = new_score
-		sa_list[0].save()
+		sa_list[1].save()
 		return HttpResponseRedirect(reverse('instructorassignment', args=(instructor_id, course_id, assignment_id)))
 		
 	else:
