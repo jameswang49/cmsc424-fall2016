@@ -77,15 +77,15 @@ def instructorgradesubmission(request, instructor_id, course_id, assignment_id, 
 		sa_list = Student.objects.get(pk=student_id).studentassignment_set.filter(assignment__id = assignment_id)
 		
 		new_score = int(request.POST['score_given'])
-		sa_list.score = new_score
-		sa_list.save()
+		sa_list.[1]score = new_score
+		sa_list[1].save()
 		return HttpResponseRedirect(reverse('instructorassignment', args=(instructor_id, course_id, assignment_id)))
 		
 	else:
 		student_obj = Student.objects.get(pk=student_id)
 		sa_list = Assignment.objects.get(pk=assignment_id).studentassignment_set.filter(student__id = student_id)
 	
-		answer_list = sa_list.answers.split()
+		answer_list = sa_list[1].answers.split()
 		question_list = Assignment.objects.get(pk=assignment_id).question_set.all()
 	
 		qa_list = zip(question_list, answer_list)
