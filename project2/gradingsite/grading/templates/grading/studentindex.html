@@ -59,7 +59,7 @@
         
                 <ul>
                 {% for sa in sa_list %}
-                    {% if sa.assignment.id == a.id %}
+                    {% if sa.assignment.id == a.id and sa.score > -1 %}
             
                      <li> Grade: {{sa.score}} </li>           
                     {% endif %}
