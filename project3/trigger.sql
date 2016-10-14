@@ -54,7 +54,7 @@ CREATE OR REPLACE FUNCTION updateFlightCount() RETURNS trigger AS $updateFlight$
 				ELSE
 					INSERT INTO NumberOfFlightsTaken
 					(customerid, customername, numflights)
-					values(NEW.customerid,NEW.customername,1);
+					values(NEW.customerid,NEW.name,1);
 				END IF;
 		
 			ELSEIF (TG_OP = 'DELETE' AND old_flight_count = 1) THEN
