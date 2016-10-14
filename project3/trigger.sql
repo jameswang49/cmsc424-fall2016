@@ -66,11 +66,11 @@ CREATE OR REPLACE FUNCTION updateFlightCount() RETURNS trigger AS $updateFlight$
 				
 				IF (old_flight_count = 1) THEN 
 					DELETE FROM NumberOfFlightsTaken
-					WHERE customerid = NEW.customerid;
+					WHERE customerid = OLD.customerid;
 				ELSE 
 					UPDATE NumberOfFlightsTaken
 					SET numflights = numflights - 1
-					WHERE customerid = NEW.customerid;
+					WHERE customerid = OLD.customerid;
 				END IF;
 			END IF;
 			
