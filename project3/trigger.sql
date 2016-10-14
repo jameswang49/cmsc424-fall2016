@@ -52,9 +52,13 @@ CREATE OR REPLACE FUNCTION updateFlightCount() RETURNS trigger AS $updateFlight$
 					SET numflights = numflights + 1
 					WHERE customerid = NEW.customerid;
 				ELSE
+					SELECT name into customer_name
+					FROM customers
+					WHERE customerid = NEW.customerid;
+					
 					INSERT INTO NumberOfFlightsTaken
 					(customerid, customername, numflights)
-					values(NEW.customerid,NEW.name,1);
+					values(NEW.customerid,customer_name,1);
 				END IF;
 		
 			ELSEIF (TG_OP = 'DELETE' AND old_flight_count = 1) THEN
