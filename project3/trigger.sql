@@ -76,7 +76,7 @@ CREATE OR REPLACE FUNCTION updateFlightCount() RETURNS trigger AS $updateFlight$
 		
 $updateFlight$ LANGUAGE plpgsql;
 
-CREATE TRIGGER update_num_flights BEFORE 
+CREATE TRIGGER update_num_flights AFTER 
 INSERT OR DELETE ON Flewon 
 FOR EACH ROW EXECUTE PROCEDURE updateFlightCount();
 END; 
