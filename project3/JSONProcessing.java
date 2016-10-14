@@ -17,7 +17,7 @@ public class JSONProcessing
 			String birthdate = (String) jsonObject.get("birthdate");
 			String frequentflieron = (String) jsonObject.get("frequentflieron");
 			
-			String query = "INSERT into customers VALUES (" + customerid "," + name "," + birthdate "," + frequentflieron ");"
+			String query = "INSERT into customers VALUES (" + customerid "," + name "," + birthdate "," + frequentflieron ");";
 		}
 		
 		else if (json.contains("flightinfo") == true) {
