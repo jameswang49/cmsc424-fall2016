@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION updateStatusCount() RETURNS trigger AS $updateStatus$
+/* CREATE OR REPLACE FUNCTION updateStatusCount() RETURNS trigger AS $updateStatus$
 		DECLARE
 			old_status_count integer;
 		BEGIN
@@ -33,4 +33,46 @@ $updateStatus$ LANGUAGE plpgsql;
 CREATE TRIGGER update_num_status AFTER 
 INSERT OR DELETE ON Status 
 FOR EACH ROW EXECUTE PROCEDURE updateStatusCount();
-END;
+END; */
+
+CREATE OR REPLACE FUNCTION updateFlightCount() RETURNS trigger AS $updateFlight$
+
+		DECLARE
+			old_flight_count integer;
+			
+		BEGIN
+			SELECT numflights into old_flight_count
+			FROM NumberOfFlightsTaken
+			WHERE customerid = NEW.customerid;
+		
+			IF (TG_OP = 'INSERT') THEN
+				IF EXISTS (SELECT customerid from NumberOfFlightsTaken
+				    WHERE customerid = NEW.customerid) THEN
+					UPDATE NumberOfFlightsTaken
+					SET numflights = numflights + 1
+					WHERE customerid = NEW.customerid;
+				ELSE
+					INSERT INTO NumberOfFlightsTaken
+					(customerid, customername, numflights)
+					values(NEW.customerid,NEW.customername,1);
+				END IF;
+		
+			ELSEIF (TG_OP = 'DELETE' AND old_flight_count = 1) THEN
+				DELETE FROM NumberOfFlightsTaken
+				WHERE customerid = NEW.customerid;
+			ELSE 
+				UPDATE NumberOfFlightsTaken
+				SET numflights = numflights - 1
+				WHERE customerid = NEW.customerid;
+			END IF;
+			
+		RETURN NEW;
+		END;
+		
+$updateFlight$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_num_flights AFTER 
+INSERT OR DELETE ON Flewon 
+FOR EACH ROW EXECUTE PROCEDURE updateFlightCount();
+END; 
+
