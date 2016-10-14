@@ -44,6 +44,10 @@ CREATE OR REPLACE FUNCTION updateFlightCount() RETURNS trigger AS $updateFlight$
 			SELECT numflights into old_flight_count
 			FROM NumberOfFlightsTaken
 			WHERE customerid = NEW.customerid;
+			
+			SELECT name into customer_name
+			FROM customers
+			WHERE customerid = NEW.customerid;
 		
 			IF (TG_OP = 'INSERT') THEN
 				IF EXISTS (SELECT customerid from NumberOfFlightsTaken
@@ -52,10 +56,6 @@ CREATE OR REPLACE FUNCTION updateFlightCount() RETURNS trigger AS $updateFlight$
 					SET numflights = numflights + 1
 					WHERE customerid = NEW.customerid;
 				ELSE
-					SELECT name into customer_name
-					FROM customers
-					WHERE customerid = NEW.customerid;
-					
 					INSERT INTO NumberOfFlightsTaken
 					(customerid, customername, numflights)
 					values(NEW.customerid,customer_name,1);
