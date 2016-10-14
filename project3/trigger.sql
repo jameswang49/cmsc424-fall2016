@@ -39,6 +39,7 @@ CREATE OR REPLACE FUNCTION updateFlightCount() RETURNS trigger AS $updateFlight$
 
 		DECLARE
 			old_flight_count integer;
+			customer_name char(30);
 			
 		BEGIN
 			SELECT numflights into old_flight_count
