@@ -44,7 +44,7 @@ CREATE OR REPLACE FUNCTION updateFlightCount() RETURNS trigger AS $updateFlight$
 		BEGIN
 			SELECT numflights into old_flight_count
 			FROM NumberOfFlightsTaken
-			WHERE customerid = OLD.customerid;
+			WHERE customerid = NEW.customerid;
 			
 			SELECT name into customer_name
 			FROM customers
