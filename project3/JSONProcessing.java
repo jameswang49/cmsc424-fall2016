@@ -93,7 +93,7 @@ public class JSONProcessing
 			String flightdate = (String) flightinfo.get("flightdate");
 			
 			JSONArray customers = (JSONArray) flightinfo.get("customers");
-			array_length = customers.length;
+			int array_length = customers.length;
 			
 			for (int i = 0; i < array_length; i++) {
 				
