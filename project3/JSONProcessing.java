@@ -50,18 +50,33 @@ public class JSONProcessing
 			String birthdate = (String) jsonObject2.get("birthdate");
 			String frequentflieron = (String) jsonObject2.get("frequentflieron");
 			
-			String query1 = "select hub from airlines where name = '" + frequentflieron "';";
-			
 			try {
-           			stmt = connection.createStatement();
-            			ResultSet rs = stmt.executeQuery(query1);
-            			
-                		String hub_name = rs.getString("hub");
-                		
-				String query2 = "INSERT into customers VALUES(" + customerid "," + name ", to_date(" + birthdate ", 'yyyy-mm-dd')," + hub ");";
-            	
+				String check_exists = null;
+				String query = "select * from customers where customerid =" + customerid + ";"
 				stmt = connection.createStatement();
-            			rs = stmt.executeQuery(query2);
+            			ResultSet rs = stmt.executeQuery(query);
+				
+				if (check_exists != null) {
+					System.out.println("This customer already exists!");
+            	   			return;		
+				}
+				
+					
+				else { 
+				
+					String query1 = "select hub from airlines where name = '" + frequentflieron + "';";
+					
+           				stmt = connection.createStatement();
+            				ResultSet rs = stmt.executeQuery(query1);
+            			
+                			String hub_name = rs.getString("hub");
+				
+                		
+					String query2 = "INSERT into customers VALUES(" + customerid + "," + name + ", to_date(" + birthdate + ", 'yyyy-mm-dd')," + hub + ");";
+            	
+					stmt = connection.createStatement();
+            				rs = stmt.executeQuery(query2);
+				}
 						
             		stmt.close();
 				
