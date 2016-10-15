@@ -113,7 +113,27 @@ public class JSONProcessing
 				}
 				
 				else {
+					String customerid = (String) customer_info.get("customerid");
+					String name = (String) customer_info.get("name");
+					String birthdate = (String) customer_info.get("birthdate");
+					String frequentflieron = (String) customer_info.get("frequentflieron");
 					
+					String query2 = "select hub from airlines where name = '" + frequentflieron + "';";
+					
+           				stmt = connection.createStatement();
+            				ResultSet rs = stmt.executeQuery(query2);
+            			
+                			String hub_name = rs.getString("hub");
+				
+               				String query3 = "INSERT into customers VALUES(" + customerid + "," + name + ", to_date(" + birthdate + ", 'yyyy-mm-dd')," + hub_name + ");";
+            	
+					stmt = connection.createStatement();
+            				rs = stmt.executeQuery(query3);
+					
+					
+					String query4 = "INSERT into flewon VALUES(" + flightid + "," + customerid + ", to_date(" + flightdate + ", 'yyyy-mm-dd'));";
+					stmt = connection.createStatement();
+            				ResultSet rs = stmt.executeQuery(query4);					
 					
 				}
 				
