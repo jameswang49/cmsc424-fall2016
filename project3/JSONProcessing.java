@@ -124,7 +124,7 @@ public class JSONProcessing
             	   				return;		
 					}
 					
-					String query2 = "select hub from airlines where name = '" + frequentflieron ";";
+					String query2 = "select hub from airlines where name = '" + frequentflieron + ";";
 					
             				rs = stmt.executeQuery(query2);
                 			String hub_name = rs.getString("hub");
