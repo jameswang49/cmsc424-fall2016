@@ -138,11 +138,7 @@ public class JSONProcessing
 		System.out.println("Adding data from " + json + " into the database");
 	}
 
-	
-	
-	
-	
-	
+		
 	
 	public static void main(String[] argv) {
 		Scanner in_scanner = new Scanner(System.in);
