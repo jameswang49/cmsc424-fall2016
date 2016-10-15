@@ -116,7 +116,7 @@ public class JSONProcessing
 					String birthdate = (String) customer_info.get("birthdate");
 					String frequentflieron = (String) customer_info.get("frequentflieron");
 					
-					String q = "select * from airlines where airlineid =" frequentflieron ";"; 
+					String q = "select * from airlines where airlineid =" + frequentflieron + ";"; 
             				rs = stmt.executeQuery(query);
 				
 					if (rs == null) {
