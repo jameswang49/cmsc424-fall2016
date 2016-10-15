@@ -41,6 +41,7 @@ public class JSONProcessing
 		
 		
 		
+		JSONParser parser = new JSONParser();
 		
 		Object obj = parser.parse(json);
 		JSONObject jsonObject = (JSONObject) obj;
