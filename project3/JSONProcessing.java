@@ -99,7 +99,7 @@ public class JSONProcessing
 				String customerid = (String) customer_info.get("customerid");
 				
 			   try {
-					
+				   			
 				String query = "select * from customers where customerid =" + customerid + ";";
 				stmt = connection.createStatement();
             			ResultSet rs = stmt.executeQuery(query);
@@ -117,6 +117,15 @@ public class JSONProcessing
 					String name = (String) customer_info.get("name");
 					String birthdate = (String) customer_info.get("birthdate");
 					String frequentflieron = (String) customer_info.get("frequentflieron");
+					
+					String q = "select * from airlines where airlineid =" frequentflieron + ";"; 
+					stmt = connection.createStatement();
+            				ResultSet rs = stmt.executeQuery(query);
+				
+					if (rs != null) {
+						System.out.println("The frequentflieron code does not exists!");
+            	   				return;		
+					}
 					
 					String query2 = "select hub from airlines where name = '" + frequentflieron + "';";
 					
