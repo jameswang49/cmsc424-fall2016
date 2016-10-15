@@ -1,7 +1,6 @@
 import java.sql.*;
 import java.util.Scanner;
 import org.json.simple.*;
-import java.util.Iterator;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simpler.parser.JSONParser
@@ -40,6 +39,8 @@ public class JSONProcessing
     		 }
 		
 		
+		
+		
 		Object obj = parser.parse(json);
 		JSONObject jsonObject = (JSONObject) obj;
 		Statement stmt = null;
@@ -65,10 +66,10 @@ public class JSONProcessing
 						
 				else { 
 				
-					String query1 = "select hub from airlines where name = '" + frequentflieron + "';";
+					String query1 = "select hub from airlines where name =" + frequentflieron + ";";
 					
            				stmt = connection.createStatement();
-            				ResultSet rs = stmt.executeQuery(query1);
+            				rs = stmt.executeQuery(query1);
             			
                 			String hub_name = rs.getString("hub");
 				
@@ -80,7 +81,7 @@ public class JSONProcessing
 						
             		stmt.close();
 				
-        		} catch (SQLException e ) {
+        		} catch (SQLException e) {
           			  System.out.println(e);
         		}
 		}
@@ -108,21 +109,21 @@ public class JSONProcessing
 					
 					String query1 = "INSERT into flewon VALUES(" + flightid + "," + customerid + ", to_date(" + flightdate + ", 'yyyy-mm-dd'));";
 					stmt = connection.createStatement();
-            				ResultSet rs = stmt.executeQuery(query1);
-					
+            				rs = stmt.executeQuery(query1);
+					rs = null;
 				}
 				
 				else {
-					String customerid = (String) customer_info.get("customerid");
+
 					String name = (String) customer_info.get("name");
 					String birthdate = (String) customer_info.get("birthdate");
 					String frequentflieron = (String) customer_info.get("frequentflieron");
 					
 					String q = "select * from airlines where airlineid =" frequentflieron + ";"; 
 					stmt = connection.createStatement();
-            				ResultSet rs = stmt.executeQuery(query);
+            				rs = stmt.executeQuery(query);
 				
-					if (rs != null) {
+					if (rs == null) {
 						System.out.println("The frequentflieron code does not exists!");
             	   				return;		
 					}
@@ -131,8 +132,8 @@ public class JSONProcessing
 					
            				stmt = connection.createStatement();
             				ResultSet rs = stmt.executeQuery(query2);
-            			
                 			String hub_name = rs.getString("hub");
+					
 				
                				String query3 = "INSERT into customers VALUES(" + customerid + "," + name + ", to_date(" + birthdate + ", 'yyyy-mm-dd')," + hub_name + ");";
             	
@@ -142,7 +143,7 @@ public class JSONProcessing
 					
 					String query4 = "INSERT into flewon VALUES(" + flightid + "," + customerid + ", to_date(" + flightdate + ", 'yyyy-mm-dd'));";
 					stmt = connection.createStatement();
-            				ResultSet rs = stmt.executeQuery(query4);					
+            				rs = stmt.executeQuery(query4);					
 					
 				}
 				
@@ -153,13 +154,10 @@ public class JSONProcessing
 					
 			}
 			
-					
-			
 			
 		}
 		
 		else {
-		
 			System.out.println("The update cannot be supported");
 		}
 		
