@@ -98,7 +98,7 @@ public class JSONProcessing
 				JSONObject customer_info = (JSONObject) customers.get(i);
 				String customerid = (String) customer_info.get("customerid");
 				
-				try {
+			   try {
 					
 				String query = "select * from customers where customerid =" + customerid + ";";
 				stmt = connection.createStatement();
@@ -118,9 +118,9 @@ public class JSONProcessing
 				}
 				
 					
-				} catch (SQLException e ) {
+			    } catch (SQLException e ) {
           			  System.out.println(e);
-        			}
+        		    }
 					
 			}
 			
