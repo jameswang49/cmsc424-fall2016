@@ -44,7 +44,7 @@ public class JSONProcessing
 		
 		if (json.contains("newcustomer") == true) {
 			
-			jsonObject2 = jsonObject.get("newcustomer");
+			JSONObject jsonObject2 = (JSONObject) jsonObject.get("newcustomer");
 			String customerid = (String) jsonObject2.get("customerid");
 			String name = (String) jsonObject2.get("name");
 			String birthdate = (String) jsonObject2.get("birthdate");
@@ -58,16 +58,15 @@ public class JSONProcessing
             			
                 		String hub_name = rs.getString("hub");
                 		
-				String query2 = "INSERT into customers VALUES (" + customerid "," + name "," + birthdate "," + hub_name ");";
+				String query2 = "INSERT into customers VALUES(" + customerid "," + name ", to_date(" + birthdate ", 'yyyy-mm-dd')," + hub ");";
             	
 				stmt = connection.createStatement();
             			rs = stmt.executeQuery(query2);
-				
-				
+						
             		stmt.close();
 				
         		} catch (SQLException e ) {
-           			 System.out.println(e);
+           			 System.out.println("Failed to add tuple");
         		}	
 			
 		}
