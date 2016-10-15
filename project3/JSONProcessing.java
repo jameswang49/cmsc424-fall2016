@@ -1,6 +1,7 @@
 import java.sql.*;
 import java.util.Scanner;
 import org.json.simple.*;
+import org.json.simpler.parser.JSONParser
 
 public class JSONProcessing 
 {
@@ -8,16 +9,67 @@ public class JSONProcessing
 		/************* 
 		 * Add your code to insert appropriate tuples into the database.
 		 ************/
+		
+		System.out.println("-------- PostgreSQL " + "JDBC Connection Testing ------------");
+       	 	try {
+          		Class.forName("org.postgresql.Driver");
+       		 } catch (ClassNotFoundException e) {
+           		 System.out.println("Where is your PostgreSQL JDBC Driver? " + "Include in your library path!");
+          		  e.printStackTrace();
+           		 return;
+       		 }
+
+       		 System.out.println("PostgreSQL JDBC Driver Registered!");
+       		 Connection connection = null;
+	      	 try {
+            		connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/flightsskewed","vagrant", "vagrant");
+      		 } catch (SQLException e) {
+           		System.out.println("Connection Failed! Check output console");
+            		e.printStackTrace();
+            		return;
+        	 }
+
+        	if (connection != null) {
+         	   System.out.println("You made it, take control your database now!");
+       		 } else {
+         	   System.out.println("Failed to make connection!");
+            	   return;
+    		 }
+		
+		
 		Object obj = parser.parse(json);
 		JSONObject jsonObject = (JSONObject) obj;
+		Statement stmt = null;
+		
 		
 		if (json.contains("newcustomer") == true) {
-			String customerid = (String) jsonObject.get("customerid");
-			String name = (String) jsonObject.get("name");
-			String birthdate = (String) jsonObject.get("birthdate");
-			String frequentflieron = (String) jsonObject.get("frequentflieron");
 			
-			String query = "INSERT into customers VALUES (" + customerid "," + name "," + birthdate "," + frequentflieron ");";
+			jsonObject2 = jsonObject.get("newcustomer")
+			String customerid = (String) jsonObject2.get("customerid");
+			String name = (String) jsonObject2.get("name");
+			String birthdate = (String) jsonObject2.get("birthdate");
+			String frequentflieron = (String) jsonObject2.get("frequentflieron");
+			
+			String query1 = "select hub from airlines where name = '" + frequentflieron "';";
+			
+			try {
+           			stmt = connection.createStatement();
+            			ResultSet rs = stmt.executeQuery(query1);
+            			
+                		String hub_name = rs.getString("hub");
+                		
+				String query2 = "INSERT into customers VALUES (" + customerid "," + name "," + birthdate "," + hub_name ");";
+            	
+				stmt = connection.createStatement();
+            			rs = stmt.executeQuery(query2);
+				
+				
+            		stmt.close();
+				
+        		} catch (SQLException e ) {
+           			 System.out.println(e);
+        		}	
+			
 		}
 		
 		else if (json.contains("flightinfo") == true) {
@@ -33,6 +85,12 @@ public class JSONProcessing
 		System.out.println("Adding data from " + json + " into the database");
 	}
 
+	
+	
+	
+	
+	
+	
 	public static void main(String[] argv) {
 		Scanner in_scanner = new Scanner(System.in);
 
