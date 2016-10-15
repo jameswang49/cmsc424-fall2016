@@ -3,7 +3,7 @@ import java.util.Scanner;
 import org.json.simple.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simpler.parser.JSONParser
+import org.json.simpler.parser.JSONParser;
 
 public class JSONProcessing 
 {
@@ -116,7 +116,7 @@ public class JSONProcessing
 					String birthdate = (String) customer_info.get("birthdate");
 					String frequentflieron = (String) customer_info.get("frequentflieron");
 					
-					String q = "select * from airlines where airlineid =" frequentflieron + ";"; 
+					String q = "select * from airlines where airlineid =" frequentflieron ";"; 
             				rs = stmt.executeQuery(query);
 				
 					if (rs == null) {
@@ -124,7 +124,7 @@ public class JSONProcessing
             	   				return;		
 					}
 					
-					String query2 = "select hub from airlines where name = '" + frequentflieron + "';";
+					String query2 = "select hub from airlines where name = '" + frequentflieron ";";
 					
             				rs = stmt.executeQuery(query2);
                 			String hub_name = rs.getString("hub");
