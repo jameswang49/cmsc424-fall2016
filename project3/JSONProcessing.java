@@ -51,17 +51,15 @@ public class JSONProcessing
 			String frequentflieron = (String) jsonObject2.get("frequentflieron");
 			
 			try {
-				String check_exists = null;
-				String query = "select * from customers where customerid =" + customerid + ";"
+				String query = "select * from customers where customerid =" + customerid + ";";
 				stmt = connection.createStatement();
             			ResultSet rs = stmt.executeQuery(query);
 				
-				if (check_exists != null) {
+				if (rs != null) {
 					System.out.println("This customer already exists!");
             	   			return;		
 				}
-				
-					
+						
 				else { 
 				
 					String query1 = "select hub from airlines where name = '" + frequentflieron + "';";
@@ -71,8 +69,7 @@ public class JSONProcessing
             			
                 			String hub_name = rs.getString("hub");
 				
-                		
-					String query2 = "INSERT into customers VALUES(" + customerid + "," + name + ", to_date(" + birthdate + ", 'yyyy-mm-dd')," + hub + ");";
+               				String query2 = "INSERT into customers VALUES(" + customerid + "," + name + ", to_date(" + birthdate + ", 'yyyy-mm-dd')," + hub_name + ");";
             	
 					stmt = connection.createStatement();
             				rs = stmt.executeQuery(query2);
