@@ -43,15 +43,11 @@ public class JSONProcessing
 		
 		JSONParser parser = new JSONParser();
 		
-		try {
+	    try {
 			
-		Object obj = parser.parse(json);
-		JSONObject jsonObject = (JSONObject) obj;
-		Statement stmt = null;
-		
-		} catch (ParseException e) {
-			System.out.println("Failure to parse");
-		}
+	    Object obj = parser.parse(json);
+	    JSONObject jsonObject = (JSONObject) obj;
+	    Statement stmt = null;
 			
 			
 		
@@ -164,6 +160,10 @@ public class JSONProcessing
 		else {
 			System.out.println("The update cannot be supported");
 		}
+		    
+	    } catch (ParseException e) {
+		System.out.println("Failure to parse");
+	    }
 		
 		
 		System.out.println("Adding data from " + json + " into the database");
