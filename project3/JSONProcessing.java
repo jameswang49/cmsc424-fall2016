@@ -93,8 +93,9 @@ public class JSONProcessing
 			String flightdate = (String) flightinfo.get("flightdate");
 			
 			JSONArray customers = (JSONArray) flightinfo.get("customers");
+			array_length = customers.length;
 			
-			for (int i = 0; i < flightinfo.get("customers").length; i++) {
+			for (int i = 0; i < array_length; i++) {
 				
 				JSONObject customer_info = (JSONObject) customers.get(i);
 				String customerid = (String) customer_info.get("customerid");
