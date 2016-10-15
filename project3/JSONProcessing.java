@@ -1,6 +1,9 @@
 import java.sql.*;
 import java.util.Scanner;
 import org.json.simple.*;
+import java.util.Iterator;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simpler.parser.JSONParser
 
 public class JSONProcessing 
@@ -44,11 +47,11 @@ public class JSONProcessing
 		
 		if (json.contains("newcustomer") == true) {
 			
-			JSONObject jsonObject2 = (JSONObject) jsonObject.get("newcustomer");
-			String customerid = (String) jsonObject2.get("customerid");
-			String name = (String) jsonObject2.get("name");
-			String birthdate = (String) jsonObject2.get("birthdate");
-			String frequentflieron = (String) jsonObject2.get("frequentflieron");
+			JSONObject newcustomer = (JSONObject) jsonObject.get("newcustomer");
+			String customerid = (String) newcustomer.get("customerid");
+			String name = (String) newcustomer.get("name");
+			String birthdate = (String) newcustomer.get("birthdate");
+			String frequentflieron = (String) newcustomer.get("frequentflieron");
 			
 			try {
 				String query = "select * from customers where customerid =" + customerid + ";";
@@ -78,12 +81,51 @@ public class JSONProcessing
             		stmt.close();
 				
         		} catch (SQLException e ) {
-           			 System.out.println("Failed to add tuple");
-        		}	
-			
+          			  System.out.println(e);
+        		}
 		}
 		
 		else if (json.contains("flightinfo") == true) {
+			
+			JSONObject flightinfo = (JSONObject) jsonObject.get("flightinfo");
+			String flightid = (String) flightinfo.get("flightid");
+			String flightdate = (String) flightinfo.get("flightdate");
+			
+			JSONArray customers = (JSONArray) flightinfo.get("customers");
+			
+			for (int i = 0; i < customers.length(); i++) {
+				
+				JSONObject customer_info = (JSONObject) customers.get(i);
+				String customerid = (String) customer_info.get("customerid");
+				
+				try {
+					
+				String query = "select * from customers where customerid =" + customerid + ";";
+				stmt = connection.createStatement();
+            			ResultSet rs = stmt.executeQuery(query);
+				
+				if (rs != null) {
+					
+					String query1 = "INSERT into flewon VALUES(" + flightid + "," + customerid + ", to_date(" + flightdate + ", 'yyyy-mm-dd'));";
+					stmt = connection.createStatement();
+            				ResultSet rs = stmt.executeQuery(query1);
+					
+				}
+				
+				else {
+					
+					
+				}
+				
+					
+				} catch (SQLException e ) {
+          			  System.out.println(e);
+        			}
+					
+			}
+			
+					
+			
 			
 		}
 		
