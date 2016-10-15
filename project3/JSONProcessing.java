@@ -44,7 +44,7 @@ public class JSONProcessing
 		
 		if (json.contains("newcustomer") == true) {
 			
-			jsonObject2 = jsonObject.get("newcustomer")
+			jsonObject2 = jsonObject.get("newcustomer");
 			String customerid = (String) jsonObject2.get("customerid");
 			String name = (String) jsonObject2.get("name");
 			String birthdate = (String) jsonObject2.get("birthdate");
