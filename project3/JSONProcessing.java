@@ -43,10 +43,17 @@ public class JSONProcessing
 		
 		JSONParser parser = new JSONParser();
 		
+		try {
+			
 		Object obj = parser.parse(json);
 		JSONObject jsonObject = (JSONObject) obj;
 		Statement stmt = null;
 		
+		} catch (ParseException e) {
+			System.out.println("Failure to parse");
+		}
+			
+			
 		
 		if (json.contains("newcustomer") == true) {
 			
