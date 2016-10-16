@@ -40,12 +40,11 @@ public class JSONProcessing
     		 }
 		
 		
-		
-		JSONParser parser = new JSONParser();
-		
 	    try {
 			
+	    JSONParser parser = new JSONParser();
 	    Object obj = parser.parse(json);
+		    
 	    JSONObject jsonObject = (JSONObject) obj;
 	    Statement stmt = null;
 			
@@ -61,6 +60,7 @@ public class JSONProcessing
 			
 			try {
 				String query = "select * from customers where customerid =" + customerid + ";";
+				System.out.println(query);
 				stmt = connection.createStatement();
             			ResultSet rs = stmt.executeQuery(query);
 				
