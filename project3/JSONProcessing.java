@@ -73,9 +73,9 @@ public class JSONProcessing
 					
 					String query1 = "select hub from airlines where name =" + "'" + frequentflieron + "'" + ";";
 					System.out.println(query1);
-					rs.next();
 					
             				rs = stmt.executeQuery(query1);
+					rs.next();
             			
                 			String hub_name = rs.getString("hub");
 				
