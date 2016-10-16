@@ -77,9 +77,9 @@ public class JSONProcessing
             				rs = stmt.executeQuery(query1);
 					rs.next();
             			
-                			String hub_name = rs.getString("hub");
+                			String airlineid = rs.getString("airlineid");
 				
-               				String query2 = "INSERT into customers VALUES(" + "'" + customerid + "'," + "'" + name + "', to_date(" + "'" + birthdate + "'" + ", 'yyyy-mm-dd')," + "'" + hub_name + "'" + ");";
+               				String query2 = "INSERT into customers VALUES(" + "'" + customerid + "'," + "'" + name + "', to_date(" + "'" + birthdate + "'" + ", 'yyyy-mm-dd')," + "'" + airlineid + "'" + ");";
 					System.out.println(query2);
 					
             				rs = stmt.executeQuery(query2);
@@ -135,13 +135,14 @@ public class JSONProcessing
             	   				return;		
 					}
 					
-					String query2 = "select hub from airlines where name = '" + "'" + frequentflieron + "'" + ";";
+					String query2 = "select airlineid from airlines where name = '" + "'" + frequentflieron + "'" + ";";
 					System.out.println(query2);
             				rs = stmt.executeQuery(query2);
-                			String hub_name = rs.getString("hub");
+					rs.next();
+                			String airlineid = rs.getString("airlineid");
 					
 				
-               				String query3 = "INSERT into customers VALUES(" + "'" + customerid + "'," + "'" + name + "', to_date(" + "'" + birthdate + "'" + ", 'yyyy-mm-dd')," + "'" + hub_name + "'" + ");";
+               				String query3 = "INSERT into customers VALUES(" + "'" + customerid + "'," + "'" + name + "', to_date(" + "'" + birthdate + "'" + ", 'yyyy-mm-dd')," + "'" + airlineid + "'" + ");";
 					System.out.println(query3);
             				rs = stmt.executeQuery(query3);
 					
