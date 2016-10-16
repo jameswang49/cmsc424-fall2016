@@ -59,8 +59,7 @@ public class JSONProcessing
 			String frequentflieron = (String) newcustomer.get("frequentflieron");
 			
 			try {
-				String query = "select * from customers where customerid =" + customerid + ";";
-				System.out.println(query);
+				String query = "select * from customers where customerid =" + "'" + customerid + "'" + ";";
 				stmt = connection.createStatement();
             			ResultSet rs = stmt.executeQuery(query);
 				
