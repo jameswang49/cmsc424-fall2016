@@ -104,7 +104,7 @@ public class JSONProcessing
 			for (int i = 0; i < array_length; i++) {
 				
 				JSONObject customer_info = (JSONObject) customers.get(i);
-				String customerid = (String) customer_info.get("customerid");
+				String customerid = (String) customer_info.get("customer_id");
 				
 			   try {
 				   			
