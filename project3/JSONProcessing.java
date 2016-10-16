@@ -72,7 +72,7 @@ public class JSONProcessing
 				
 				String q = "select * from airlines where name = " + "'" + frequentflieron + "'" + ";";
 				System.out.println(q);
-				rs = stmt.executeQuery(query);
+				rs = stmt.executeQuery(q);
 				
 				
 				if (!rs.next()) {
