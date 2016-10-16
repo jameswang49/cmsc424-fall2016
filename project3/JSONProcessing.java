@@ -135,27 +135,21 @@ public class JSONProcessing
             	   				return;		
 					}
 					
-					String query2 = "select airlineid from airlines where name = '" + "'" + frequentflieron + "'" + ";";
+					
+               				String query2 = "INSERT into customers VALUES(" + "'" + customerid + "'," + "'" + name + "', to_date(" + "'" + birthdate + "'" + ", 'yyyy-mm-dd')," + "'" + frequentflieron + "'" + ");";
 					System.out.println(query2);
-            				rs = stmt.executeQuery(query2);
-					rs.next();
-                			String airlineid = rs.getString("airlineid");
-					
-				
-               				String query3 = "INSERT into customers VALUES(" + "'" + customerid + "'," + "'" + name + "', to_date(" + "'" + birthdate + "'" + ", 'yyyy-mm-dd')," + "'" + airlineid + "'" + ");";
-					System.out.println(query3);
-            				stmt.executeQuery(query3);
+            				stmt.executeQuery(query2);
 					
 					
-					String query4 = "INSERT into flewon VALUES(" + "'" + flightid + "'" + "," + "'" + customerid + "', to_date(" + "'" + flightdate + "'" + ", 'yyyy-mm-dd'));";
-            				System.out.println(query4);
-					stmt.executeQuery(query4);					
+					String query3 = "INSERT into flewon VALUES(" + "'" + flightid + "'" + "," + "'" + customerid + "', to_date(" + "'" + flightdate + "'" + ", 'yyyy-mm-dd'));";
+            				System.out.println(query3);
+					stmt.executeQuery(query3;					
 					
 				}
 			
 			    stmt.close();
 					
-			    } catch (SQLException e ) {
+			    } catch (SQLException e) {
           			  System.out.println(e);
         		    }
 					
