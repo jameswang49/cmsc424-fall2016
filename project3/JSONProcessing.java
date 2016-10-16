@@ -71,7 +71,7 @@ public class JSONProcessing
 						
 				else { 
 					
-					String query1 = "select hub from airlines where name =" + "'" + frequentflieron + "'" + ";";
+					String query1 = "select airlineid from airlines where name =" + "'" + frequentflieron + "'" + ";";
 					System.out.println(query1);
 					
             				rs = stmt.executeQuery(query1);
