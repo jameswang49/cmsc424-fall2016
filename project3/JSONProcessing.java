@@ -68,6 +68,17 @@ public class JSONProcessing
 					System.out.println("This customer already exists!");
             	   			return;		
 				}
+				
+				
+				String q = "select * from airlines where name = " + "'" + frequentflieron + "'" + ";";
+				System.out.println(q);
+				rs = stmt.executeQuery(query);
+				
+				
+				if (!rs.next()) {
+					System.out.println("The frequentflieron name does not exists!");
+            	   			return;		
+				}
 						
 				else { 
 					
