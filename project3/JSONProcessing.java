@@ -60,24 +60,28 @@ public class JSONProcessing
 			
 			try {
 				String query = "select * from customers where customerid =" + "'" + customerid + "'" + ";";
+				System.out.println(query);
 				stmt = connection.createStatement();
             			ResultSet rs = stmt.executeQuery(query);
 				
-				if (rs != null) {
+				if (!rs.next()) {
 					System.out.println("This customer already exists!");
             	   			return;		
 				}
 						
 				else { 
-				
-					String query1 = "select hub from airlines where name =" + frequentflieron + ";";
+					
+					rs.beforeFirst();
+					String query1 = "select hub from airlines where name =" + "'" + frequentflieron + "'" + ";";
+					System.out.println(query1);
 					
             				rs = stmt.executeQuery(query1);
             			
                 			String hub_name = rs.getString("hub");
 				
-               				String query2 = "INSERT into customers VALUES(" + customerid + "," + name + ", to_date(" + birthdate + ", 'yyyy-mm-dd')," + hub_name + ");";
-            	
+               				String query2 = "INSERT into customers VALUES(" + "'" + customerid + "'," + "'" + name + "', to_date(" + "'" + birthdate + "'" + ", 'yyyy-mm-dd')," + "'" + hub_name + "'" + ");";
+					System.out.println(query2);
+					
             				rs = stmt.executeQuery(query2);
 				}
 						
@@ -104,44 +108,50 @@ public class JSONProcessing
 				
 			   try {
 				   			
-				String query = "select * from customers where customerid =" + customerid + ";";
+				String q = "select * from customers where customerid =" + "'" + customerid + "'" + ";";
+				System.out.println(q);
 				stmt = connection.createStatement();
-            			ResultSet rs = stmt.executeQuery(query);
+            			ResultSet rs = stmt.executeQuery(q);
 				
-				if (rs != null) {
+				if (!rs.next()) {
 					
-					String query1 = "INSERT into flewon VALUES(" + flightid + "," + customerid + ", to_date(" + flightdate + ", 'yyyy-mm-dd'));";
-            				rs = stmt.executeQuery(query1);
+					String query = "INSERT into flewon VALUES(" + "'" + flightid + "'" + "," + "'" + customerid + "', to_date(" + "'" + flightdate + "'" + ", 'yyyy-mm-dd'));";
+            				System.out.println(query);
+					rs = stmt.executeQuery(query);
 					rs = null;
 				}
 				
 				else {
 
+					rs.beforeFirst();
 					String name = (String) customer_info.get("name");
 					String birthdate = (String) customer_info.get("birthdate");
 					String frequentflieron = (String) customer_info.get("frequentflieron");
 					
-					String q = "select * from airlines where airlineid =" + frequentflieron + ";"; 
-            				rs = stmt.executeQuery(query);
+					String query1 = "select * from airlines where airlineid =" + "'" + frequentflieron + "'" + ";"; 
+					System.out.println(query1);
+            				rs = stmt.executeQuery(query1);
 				
-					if (rs == null) {
+					if (!rs.next()) {
 						System.out.println("The frequentflieron code does not exists!");
             	   				return;		
 					}
 					
-					String query2 = "select hub from airlines where name = '" + frequentflieron + ";";
-					
+					rs.beforeFirst();
+					String query2 = "select hub from airlines where name = '" + "'" + frequentflieron + "'" + ";";
+					System.out.println(query2);
             				rs = stmt.executeQuery(query2);
                 			String hub_name = rs.getString("hub");
 					
 				
-               				String query3 = "INSERT into customers VALUES(" + customerid + "," + name + ", to_date(" + birthdate + ", 'yyyy-mm-dd')," + hub_name + ");";
-            	
+               				String query3 = "INSERT into customers VALUES(" + "'" + customerid + "'," + "'" + name + "', to_date(" + "'" + birthdate + "'" + ", 'yyyy-mm-dd')," + "'" + hub_name + "'" + ");";
+					System.out.println(query3);
             				rs = stmt.executeQuery(query3);
 					
 					
-					String query4 = "INSERT into flewon VALUES(" + flightid + "," + customerid + ", to_date(" + flightdate + ", 'yyyy-mm-dd'));";
-            				rs = stmt.executeQuery(query4);					
+					String query4 = "INSERT into flewon VALUES(" + "'" + flightid + "'" + "," + "'" + customerid + "', to_date(" + "'" + flightdate + "'" + ", 'yyyy-mm-dd'));";
+            				System.out.println(query4);
+					rs = stmt.executeQuery(query4);					
 					
 				}
 			
