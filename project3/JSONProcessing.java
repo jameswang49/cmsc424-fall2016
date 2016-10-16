@@ -64,7 +64,7 @@ public class JSONProcessing
 				stmt = connection.createStatement();
             			ResultSet rs = stmt.executeQuery(query);
 				
-				if (!rs.next()) {
+				if (rs.next()) {
 					System.out.println("This customer already exists!");
             	   			return;		
 				}
@@ -113,7 +113,7 @@ public class JSONProcessing
 				stmt = connection.createStatement();
             			ResultSet rs = stmt.executeQuery(q);
 				
-				if (!rs.next()) {
+				if (rs.next()) {
 					
 					String query = "INSERT into flewon VALUES(" + "'" + flightid + "'" + "," + "'" + customerid + "', to_date(" + "'" + flightdate + "'" + ", 'yyyy-mm-dd'));";
             				System.out.println(query);
