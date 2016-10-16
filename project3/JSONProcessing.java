@@ -143,7 +143,7 @@ public class JSONProcessing
 					
 					String query3 = "INSERT into flewon VALUES(" + "'" + flightid + "'" + "," + "'" + customerid + "', to_date(" + "'" + flightdate + "'" + ", 'yyyy-mm-dd'));";
             				System.out.println(query3);
-					stmt.executeQuery(query3;					
+					stmt.executeQuery(query3);					
 					
 				}
 			
