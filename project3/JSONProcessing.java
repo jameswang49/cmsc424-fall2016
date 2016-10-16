@@ -73,15 +73,16 @@ public class JSONProcessing
 					
 					String query1 = "select hub from airlines where name =" + "'" + frequentflieron + "'" + ";";
 					System.out.println(query1);
+					rs.next();
 					
-            				ResultSet rs2 = stmt.executeQuery(query1);
+            				rs = stmt.executeQuery(query1);
             			
-                			String hub_name = rs2.getString("hub");
+                			String hub_name = rs.getString("hub");
 				
                				String query2 = "INSERT into customers VALUES(" + "'" + customerid + "'," + "'" + name + "', to_date(" + "'" + birthdate + "'" + ", 'yyyy-mm-dd')," + "'" + hub_name + "'" + ");";
 					System.out.println(query2);
 					
-            				ResultSet rs3 = stmt.executeQuery(query2);
+            				rs = stmt.executeQuery(query2);
 				}
 						
             		stmt.close();
@@ -116,7 +117,7 @@ public class JSONProcessing
 					
 					String query = "INSERT into flewon VALUES(" + "'" + flightid + "'" + "," + "'" + customerid + "', to_date(" + "'" + flightdate + "'" + ", 'yyyy-mm-dd'));";
             				System.out.println(query);
-					ResultSet rs2 = stmt.executeQuery(query);
+					rs = stmt.executeQuery(query);
 				}
 				
 				else {
@@ -127,27 +128,27 @@ public class JSONProcessing
 					
 					String query1 = "select * from airlines where airlineid =" + "'" + frequentflieron + "'" + ";"; 
 					System.out.println(query1);
-            				ResultSet rs3 = stmt.executeQuery(query1);
+            				rs = stmt.executeQuery(query1);
 				
-					if (!rs3.next()) {
+					if (!rs.next()) {
 						System.out.println("The frequentflieron code does not exists!");
             	   				return;		
 					}
 					
 					String query2 = "select hub from airlines where name = '" + "'" + frequentflieron + "'" + ";";
 					System.out.println(query2);
-            				ResultSet rs4 = stmt.executeQuery(query2);
-                			String hub_name = rs4.getString("hub");
+            				rs = stmt.executeQuery(query2);
+                			String hub_name = rs.getString("hub");
 					
 				
                				String query3 = "INSERT into customers VALUES(" + "'" + customerid + "'," + "'" + name + "', to_date(" + "'" + birthdate + "'" + ", 'yyyy-mm-dd')," + "'" + hub_name + "'" + ");";
 					System.out.println(query3);
-            				ResultSet rs5 = stmt.executeQuery(query3);
+            				rs = stmt.executeQuery(query3);
 					
 					
 					String query4 = "INSERT into flewon VALUES(" + "'" + flightid + "'" + "," + "'" + customerid + "', to_date(" + "'" + flightdate + "'" + ", 'yyyy-mm-dd'));";
             				System.out.println(query4);
-					ResultSet rs6 = stmt.executeQuery(query4);					
+					rs = stmt.executeQuery(query4);					
 					
 				}
 			
