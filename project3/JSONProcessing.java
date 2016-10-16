@@ -60,24 +60,28 @@ public class JSONProcessing
 			
 			try {
 				String query = "select * from customers where customerid =" + "'" + customerid + "'" + ";";
+				System.out.println(query);
 				stmt = connection.createStatement();
             			ResultSet rs = stmt.executeQuery(query);
 				
-				if (rs != null) {
+				if (!rs.next()) {
 					System.out.println("This customer already exists!");
             	   			return;		
 				}
 						
 				else { 
-				
-					String query1 = "select hub from airlines where name =" + frequentflieron + ";";
+					
+					rs.beforeFirst();
+					String query1 = "select hub from airlines where name =" + "'" + frequentflieron + "'" + ";";
+					System.out.println(query1);
 					
             				rs = stmt.executeQuery(query1);
             			
                 			String hub_name = rs.getString("hub");
 				
-               				String query2 = "INSERT into customers VALUES(" + customerid + "," + name + ", to_date(" + birthdate + ", 'yyyy-mm-dd')," + hub_name + ");";
-            	
+               				String query2 = "INSERT into customers VALUES(" + "'" + customerid + "'," + "'" + name + "', to_date(" + "'" + birthdate + "'" + ", 'yyyy-mm-dd')," + "'" + hub_name + "'" + ");";
+					System.out.println(query2);
+					
             				rs = stmt.executeQuery(query2);
 				}
 						
