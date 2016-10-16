@@ -59,7 +59,7 @@ public class JSONProcessing
 			String frequentflieron = (String) newcustomer.get("frequentflieron");
 			
 			try {
-				String query = "select * from customers where customerid =" + "'" + customerid + "'" + ";";
+				String query = "select * from customers where customerid = " + "'" + customerid + "'" + ";";
 				System.out.println(query);
 				stmt = connection.createStatement();
             			ResultSet rs = stmt.executeQuery(query);
@@ -71,7 +71,7 @@ public class JSONProcessing
 						
 				else { 
 					
-					String query1 = "select airlineid from airlines where name =" + "'" + frequentflieron + "'" + ";";
+					String query1 = "select airlineid from airlines where name = " + "'" + frequentflieron + "'" + ";";
 					System.out.println(query1);
 					
             				rs = stmt.executeQuery(query1);
@@ -108,7 +108,7 @@ public class JSONProcessing
 				
 			   try {
 				   			
-				String q = "select * from customers where customerid =" + "'" + customerid + "'" + ";";
+				String q = "select * from customers where customerid = " + "'" + customerid + "'" + ";";
 				System.out.println(q);
 				stmt = connection.createStatement();
             			ResultSet rs = stmt.executeQuery(q);
@@ -126,7 +126,7 @@ public class JSONProcessing
 					String birthdate = (String) customer_info.get("birthdate");
 					String frequentflieron = (String) customer_info.get("frequentflieron");
 					
-					String query1 = "select * from airlines where airlineid =" + "'" + frequentflieron + "'" + ";"; 
+					String query1 = "select * from airlines where airlineid = " + "'" + frequentflieron + "'" + ";"; 
 					System.out.println(query1);
             				rs = stmt.executeQuery(query1);
 				
