@@ -193,9 +193,21 @@ class BTreeBlock(Block):
 			self.keysAndPointers.append(key)
 			self.keysAndPointers.extend(otherBlock.keysAndPointers)
 
+			
 	def redistributeWithBlock(self, otherBlock):
 		print "Redistributing entries between " + str(self) + " and " + str(otherBlock)
-		raise ValueError("Functionality to be implemented")
+		
+		if len(self.keysAndPointers) > len(otherBlock.keysAndPointers):
+			if otherBlock.isLeaf:
+				otherBlock.addPointer(self.keysAndPointers[len(self.keysAndPointers - 3)], self.keysAndPointers[len(self.keysAndPointers - 2)])
+				self.keysAndPointers[len(self.keysAndPointers) - 2].getBlock().delete(self.keysAndPointers[len(self.keysAndPointers - 2)], self.keysAndPointers[len(self.keysAndPointers - 3)])
+				return otherBlock.keysAndPointers[1]
+		else:
+			if self.isLeaf:
+				self.addPointer(otherBlock.keysAndPointers[0], otherBlock.keysAndPointers[1])
+				otherBlock.keysAndPointers[1].getBlock().delete(otherBlock.keysAndPointers[1], otheBlock.keysAndPointers[0])
+				return self.keysAndPointers[len(self.keysAndPointers) - 2]
+		
 
 	def isUnderfull(self):
 		# Root can't be underful
