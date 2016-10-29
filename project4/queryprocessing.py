@@ -179,7 +179,15 @@ class GroupByAggregate(Operator):
 			else:
 				return current_aggregate.append(new_value)
 		elif aggregate_function == GroupByAggregate.MODE:
-			raise ValueError("Functionality to be implemented")
+			if current_aggregate is None:
+				d = dict()
+				d[new_value] = 1
+				return d
+			else:
+				if new_value not in current_aggregate:
+					current_aggregate[new_value] = 1
+				else: 
+					current_aggregate[new_value] += 1
 		else:
 			raise ValueError("No such aggregate")
 
@@ -203,7 +211,13 @@ class GroupByAggregate(Operator):
 			index_of_median = math.floor(len(current_aggregate)/2)
 			return current_aggregate[index_of_median]
 		elif aggregate_function == GroupByAggregate.MODE:
-			raise ValueError("Functionality to be implemented")
+			largest_count = 0
+			mode_value = 0
+			for k, v in current_aggregate.items():
+				if v > largest_count:
+					largest_count = int(v)
+					mode_value = k
+			return mode_value
 		else:
 			raise ValueError("No such aggregate")
 
