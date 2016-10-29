@@ -208,7 +208,7 @@ class BTreeBlock(Block):
 				otherBlock.addPointer(self.keysAndPointers[len(self.keysAndPointers-3)], self.keysAndPointers[len(self.keysAndPointers-2)])
 				self.keysAndPointers[len(self.keysAndPointers)-3].getBlock().delete(self.keysAndPointers[len(self.keysAndPointers-2)], self.keysAndPointers[len(self.keysAndPointers-3)])
 				return otherBlock.keysAndPointers[1]
-		else if self.isUnderfull:
+		elif self.isUnderfull:
 			if not self.isLeaf:
 				(block1, key, block2) = self.findSiblingWithSameParent(self.parent.getBlock())				
 				self.addPointer(otherBlock.keysAndPointers[0], self.keysAndPointers.insert(key))
