@@ -168,7 +168,10 @@ class GroupByAggregate(Operator):
 			else:
 				return min(current_aggregate, new_value)
 		elif aggregate_function == GroupByAggregate.AVERAGE:
-			raise ValueError("Functionality to be implemented")
+			if current_aggregate is None:
+				return [new_value]
+			else:
+				return current_aggregate.append(new_value)
 		elif aggregate_function == GroupByAggregate.MEDIAN:
 			raise ValueError("Functionality to be implemented")
 		elif aggregate_function == GroupByAggregate.MODE:
@@ -184,7 +187,13 @@ class GroupByAggregate(Operator):
 		if aggregate_function in [GroupByAggregate.COUNT, GroupByAggregate.SUM, GroupByAggregate.MIN, GroupByAggregate.MAX]:
 			return current_aggregate 
 		elif aggregate_function == GroupByAggregate.AVERAGE:
-			raise ValueError("Functionality to be implemented")
+			num_elems = 0
+			sum_values = 0
+			for i in range(0, len(current_aggregate)):				
+				num_elems = num_elems + 1
+				sum_values = sum_values + int(current_aggregate[i])
+			return sum_value/num_elems
+				
 		elif aggregate_function == GroupByAggregate.MEDIAN:
 			raise ValueError("Functionality to be implemented")
 		elif aggregate_function == GroupByAggregate.MODE:
@@ -231,7 +240,7 @@ class GroupByAggregate(Operator):
 
 				aggrs[g_attr] = GroupByAggregate.update_aggregate(self.aggregate_function, aggrs[g_attr], t.getAttribute(self.aggregate_attribute))
 
-			# now that the aggregate is compute, return oen by one
+			# now that the aggregate is compute, return one by one
 			for g_attr in aggrs:
 				yield Tuple(None, (g_attr, GroupByAggregate.final_aggregate(self.aggregate_function, aggrs[g_attr])))
 
