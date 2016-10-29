@@ -1,3 +1,4 @@
+import math
 from disk_relations import *
 
 # We will implement our operators using the iterator interface
@@ -173,7 +174,10 @@ class GroupByAggregate(Operator):
 			else:
 				return current_aggregate.append(new_value)
 		elif aggregate_function == GroupByAggregate.MEDIAN:
-			raise ValueError("Functionality to be implemented")
+			if current_aggregate is None:
+				return [new_value]
+			else:
+				return current_aggregate.append(new_value)
 		elif aggregate_function == GroupByAggregate.MODE:
 			raise ValueError("Functionality to be implemented")
 		else:
@@ -195,7 +199,9 @@ class GroupByAggregate(Operator):
 			return sum_value/num_elems
 				
 		elif aggregate_function == GroupByAggregate.MEDIAN:
-			raise ValueError("Functionality to be implemented")
+			current_aggregate.sort()
+			index_of_median = math.floor(len(current_aggregate)/2)
+			return current_aggregate[index_of_median]
 		elif aggregate_function == GroupByAggregate.MODE:
 			raise ValueError("Functionality to be implemented")
 		else:
