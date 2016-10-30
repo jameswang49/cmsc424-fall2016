@@ -174,7 +174,8 @@ class GroupByAggregate(Operator):
 				return min(current_aggregate, new_value)
 			
 		elif aggregate_function == GroupByAggregate.AVERAGE:
-				return current_aggregate.append(new_value)
+			new_list = current_aggregate.append(new_value)
+			return new_list
 			
 		elif aggregate_function == GroupByAggregate.MEDIAN:
 			if current_aggregate is None:
