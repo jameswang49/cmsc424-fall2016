@@ -177,10 +177,7 @@ class GroupByAggregate(Operator):
 			return new_value
 			
 		elif aggregate_function == GroupByAggregate.MEDIAN:
-			if current_aggregate is None:
-				return [new_value]
-			else:
-				return current_aggregate.append(new_value)
+			return new_value
 			
 		elif aggregate_function == GroupByAggregate.MODE:
 			if current_aggregate is None:
