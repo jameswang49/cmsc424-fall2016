@@ -150,7 +150,7 @@ class GroupByAggregate(Operator):
 
 	@staticmethod
 	def initial_value(aggregate_function):
-		initial_values = [0, 0, None, None, [], [], None]
+		initial_values = [0, 0, None, None, [], [], dict()]
 		return initial_values[aggregate_function]
 
 	@staticmethod
@@ -180,12 +180,7 @@ class GroupByAggregate(Operator):
 			return new_value
 			
 		elif aggregate_function == GroupByAggregate.MODE:
-			if current_aggregate is None:
-				d = dict()
-				d[new_value] = 1
-				return d
-			else:
-				return 1
+			return 1
 		else:
 			raise ValueError("No such aggregate")
 
@@ -258,7 +253,10 @@ class GroupByAggregate(Operator):
 
 				# initialize if not already present in aggrs dictionary
 				if g_attr not in aggrs:
-					aggrs[g_attr] = GroupByAggregate.initial_value(self.aggregate_function)
+					if self.aggregate_function == 6:
+						aggrs[g_attr] = dict()
+					else:
+						aggrs[g_attr] = GroupByAggregate.initial_value(self.aggregate_function)
 					
 				if self.aggregate_function == 4 or self.aggregate_function == 5:
 					aggrs[g_attr].append(GroupByAggregate.update_aggregate(self.aggregate_function, aggrs[g_attr], t.getAttribute(self.aggregate_attribute)))		
