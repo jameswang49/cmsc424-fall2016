@@ -156,28 +156,34 @@ class GroupByAggregate(Operator):
 	def update_aggregate(aggregate_function, current_aggregate, new_value):
 		if aggregate_function == GroupByAggregate.COUNT:
 			return current_aggregate + 1
+		
 		elif aggregate_function == GroupByAggregate.SUM:
 			return current_aggregate + int(new_value)
+		
 		elif aggregate_function == GroupByAggregate.MAX:
 			if current_aggregate is None:
 				return new_value
 			else:
 				return max(current_aggregate, new_value)
+			
 		elif aggregate_function == GroupByAggregate.MIN:
 			if current_aggregate is None:
 				return new_value
 			else:
 				return min(current_aggregate, new_value)
+			
 		elif aggregate_function == GroupByAggregate.AVERAGE:
 			if current_aggregate is None:
 				return [new_value]
 			else:
 				return current_aggregate.append(new_value)
+			
 		elif aggregate_function == GroupByAggregate.MEDIAN:
 			if current_aggregate is None:
 				return [new_value]
 			else:
 				return current_aggregate.append(new_value)
+			
 		elif aggregate_function == GroupByAggregate.MODE:
 			if current_aggregate is None:
 				d = dict()
@@ -198,6 +204,7 @@ class GroupByAggregate(Operator):
 	def final_aggregate(aggregate_function, current_aggregate):
 		if aggregate_function in [GroupByAggregate.COUNT, GroupByAggregate.SUM, GroupByAggregate.MIN, GroupByAggregate.MAX]:
 			return current_aggregate 
+		
 		elif aggregate_function == GroupByAggregate.AVERAGE:
 			num_elems = 0
 			sum_values = 0
@@ -210,13 +217,14 @@ class GroupByAggregate(Operator):
 			current_aggregate.sort()
 			index_of_median = math.floor(len(current_aggregate)/2)
 			return current_aggregate[index_of_median]
+		
 		elif aggregate_function == GroupByAggregate.MODE:
 			largest_count = 0
 			mode_value = 0
-			for k, v in current_aggregate.items():
-				if v > largest_count:
-					largest_count = int(v)
-					mode_value = k
+			for key, val in current_aggregate.items():
+				if val > largest_count:
+					largest_count = int(val)
+					mode_value = key
 			return mode_value
 		else:
 			raise ValueError("No such aggregate")
