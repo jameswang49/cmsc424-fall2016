@@ -173,12 +173,10 @@ class GroupByAggregate(Operator):
 				return min(current_aggregate, new_value)
 			
 		elif aggregate_function == GroupByAggregate.AVERAGE:
-			if not new_value is None:
-				return new_value
+			return new_value
 			
 		elif aggregate_function == GroupByAggregate.MEDIAN:
-			if not new_value is None:
-				return new_value
+			return new_value
 			
 		elif aggregate_function == GroupByAggregate.MODE:
 			return 1
