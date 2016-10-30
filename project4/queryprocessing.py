@@ -1,5 +1,6 @@
 import math
 from disk_relations import *
+from collections import defaultdict
 
 # We will implement our operators using the iterator interface
 # discussed in Section 12.7.2.1
@@ -173,10 +174,6 @@ class GroupByAggregate(Operator):
 				return min(current_aggregate, new_value)
 			
 		elif aggregate_function == GroupByAggregate.AVERAGE:
-			if current_aggregate is None:
-				new_list = list().append(new_value)
-				return new_list
-			else:
 				return current_aggregate.append(new_value)
 			
 		elif aggregate_function == GroupByAggregate.MEDIAN:
@@ -258,7 +255,11 @@ class GroupByAggregate(Operator):
 			# where aggr_value is the value of the aggregate for the group of tuples corresponding to "v"
 			
 			# we will set up a 'dict' to keep track of all the groups
-			aggrs = dict()
+			if self.aggregate_function == 4 || self.aggregate_function == 5:
+				aggrs = defaultdict(list)
+				
+			else: 
+				aggrs = dict()
 
 			for t in self.child.get_next():
 				g_attr = t.getAttribute(self.group_by_attribute)
