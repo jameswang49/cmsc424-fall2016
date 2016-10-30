@@ -193,6 +193,7 @@ class GroupByAggregate(Operator):
 			return current_aggregate 
 		
 		elif aggregate_function == GroupByAggregate.AVERAGE:
+			print "Current aggregate:" + current_aggregate 
 			num_elems = 0
 			sum_value = 0
 			for i in range(0, len(current_aggregate)):				
