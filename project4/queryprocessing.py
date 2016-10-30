@@ -195,7 +195,6 @@ class GroupByAggregate(Operator):
 			return current_aggregate 
 		
 		elif aggregate_function == GroupByAggregate.AVERAGE:
-			print "Current aggregate:" + current_aggregate 
 			num_elems = 0
 			sum_value = 0
 			for i in range(0, len(current_aggregate)):				
@@ -204,7 +203,6 @@ class GroupByAggregate(Operator):
 			return sum_value/num_elems
 				
 		elif aggregate_function == GroupByAggregate.MEDIAN:
-			print "Current aggregate:" + current_aggregate
 			current_aggregate.sort()
 			index_of_median = int(math.floor(len(current_aggregate)/2))
 			return current_aggregate[index_of_median]
@@ -255,7 +253,9 @@ class GroupByAggregate(Operator):
 
 				# initialize if not already present in aggrs dictionary
 				if g_attr not in aggrs:
-					if self.aggregate_function == 6:
+					if self.aggregate_function == 4 or self.aggregate_function == 5:
+						aggrs[g_attr] = []
+					elif self.aggregate_function == 6:
 						aggrs[g_attr] = dict()
 					else:
 						aggrs[g_attr] = GroupByAggregate.initial_value(self.aggregate_function)
