@@ -202,7 +202,6 @@ class GroupByAggregate(Operator):
 			return sum_value/num_elems
 				
 		elif aggregate_function == GroupByAggregate.MEDIAN:
-			print '[%s]' % ', '.join(map(str, current_aggregate))
 			current_aggregate.sort()
 			index_of_median = int(math.floor(len(current_aggregate)/2))
 			return current_aggregate[index_of_median]
@@ -236,7 +235,12 @@ class GroupByAggregate(Operator):
 
 			# Then, for each input tuple: we update the aggregate appropriately
 			for t in self.child.get_next():
-				aggr = GroupByAggregate.update_aggregate(self.aggregate_function, aggr, t.getAttribute(self.aggregate_attribute))
+				
+				if self.aggregate_function == 4 or self.aggregate_function == 5:
+					aggrs[g_attr].append(GroupByAggregate.update_aggregate(self.aggregate_function, aggrs[g_attr], t.getAttribute(self.aggregate_attribute)))	
+					
+				else:
+					aggr = GroupByAggregate.update_aggregate(self.aggregate_function, aggr, t.getAttribute(self.aggregate_attribute))
 
 			# There is only one output here, but we must use "yield" since the "else" code needs to use "yield" (that code
 			# may return multiple groups)
