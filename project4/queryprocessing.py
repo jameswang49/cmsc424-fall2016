@@ -358,7 +358,7 @@ class SortMergeJoin(Operator):
 					elif right_input[ptr_r].getAttribute(self.right_attribute) > l_attr and found == 0:
 						print l
 						output = list(l.t)
-						output.extend(list(None))
+						output.append(None)
 						yield Tuple(None, output)
 						break
 						
