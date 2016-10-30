@@ -150,7 +150,7 @@ class GroupByAggregate(Operator):
 
 	@staticmethod
 	def initial_value(aggregate_function):
-		initial_values = [0, 0, None, None, None, None, None]
+		initial_values = [0, 0, None, None, [], [], None]
 		return initial_values[aggregate_function]
 
 	@staticmethod
@@ -174,8 +174,7 @@ class GroupByAggregate(Operator):
 				return min(current_aggregate, new_value)
 			
 		elif aggregate_function == GroupByAggregate.AVERAGE:
-			new_list = current_aggregate.insert(0, new_value)
-			return new_list
+			return new_value
 			
 		elif aggregate_function == GroupByAggregate.MEDIAN:
 			if current_aggregate is None:
@@ -256,11 +255,7 @@ class GroupByAggregate(Operator):
 			# where aggr_value is the value of the aggregate for the group of tuples corresponding to "v"
 			
 			# we will set up a 'dict' to keep track of all the groups
-			if self.aggregate_function == 4 or self.aggregate_function == 5:
-				aggrs = defaultdict(list)
-				
-			else: 
-				aggrs = dict()
+			aggrs = dict()
 
 			for t in self.child.get_next():
 				g_attr = t.getAttribute(self.group_by_attribute)
@@ -268,8 +263,12 @@ class GroupByAggregate(Operator):
 				# initialize if not already present in aggrs dictionary
 				if g_attr not in aggrs:
 					aggrs[g_attr] = GroupByAggregate.initial_value(self.aggregate_function)
-
-				aggrs[g_attr] = GroupByAggregate.update_aggregate(self.aggregate_function, aggrs[g_attr], t.getAttribute(self.aggregate_attribute))
+					
+				if self.aggregate_function == 4 or self.aggregate_function == 5:
+					aggrs[g_attr].append(GroupByAggregate.update_aggregate(self.aggregate_function, aggrs[g_attr], t.getAttribute(self.aggregate_attribute)))		
+				
+				else:
+					aggrs[g_attr] = GroupByAggregate.update_aggregate(self.aggregate_function, aggrs[g_attr], t.getAttribute(self.aggregate_attribute))
 
 			# now that the aggregate is compute, return one by one
 			for g_attr in aggrs:
