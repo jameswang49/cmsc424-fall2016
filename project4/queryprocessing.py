@@ -175,8 +175,8 @@ class GroupByAggregate(Operator):
 		elif aggregate_function == GroupByAggregate.AVERAGE:
 			if current_aggregate is None:
 				new_list = list()
-				list.append(new_value)
-				return list
+				new_list.append(new_value)
+				return new_list
 			else:
 				return current_aggregate.append(new_value)
 			
