@@ -72,7 +72,7 @@ def query5():
 #query1a()
 #query2()
 #query3()
-query4()
+query7a()
 #query5()
 
 # Left outer sort merge join
