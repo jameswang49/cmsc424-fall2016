@@ -208,13 +208,10 @@ class GroupByAggregate(Operator):
 		elif aggregate_function == GroupByAggregate.MODE:
 			largest_count = 0
 			mode_value = 0
-			for k, v in current_aggregate.iteritems():
-				print v
-				if isinstance(v, dict):
-					for key, val in v.items():
-						if val > largest_count:
-							largest_count = int(val)
-							mode_value = key
+			for key, val in current_aggregate.iteritems():
+				if val > largest_count:
+					largest_count = int(val)
+					mode_value = key
 			return mode_value
 		else:
 			raise ValueError("No such aggregate")
