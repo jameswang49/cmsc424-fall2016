@@ -237,7 +237,7 @@ class GroupByAggregate(Operator):
 			for t in self.child.get_next():
 				
 				if self.aggregate_function == 4 or self.aggregate_function == 5:
-					aggrs[g_attr].append(GroupByAggregate.update_aggregate(self.aggregate_function, aggrs[g_attr], t.getAttribute(self.aggregate_attribute)))	
+					aggr.append(GroupByAggregate.update_aggregate(self.aggregate_function, aggr, t.getAttribute(self.aggregate_attribute)))	
 					
 				else:
 					aggr = GroupByAggregate.update_aggregate(self.aggregate_function, aggr, t.getAttribute(self.aggregate_attribute))
