@@ -195,12 +195,11 @@ class GroupByAggregate(Operator):
 			num_elems = 0
 			sum_value = 0
 			for i in range(0, len(current_aggregate)):
-				if not current_aggregate[i] is None:
-					num_elems = num_elems + 1
-					sum_value = sum_value + int(current_aggregate[i])
+				num_elems = num_elems + 1
+				sum_value = sum_value + int(current_aggregate[i])
 			print sum_value 
 			print num_elems
-			return sum_value/num_elems
+			return float(sum_value/num_elems)
 				
 		elif aggregate_function == GroupByAggregate.MEDIAN:
 			current_aggregate.sort()
