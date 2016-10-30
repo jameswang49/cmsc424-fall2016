@@ -242,7 +242,14 @@ class GroupByAggregate(Operator):
 					aggr.append(GroupByAggregate.update_aggregate(self.aggregate_function, aggr, t.getAttribute(self.aggregate_attribute)))	
 					
 				else:
-					aggr = GroupByAggregate.update_aggregate(self.aggregate_function, aggr, t.getAttribute(self.aggregate_attribute))
+					if self.aggregate_function == 6:
+						if t.getAttribute(self.aggregate_attribute) not in aggr:
+							aggr[t.getAttribute(self.aggregate_attribute)] = GroupByAggregate.update_aggregate(self.aggregate_function, aggrs[g_attr], t.getAttribute(self.aggregate_attribute))
+							
+						else:
+							aggr[t.getAttribute(self.aggregate_attribute)] += GroupByAggregate.update_aggregate(self.aggregate_function, aggrs[g_attr], t.getAttribute(self.aggregate_attribute))
+					else:
+						aggr = GroupByAggregate.update_aggregate(self.aggregate_function, aggr, t.getAttribute(self.aggregate_attribute))
 
 			# There is only one output here, but we must use "yield" since the "else" code needs to use "yield" (that code
 			# may return multiple groups)
