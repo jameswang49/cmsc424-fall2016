@@ -130,5 +130,5 @@ def query8b():
 	for t in sm.get_next():
 		print "---> " + str(t)
 
-query7c()
+query8a()
 #query8b()
