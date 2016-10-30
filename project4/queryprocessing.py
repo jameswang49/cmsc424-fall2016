@@ -192,11 +192,11 @@ class GroupByAggregate(Operator):
 			return current_aggregate 
 		
 		elif aggregate_function == GroupByAggregate.AVERAGE:
-			float num_elems = 0
-			float sum_value = 0
+			num_elems = 0.00
+			sum_value = 0.00
 			for i in range(0, len(current_aggregate)):
 				num_elems = num_elems + 1
-				sum_value = sum_value + float(current_aggregate[i])
+				sum_value = sum_value + current_aggregate[i]
 			print sum_value 
 			print num_elems
 			return sum_value/num_elems
