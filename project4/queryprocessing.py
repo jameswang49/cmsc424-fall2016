@@ -255,7 +255,7 @@ class GroupByAggregate(Operator):
 			# where aggr_value is the value of the aggregate for the group of tuples corresponding to "v"
 			
 			# we will set up a 'dict' to keep track of all the groups
-			if self.aggregate_function == 4 || self.aggregate_function == 5:
+			if self.aggregate_function == 4 or self.aggregate_function == 5:
 				aggrs = defaultdict(list)
 				
 			else: 
