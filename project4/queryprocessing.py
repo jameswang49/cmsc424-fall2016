@@ -215,7 +215,7 @@ class GroupByAggregate(Operator):
 				
 		elif aggregate_function == GroupByAggregate.MEDIAN:
 			current_aggregate.sort()
-			index_of_median = math.floor(len(current_aggregate)/2)
+			index_of_median = int(math.floor(len(current_aggregate)/2))
 			return current_aggregate[index_of_median]
 		
 		elif aggregate_function == GroupByAggregate.MODE:
