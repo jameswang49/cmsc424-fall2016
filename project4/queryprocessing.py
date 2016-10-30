@@ -1,3 +1,4 @@
+import math
 from disk_relations import *
 
 # We will implement our operators using the iterator interface
@@ -155,24 +156,44 @@ class GroupByAggregate(Operator):
 	def update_aggregate(aggregate_function, current_aggregate, new_value):
 		if aggregate_function == GroupByAggregate.COUNT:
 			return current_aggregate + 1
+		
 		elif aggregate_function == GroupByAggregate.SUM:
 			return current_aggregate + int(new_value)
+		
 		elif aggregate_function == GroupByAggregate.MAX:
 			if current_aggregate is None:
 				return new_value
 			else:
 				return max(current_aggregate, new_value)
+			
 		elif aggregate_function == GroupByAggregate.MIN:
 			if current_aggregate is None:
 				return new_value
 			else:
 				return min(current_aggregate, new_value)
+			
 		elif aggregate_function == GroupByAggregate.AVERAGE:
-			raise ValueError("Functionality to be implemented")
+			if current_aggregate is None:
+				return [new_value]
+			else:
+				return current_aggregate.append(new_value)
+			
 		elif aggregate_function == GroupByAggregate.MEDIAN:
-			raise ValueError("Functionality to be implemented")
+			if current_aggregate is None:
+				return [new_value]
+			else:
+				return current_aggregate.append(new_value)
+			
 		elif aggregate_function == GroupByAggregate.MODE:
-			raise ValueError("Functionality to be implemented")
+			if current_aggregate is None:
+				d = dict()
+				d[new_value] = 1
+				return d
+			else:
+				if new_value not in current_aggregate:
+					current_aggregate[new_value] = 1
+				else: 
+					current_aggregate[new_value] += 1
 		else:
 			raise ValueError("No such aggregate")
 
@@ -183,12 +204,28 @@ class GroupByAggregate(Operator):
 	def final_aggregate(aggregate_function, current_aggregate):
 		if aggregate_function in [GroupByAggregate.COUNT, GroupByAggregate.SUM, GroupByAggregate.MIN, GroupByAggregate.MAX]:
 			return current_aggregate 
+		
 		elif aggregate_function == GroupByAggregate.AVERAGE:
-			raise ValueError("Functionality to be implemented")
+			num_elems = 0
+			sum_values = 0
+			for i in range(0, len(current_aggregate)):				
+				num_elems = num_elems + 1
+				sum_values = sum_values + int(current_aggregate[i])
+			return sum_value/num_elems
+				
 		elif aggregate_function == GroupByAggregate.MEDIAN:
-			raise ValueError("Functionality to be implemented")
+			current_aggregate.sort()
+			index_of_median = math.floor(len(current_aggregate)/2)
+			return current_aggregate[index_of_median]
+		
 		elif aggregate_function == GroupByAggregate.MODE:
-			raise ValueError("Functionality to be implemented")
+			largest_count = 0
+			mode_value = 0
+			for key, val in current_aggregate.items():
+				if val > largest_count:
+					largest_count = int(val)
+					mode_value = key
+			return mode_value
 		else:
 			raise ValueError("No such aggregate")
 
@@ -231,7 +268,7 @@ class GroupByAggregate(Operator):
 
 				aggrs[g_attr] = GroupByAggregate.update_aggregate(self.aggregate_function, aggrs[g_attr], t.getAttribute(self.aggregate_attribute))
 
-			# now that the aggregate is compute, return oen by one
+			# now that the aggregate is compute, return one by one
 			for g_attr in aggrs:
 				yield Tuple(None, (g_attr, GroupByAggregate.final_aggregate(self.aggregate_function, aggrs[g_attr])))
 
@@ -312,7 +349,48 @@ class SetMinus(Operator):
 
 	# As above, use 'yield' to simplify writing this code
 	def get_next(self):
-		raise ValueError("Functionality to be implemented")
+		left_hashtable = dict()
+		right_hashtable = dict()
+			
+		# Load right input tuples into right_hashtable. The value is the number of copies
+		# of the tuple found in the relation
+		for r in self.right_child.get_next():
+			if r in right_hashtable:
+				right_hashtable[r] += 1
+			else:
+				right_hashtable[r] = 1
+			
+		# Load left input tuples into left_hashtable. The value is the number of copies
+		# of the tuple found in the relation
+		for r in self.left_child.get_next():
+			if r in left_hashtable:
+				left_hashtable[r] += 1
+			else:
+				left_hashtable[r] = 1
+					
+		# If the length of the left_hashtable is 0 (empty relation), return None		
+		if len(left_hashtable.items()) == 0:
+			return None
+		
+		# Otherwise iterate through each key in the left_hashtable. If the key is found in the right_hashtable
+		# and keep_duplicates is set to True, subtract the value at right_hashtable[key] (key = tuple) from the value
+		# at left_hashtable[key]. If the number (set_minus) is greater than 0, return that many copies of the tuple.
+		# If keep_duplicates is set to False, only yield left_hashtable tuples (keys) that are not present in right_hashtable
+		else : 
+			for key in left_hashtable.items():
+				if key in right_hashtable:
+					if keep_duplicates == True:
+						left_num_tuples = left_hashtable[key]
+						right_num_tuples = right_hashtable[key]
+						set_minus = left_num_tuples - right_num_tuples
+							
+						if set_minus > 0:
+							for i in range(0, set_minus):
+								yield Tuple(None, key)
+				else:
+					yield(None, key)
+				
+			
 		
 	# Typically you would close any open files etc.
 	def close(self):
