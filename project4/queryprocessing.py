@@ -201,7 +201,7 @@ class GroupByAggregate(Operator):
 			return sum_value/num_elems
 				
 		elif aggregate_function == GroupByAggregate.MEDIAN:
-			print current_aggregate
+			print "Current aggregate:" + current_aggregate
 			current_aggregate.sort()
 			index_of_median = int(math.floor(len(current_aggregate)/2))
 			return current_aggregate[index_of_median]
