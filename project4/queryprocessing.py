@@ -385,7 +385,7 @@ class SetMinus(Operator):
 		# at left_hashtable[key]. If the number (set_minus) is greater than 0, return that many copies of the tuple.
 		# If keep_duplicates is set to False, only yield left_hashtable tuples (keys) that are not present in right_hashtable
 		else : 
-			for key in left_hashtable.items():
+			for key, value in left_hashtable.items():
 				if key in right_hashtable:
 					if keep_duplicates == True:
 						left_num_tuples = left_hashtable[key]
@@ -393,10 +393,9 @@ class SetMinus(Operator):
 						set_minus = left_num_tuples - right_num_tuples
 							
 						if set_minus > 0:
-							for i in range(0, set_minus - 1):
+							for i in range(0, set_minus):
 								yield Tuple(None, key)
 				else:
-					print "Here"
 					yield(None, key)
 				
 			
