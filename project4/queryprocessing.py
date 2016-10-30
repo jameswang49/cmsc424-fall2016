@@ -385,9 +385,9 @@ class SetMinus(Operator):
 							
 						if set_minus > 0:
 							for i in range(0, set_minus):
-								yield Tuple(None, key)
+								yield Tuple(None, key.t)
 				else:
-					yield(None, key)
+					yield(None, key.t)
 				
 			
 		
