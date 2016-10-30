@@ -387,7 +387,7 @@ class SetMinus(Operator):
 		else : 
 			for key, value in left_hashtable.items():
 				if key in right_hashtable:
-					if not keep_duplicates is False:
+					if keep_duplicates:
 						left_num_tuples = left_hashtable[key]
 						right_num_tuples = right_hashtable[key]
 						set_minus = left_num_tuples - right_num_tuples
