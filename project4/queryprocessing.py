@@ -253,11 +253,10 @@ class GroupByAggregate(Operator):
 
 				# initialize if not already present in aggrs dictionary
 				if g_attr not in aggrs:
-					if self.aggregate_function == 4 or self.aggregate_function == 5:
-						aggrs[g_attr] = []
-					elif self.aggregate_function == 6:
+					if self.aggregate_function == 6:
 						aggrs[g_attr] = dict()
 					else:
+						print aggrs[g_attr]
 						aggrs[g_attr] = GroupByAggregate.initial_value(self.aggregate_function)
 					
 				if self.aggregate_function == 4 or self.aggregate_function == 5:
