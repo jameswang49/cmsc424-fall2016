@@ -345,14 +345,16 @@ class SetMinus(Operator):
 		left_hashtable = dict()
 		right_hashtable = dict()
 			
-		# Load right input tuples into right_hashtable
+		# Load right input tuples into right_hashtable. The value is the number of copies
+		# of the tuple found in the relation
 		for r in self.right_child.get_next():
 			if r in right_hashtable:
 				right_hashtable[r] += 1
 			else:
 				right_hashtable[r] = 1
 			
-		# Load left input tuples into left_hashtable
+		# Load left input tuples into left_hashtable. The value is the number of copies
+		# of the tuple found in the relation
 		for r in self.left_child.get_next():
 			if r in left_hashtable:
 				left_hashtable[r] += 1
@@ -360,22 +362,26 @@ class SetMinus(Operator):
 				left_hashtable[r] = 1
 					
 		# If the length of the left_hashtable is 0 (empty relation), return None		
-		if len(left_hashtable.keys()) == 0:
+		if len(left_hashtable.items()) == 0:
 			return None
-			
+		
+		# Otherwise iterate through each key in the left_hashtable. If the key is found in the right_hashtable
+		# and keep_duplicates is set to True, subtract the value at right_hashtable[key] (key = tuple) from the value
+		# at left_hashtable[key]. If the number (set_minus) is greater than 0, return that many copies of the tuple.
+		# If keep_duplicates is set to False, only yield left_hashtable tuples (keys) that are not present in right_hashtable
 		else : 
-			for r in self.left_child.get_next():
-				if r in right_hashtable:
+			for key in left_hashtable.items():
+				if key in right_hashtable:
 					if keep_duplicates == True:
-						left_num_tuples = left_hashtable[r]
-						right_num_tuples = right_hashtable[r]
+						left_num_tuples = left_hashtable[key]
+						right_num_tuples = right_hashtable[key]
 						set_minus = left_num_tuples - right_num_tuples
 							
 						if set_minus > 0:
 							for i in range(0, set_minus):
-								yield Tuple(None, r)
+								yield Tuple(None, key)
 				else:
-					yield(None, r)
+					yield(None, key)
 				
 			
 		
