@@ -197,7 +197,7 @@ class BTreeBlock(Block):
 	def redistributeWithBlock(self, otherBlock):
 		print "Redistributing entries between " + str(self) + " and " + str(otherBlock)
 		
-		# If the block on the right is the underfull one
+		# If the block on the right (otherBlock) is the underfull one
 		if otherBlock.isUnderfull:
 			
 			# Let N' be the sibling block (self) and let K' be the key between the sibling blocks.
@@ -214,13 +214,21 @@ class BTreeBlock(Block):
 			
 			# Let N' be the sibling block (self). If otherBlock is a leaf, 
 			# take the last pointer/value pair from self (N'.Pm, N'.Km)
-			# and add it as the first pointer and value in otherBlock. Delete (N'.Pm, N'.Km) from self
+			# and add it as the first pointer and value pair in otherBlock. Delete (N'.Pm, N'.Km) from self
 			# and return (N'.Km), which is the first key in otherBlock (otherBlock.keysAndPointers[1])
 			else:
 				otherBlock.addPointer(self.keysAndPointers[len(self.keysAndPointers-3)], self.keysAndPointers[len(self.keysAndPointers-2)])
 				self.keysAndPointers[len(self.keysAndPointers)-3].getBlock().delete(self.keysAndPointers[len(self.keysAndPointers-2)], self.keysAndPointers[len(self.keysAndPointers-3)])
 				return otherBlock.keysAndPointers[1]
+			
+		# If the block on the left (self) is the underfull one	
 		elif self.isUnderfull:
+			
+			# Let N' be the sibling block (otherBlock) and let K' be the key between the sibling blocks.
+			# If self is not a leaf, take the first pointer from otherBlock as well as the key btwn the sibling blocks (K')
+			# and add it as the last pointer and value (N'.K', N'.Pm) in self. Save the key in front of the pointer
+			# taken from otherBlock (N'.Km+1) into ret_key. Delete the pointer and the key in front of
+			# it (N'.Pm, N'.Km+1) from self. Return ret_key
 			if not self.isLeaf:
 				(block1, key, block2) = self.findSiblingWithSameParent(self.parent.getBlock())				
 				self.addPointer(otherBlock.keysAndPointers[0], self.keysAndPointers.insert(key))
@@ -228,6 +236,10 @@ class BTreeBlock(Block):
 				otherBlock.keysAndPointers[2].getBlock().delete(otherBlock.keysAndPointers[1], otherBlock.keysAndPointers[2])
 				return ret_key
 			
+			# Let N' be the sibling block (otherBlock). If self is a leaf, 
+			# take the first pointer/value pair from otherBlock (N'.Pm, N'.Km)
+			# and add it as the last pointer and value pair in self. Delete (N'.Pm, N'.Km) from otherBlock
+			# and return (N'.Km), which is the last key in self
 			if self.isLeaf:
 				self.addPointer(otherBlock.keysAndPointers[0], otherBlock.keysAndPointers[1])
 				otherBlock.keysAndPointers[0].getBlock().delete(otherBlock.keysAndPointers[1], otherBlock.keysAndPointers[0])
