@@ -331,7 +331,39 @@ class SortMergeJoin(Operator):
 					ptr_r += 1
 
 		elif self.jointype == self.FULL_OUTER_JOIN:
-			raise ValueError("Functionality to be implemented")
+			ptr_l = 0
+			ptr_r = 0
+			found = 0
+
+			while ptr_l < len(left_input) and ptr_r < len(right_input):
+				set_L = [left_input[ptr_l]]
+				l_attr = left_input[ptr_l].getAttribute(self.left_attribute) 
+
+				ptr_l += 1
+				while ptr_l < len(left_input):
+					if left_input[ptr_l].getAttribute(self.left_attribute) == l_attr:
+						set_L.append(left_input[ptr_l])
+						ptr_l += 1
+					else:
+						break
+
+				while ptr_r < len(right_input):
+					if right_input[ptr_r].getAttribute(self.right_attribute) == l_attr:
+						for l in set_L:
+							found = 1
+							output = list(l.t)
+							output.extend(list(right_input[ptr_r].t))
+							yield Tuple(None, output)
+					elif right_input[ptr_r].getAttribute(self.right_attribute) > l_attr and found == 0:
+						output = list(l.t)
+						output.extend(list(None))
+						yield Tuple(None, output)
+						break
+					elif right_input[ptr_r].getAttribute(self.right_attribute) > l_attr and found == 1:
+						break
+					ptr_r += 1
+				
+				found = 0
 		else:
 			raise ValueError("This should not happen")
 
