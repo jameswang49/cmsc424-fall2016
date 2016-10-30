@@ -72,7 +72,7 @@ def query5():
 #query1a()
 #query2()
 #query3()
-query7a()
+#query4()
 #query5()
 
 # Left outer sort merge join
@@ -130,4 +130,5 @@ def query8b():
 	for t in sm.get_next():
 		print "---> " + str(t)
 
+query7a()
 #query8b()
