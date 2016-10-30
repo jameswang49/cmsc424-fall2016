@@ -207,7 +207,7 @@ class GroupByAggregate(Operator):
 		
 		elif aggregate_function == GroupByAggregate.AVERAGE:
 			num_elems = 0
-			sum_values = 0
+			sum_value = 0
 			for i in range(0, len(current_aggregate)):				
 				num_elems = num_elems + 1
 				sum_values = sum_values + int(current_aggregate[i])
