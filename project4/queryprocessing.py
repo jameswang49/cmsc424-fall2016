@@ -1,6 +1,5 @@
 import math
 from disk_relations import *
-from collections import defaultdict
 
 # We will implement our operators using the iterator interface
 # discussed in Section 12.7.2.1
@@ -203,6 +202,7 @@ class GroupByAggregate(Operator):
 			return sum_value/num_elems
 				
 		elif aggregate_function == GroupByAggregate.MEDIAN:
+			print '[%s]' % ', '.join(map(str, current_aggregate))
 			current_aggregate.sort()
 			index_of_median = int(math.floor(len(current_aggregate)/2))
 			return current_aggregate[index_of_median]
