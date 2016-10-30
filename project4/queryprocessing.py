@@ -149,7 +149,7 @@ class GroupByAggregate(Operator):
 
 	@staticmethod
 	def initial_value(aggregate_function):
-		initial_values = [0, 0, None, None, [], [], []]
+		initial_values = [0, 0, None, None, list(), list(), list()]
 		return initial_values[aggregate_function]
 
 	@staticmethod
@@ -173,8 +173,7 @@ class GroupByAggregate(Operator):
 				return min(current_aggregate, new_value)
 			
 		elif aggregate_function == GroupByAggregate.AVERAGE:
-			if current_aggregate is None:
-				print "Is None for some reason"
+			
 			return current_aggregate.append(new_value)
 			
 		elif aggregate_function == GroupByAggregate.MEDIAN:
