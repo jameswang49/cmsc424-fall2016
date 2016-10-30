@@ -363,18 +363,18 @@ class SetMinus(Operator):
 		# Load right input tuples into right_hashtable. The value is the number of copies
 		# of the tuple found in the relation
 		for r in self.right_child.get_next():
-			if r in right_hashtable:
-				right_hashtable[r] += 1
+			if r.t in right_hashtable:
+				right_hashtable[r.t] += 1
 			else:
-				right_hashtable[r] = 1
+				right_hashtable[r.t] = 1
 			
 		# Load left input tuples into left_hashtable. The value is the number of copies
 		# of the tuple found in the relation
 		for r in self.left_child.get_next():
-			if r in left_hashtable:
-				left_hashtable[r] += 1
+			if r.t in left_hashtable:
+				left_hashtable[r.t] += 1
 			else:
-				left_hashtable[r] = 1
+				left_hashtable[r.t] = 1
 					
 		# If the length of the left_hashtable is 0 (empty relation), return None		
 		if len(left_hashtable.items()) == 0:
