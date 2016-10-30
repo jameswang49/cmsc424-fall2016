@@ -232,8 +232,9 @@ class BTreeBlock(Block):
 			# taken from otherBlock (N'.Km+1) into ret_key. Delete the pointer and the key in front of
 			# it (N'.Pm, N'.Km+1) from self. Return ret_key
 			if not self.isLeaf:
-				(block1, key, block2) = self.findSiblingWithSameParent(self.parent.getBlock())				
-				self.addPointer(otherBlock.keysAndPointers[0], self.keysAndPointers.insert(key))
+				(block1, key, block2) = self.findSiblingWithSameParent(self.parent.getBlock())	
+				self.keysAndPointers.insert(len(self.keysAndPointers)-1, key)
+				self.keysAndPointers.insert(len(self.keysAndPointers)-1, otherBlock.keysAndPointers[0])
 				ret_key = otherBlock.keysAndPointers[1]
 				otherBlock.keysAndPointers[2].getBlock().delete(otherBlock.keysAndPointers[1], otherBlock.keysAndPointers[2])
 				return ret_key
@@ -243,7 +244,8 @@ class BTreeBlock(Block):
 			# and add it as the last pointer and value pair in self. Delete (N'.Pm, N'.Km) from otherBlock
 			# and return (N'.Km), which is the last key in self
 			if self.isLeaf:
-				self.addPointer(otherBlock.keysAndPointers[0], otherBlock.keysAndPointers[1])
+				self.keysAndPointers.insert(len(self.keysAndPointers)-1, otherBlock.keysAndPointers[0])
+				self.keysAndPointers.insert(len(self.keysAndPointers)-1, otherBlock.keysAndPointers[1])
 				otherBlock.keysAndPointers[0].getBlock().delete(otherBlock.keysAndPointers[1], otherBlock.keysAndPointers[0])
 				return self.keysAndPointers[len(self.keysAndPointers)-2]
 		
