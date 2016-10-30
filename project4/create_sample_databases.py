@@ -25,8 +25,8 @@ def createDatabase1(name):
  	db = Database(name)
 	instr_schema = ["ID", "name", "dept_name", "salary"]
 	instructor = db.newRelation("instructor", instr_schema)
-	instructor.insertTuple(Tuple(instr_schema, ('10101', 'Srinivasan', 'Comp. Sci.', '75000')));
-	instructor.insertTuple(Tuple(instr_schema, ('12121', 'Wu', 'Finance', '80000')));
+	instructor.insertTuple(Tuple(instr_schema, ('10101', 'Srinivasan', 'Comp. Sci.', '65000')));
+	instructor.insertTuple(Tuple(instr_schema, ('12121', 'Wu', 'Finance', '90000')));
 	instructor.insertTuple(Tuple(instr_schema, ('15151', 'Mozart', 'Music', '40000')));
 	instructor.insertTuple(Tuple(instr_schema, ('22222', 'Einstein', 'Physics', '95000')));
 	instructor.insertTuple(Tuple(instr_schema, ('32343', 'El Said', 'History', '60000')));
