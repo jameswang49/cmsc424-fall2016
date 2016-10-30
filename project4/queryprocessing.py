@@ -391,12 +391,12 @@ class SetMinus(Operator):
 						left_num_tuples = left_hashtable[key]
 						right_num_tuples = right_hashtable[key]
 						set_minus = left_num_tuples - right_num_tuples
-						print set_minus
 							
 						if set_minus > 0:
 							for i in range(0, set_minus - 1):
 								yield Tuple(None, key)
 				else:
+					print "Here"
 					yield(None, key)
 				
 			
