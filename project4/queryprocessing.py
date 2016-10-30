@@ -229,7 +229,11 @@ class GroupByAggregate(Operator):
 	def get_next(self):
 		if self.group_by_attribute is None:
 			# We first use initial_value() to set up an appropriate initial value for the aggregate, e.g., 0 for COUNT and SUM
-			aggr = GroupByAggregate.initial_value(self.aggregate_function)
+			if self.aggregate_function == 6:
+				aggr = dict()
+			
+			else:
+				aggr = GroupByAggregate.initial_value(self.aggregate_function)
 
 			# Then, for each input tuple: we update the aggregate appropriately
 			for t in self.child.get_next():
