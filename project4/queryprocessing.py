@@ -342,7 +342,42 @@ class SetMinus(Operator):
 
 	# As above, use 'yield' to simplify writing this code
 	def get_next(self):
-		raise ValueError("Functionality to be implemented")
+		left_hashtable = dict()
+		right_hashtable = dict()
+			
+		# Load right input tuples into right_hashtable
+		for r in self.right_child.get_next():
+			if r in right_hashtable:
+				right_hashtable[r] += 1
+			else:
+				right_hashtable[r] = 1
+			
+		# Load left input tuples into left_hashtable
+		for r in self.left_child.get_next():
+			if r in left_hashtable:
+				left_hashtable[r] += 1
+			else:
+				left_hashtable[r] = 1
+					
+		# If the length of the left_hashtable is 0 (empty relation), return None		
+		if len(left_hashtable.keys()) == 0:
+			return None
+			
+		else : 
+			for r in self.left_child.get_next():
+				if r in right_hashtable:
+					if keep_duplicates == True:
+						left_num_tuples = left_hashtable[r]
+						right_num_tuples = right_hashtable[r]
+						set_minus = left_num_tuples - right_num_tuples
+							
+						if set_minus > 0:
+							for i in range(0, set_minus):
+								yield Tuple(None, r)
+				else:
+					yield(None, r)
+				
+			
 		
 	# Typically you would close any open files etc.
 	def close(self):
