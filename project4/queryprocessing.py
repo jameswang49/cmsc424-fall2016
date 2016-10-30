@@ -174,7 +174,7 @@ class GroupByAggregate(Operator):
 				return min(current_aggregate, new_value)
 			
 		elif aggregate_function == GroupByAggregate.AVERAGE:
-			return int(new_value)
+			return new_value
 			
 		elif aggregate_function == GroupByAggregate.MEDIAN:
 			return int(new_value)
