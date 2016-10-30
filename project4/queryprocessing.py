@@ -325,8 +325,9 @@ class SortMergeJoin(Operator):
 				while ptr_r < len(right_input) and right_input[ptr_r].getAttribute(self.right_attribute) <= l_attr:
 					if right_input[ptr_r].getAttribute(self.right_attribute) == l_attr:
 						for l in set_L:
+							print l
 							output = list(l.t)
-							output.append(None)
+							output.extend(list(None))
 							yield Tuple(None, output)
 					ptr_r += 1
 
