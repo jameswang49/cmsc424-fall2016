@@ -334,6 +334,10 @@ class SortMergeJoin(Operator):
 			ptr_l = 0
 			ptr_r = 0
 			found = 0
+			
+			left_schema_len = len(self.left_child.schema)
+			right_schema_len = len(self.right_child.schema)
+			
 
 			while ptr_l < len(left_input) and ptr_r < len(right_input):
 				set_L = [left_input[ptr_l]]
@@ -358,7 +362,8 @@ class SortMergeJoin(Operator):
 					elif right_input[ptr_r].getAttribute(self.right_attribute) > l_attr and found == 0:
 						print l
 						output = list(l.t)
-						output.append(None)
+						for i in range (0, right_schema_len):
+							output.append(None)
 						yield Tuple(None, output)
 						break
 						
