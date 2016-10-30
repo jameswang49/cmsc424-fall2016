@@ -71,7 +71,7 @@ def query5():
 #query1()
 #query1a()
 #query2()
-#query3()
+query3()
 #query4()
 #query5()
 
