@@ -209,8 +209,8 @@ class GroupByAggregate(Operator):
 			largest_count = 0
 			mode_value = 0
 			for k, v in current_aggregate.iteritems():
-				if isinstance(d, dict):
-					for key, val in d.items():
+				if isinstance(current_aggregate[k], dict):
+					for key, val in current_aggregate[k].items():
 						if val > largest_count:
 							largest_count = int(val)
 							mode_value = key
