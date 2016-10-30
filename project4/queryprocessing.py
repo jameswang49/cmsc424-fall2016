@@ -185,10 +185,7 @@ class GroupByAggregate(Operator):
 				d[new_value] = 1
 				return d
 			else:
-				if new_value not in current_aggregate:
-					current_aggregate[new_value] = 1
-				else: 
-					current_aggregate[new_value] += 1
+				return 1
 		else:
 			raise ValueError("No such aggregate")
 
@@ -216,10 +213,12 @@ class GroupByAggregate(Operator):
 		elif aggregate_function == GroupByAggregate.MODE:
 			largest_count = 0
 			mode_value = 0
-			for key, val in current_aggregate.items():
-				if val > largest_count:
-					largest_count = int(val)
-					mode_value = key
+			for k, v in current_aggregate.iteritems():
+				if isinstance(d, dict):
+					for key, val in d.items():
+						if val > largest_count:
+							largest_count = int(val)
+							mode_value = key
 			return mode_value
 		else:
 			raise ValueError("No such aggregate")
@@ -265,7 +264,13 @@ class GroupByAggregate(Operator):
 					aggrs[g_attr].append(GroupByAggregate.update_aggregate(self.aggregate_function, aggrs[g_attr], t.getAttribute(self.aggregate_attribute)))		
 				
 				else:
-					aggrs[g_attr] = GroupByAggregate.update_aggregate(self.aggregate_function, aggrs[g_attr], t.getAttribute(self.aggregate_attribute))
+					if self.aggregate_function == 6:
+						if t.getAttribute(self.aggregate_attribute) not in aggrs[g_attr]:
+							aggrs[g_attr][t.getAttribute(self.aggregate_attribute)] = GroupByAggregate.update_aggregate(self.aggregate_function, aggrs[g_attr], t.getAttribute(self.aggregate_attribute))
+						else:
+							aggrs[g_attr][t.getAttribute(self.aggregate_attribute)] += GroupByAggregate.update_aggregate(self.aggregate_function, aggrs[g_attr], t.getAttribute(self.aggregate_attribute))
+					else: 
+						aggrs[g_attr] = GroupByAggregate.update_aggregate(self.aggregate_function, aggrs[g_attr], t.getAttribute(self.aggregate_attribute))
 
 			# now that the aggregate is compute, return one by one
 			for g_attr in aggrs:
