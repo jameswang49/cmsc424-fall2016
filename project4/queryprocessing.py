@@ -210,7 +210,7 @@ class GroupByAggregate(Operator):
 			sum_value = 0
 			for i in range(0, len(current_aggregate)):				
 				num_elems = num_elems + 1
-				sum_values = sum_values + int(current_aggregate[i])
+				sum_value = sum_value + int(current_aggregate[i])
 			return sum_value/num_elems
 				
 		elif aggregate_function == GroupByAggregate.MEDIAN:
