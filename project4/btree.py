@@ -207,9 +207,10 @@ class BTreeBlock(Block):
 			# it (N'.Km-1, N'.Pm) from self. Return ret_key
 			if not otherBlock.isLeaf:
 				(block1, key, block2) = otherBlock.findSiblingWithSameParent(otherBlock.parent.getBlock())
-				otherBlock.addPointer(self.keysAndPointers[len(self.keysAndPointers)-1], key)
+				otherBlock.insert(0, self.keysAndPointers[len(self.keysAndPointers)-1])
+				otherBlock.insert(1, key)
 				ret_key = self.keysAndPointers[len(self.keysAndPointers)-2]
-				self.keysAndPointers[len(self.keysAndPointers)-1].getBlock().delete(self.keysAndPointers[len(self.keysAndPointers)-2], self.keysAndPointers[len(self.keysAndPointers-1)])
+				self.keysAndPointers[len(self.keysAndPointers)-1].getBlock().delete(self.keysAndPointers[len(self.keysAndPointers)-2], self.keysAndPointers[len(self.keysAndPointers)-1])
 				return ret_key
 			
 			# Let N' be the sibling block (self). If otherBlock is a leaf, 
@@ -217,8 +218,9 @@ class BTreeBlock(Block):
 			# and add it as the first pointer and value pair in otherBlock. Delete (N'.Pm, N'.Km) from self
 			# and return (N'.Km), which is the first key in otherBlock (otherBlock.keysAndPointers[1])
 			else:
-				otherBlock.addPointer(self.keysAndPointers[len(self.keysAndPointers-3)], self.keysAndPointers[len(self.keysAndPointers-2)])
-				self.keysAndPointers[len(self.keysAndPointers)-3].getBlock().delete(self.keysAndPointers[len(self.keysAndPointers-2)], self.keysAndPointers[len(self.keysAndPointers-3)])
+				otherBlock.insert(0, self.keysAndPointers[len(self.keysAndPointers-3)])
+				otherBlock.insert(1, self.keysAndPointers[len(self.keysAndPointers-2)])
+				self.keysAndPointers[len(self.keysAndPointers)-3].getBlock().delete(self.keysAndPointers[len(self.keysAndPointers)-2], self.keysAndPointers[len(self.keysAndPointers)-3])
 				return otherBlock.keysAndPointers[1]
 			
 		# If the block on the left (self) is the underfull one	
