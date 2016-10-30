@@ -173,9 +173,8 @@ class GroupByAggregate(Operator):
 				return min(current_aggregate, new_value)
 			
 		elif aggregate_function == GroupByAggregate.AVERAGE:
-			if not new_value is None:
+			if current_aggregate is None:
 				print "Is None for some reason"
-				
 			return current_aggregate.append(new_value)
 			
 		elif aggregate_function == GroupByAggregate.MEDIAN:
