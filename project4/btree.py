@@ -243,7 +243,7 @@ class BTreeBlock(Block):
 			# take the first pointer/value pair from otherBlock (N'.Pm, N'.Km)
 			# and add it as the last pointer and value pair in self. Delete (N'.Pm, N'.Km) from otherBlock
 			# and return (N'.Km), which is the last key in self
-			if self.isLeaf:
+			else:
 				self.keysAndPointers.insert(len(self.keysAndPointers)-1, otherBlock.keysAndPointers[0])
 				self.keysAndPointers.insert(len(self.keysAndPointers)-1, otherBlock.keysAndPointers[1])
 				otherBlock.keysAndPointers[0].getBlock().delete(otherBlock.keysAndPointers[1], otherBlock.keysAndPointers[0])
