@@ -365,10 +365,11 @@ class SortMergeJoin(Operator):
 					ptr_r += 1
 					
 				if found == 0:
-					output = list(l.t)
-					for i in range (0, right_schema_len):
-						output.append(None)
-					yield Tuple(None, output)
+					for l in set_L:
+						output = list(l.t)
+						for i in range (0, right_schema_len):
+							output.append(None)
+						yield Tuple(None, output)
 					
 			'''	
 			while ptr_l2 < len(left_input) and ptr_r2 < len(right_input):
