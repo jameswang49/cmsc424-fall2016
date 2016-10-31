@@ -370,30 +370,28 @@ class SortMergeJoin(Operator):
 						for i in range (0, right_schema_len):
 							output.append(None)
 						yield Tuple(None, output)
-					
-			'''	
+						
 			while ptr_l2 < len(left_input) and ptr_r2 < len(right_input):
+				found = 0
 				set_R = [right_input[ptr_r2]]
 				r_attr = right_input[ptr_r2].getAttribute(self.right_attribute) 
 
 				ptr_r2 += 1
 
-				while ptr_l2 < len(left_input):
-					if left_input[ptr_l2].getAttribute(self.left_attribute) > r_attr and found == 0:
-						for r in set_R:
-							output = list(right_input[ptr_r2].t)
-							for i in range (0, left_schema_len):
-								output.insert(0, None)
-							yield Tuple(None, output)
-							break
-						
-					elif left_input[ptr_l2].getAttribute(self.left_attribute) == r_attr:
+				while ptr_l2 < len(left_input) and left_input[ptr_l2].getAttribute(self.left_attribute) <= r_attr:			
+					if left_input[ptr_l2].getAttribute(self.left_attribute) == r_attr:
 						found = 1
 						
 					ptr_l2 += 1
 				
-				found = 0
-			'''		
+				if found == 0:
+						for r in set_R:
+							output = list(r.t)
+							for i in range (0, left_schema_len):
+								output.insert(0, None)
+							yield Tuple(None, output)
+							break
+				
 		else:
 			raise ValueError("This should not happen")
 
