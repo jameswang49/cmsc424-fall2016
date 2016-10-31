@@ -360,6 +360,7 @@ class SortMergeJoin(Operator):
 						for l in set_L:
 							output = list(l.t)
 							output.extend(list(right_input[ptr_r].t))
+							ptr_1 +=1
 							yield Tuple(None, output)
 							
 					elif right_input[ptr_r].getAttribute(self.right_attribute) > l_attr and found == 0:
