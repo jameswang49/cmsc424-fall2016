@@ -382,7 +382,7 @@ class SortMergeJoin(Operator):
 				ptr_r2 += 1
 
 				while ptr_l2 < len(left_input):
-					if left_input[ptr_l2].getAttribute(self.left_attribute) > r_attr and found = 0:
+					if left_input[ptr_l2].getAttribute(self.left_attribute) > r_attr and found == 0:
 						for r in set_R:
 							output = list(r.t)
 							for i in range (0, left_schema_len):
