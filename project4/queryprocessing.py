@@ -343,6 +343,7 @@ class SortMergeJoin(Operator):
 			
 
 			while ptr_l < len(left_input) and ptr_r < len(right_input):
+				found = 0
 				set_L = [left_input[ptr_l]]
 				l_attr = left_input[ptr_l].getAttribute(self.left_attribute) 
 
@@ -354,27 +355,22 @@ class SortMergeJoin(Operator):
 					else:
 						break
 
-				while ptr_r < len(right_input):
+				while ptr_r < len(right_input) and right_input[ptr_r].getAttribute(self.right_attribute) <= l_attr:
 					if right_input[ptr_r].getAttribute(self.right_attribute) == l_attr:
 						found = 1
 						for l in set_L:
 							output = list(l.t)
 							output.extend(list(right_input[ptr_r].t))
-							ptr_l += 1
 							yield Tuple(None, output)
-							
-					elif right_input[ptr_r].getAttribute(self.right_attribute) > l_attr and found == 0:
-						output = list(l.t)
+					ptr_r += 1
+					
+				if found == 0:
+					output = list(l.t)
 						for i in range (0, right_schema_len):
 							output.append(None)
 						yield Tuple(None, output)
 						break
-						
-					elif right_input[ptr_r].getAttribute(self.right_attribute) > l_attr and found == 1:
-						break
-					ptr_r += 1
-				
-				found = 0
+					
 			'''	
 			while ptr_l2 < len(left_input) and ptr_r2 < len(right_input):
 				set_R = [right_input[ptr_r2]]
