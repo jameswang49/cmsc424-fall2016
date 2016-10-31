@@ -356,8 +356,8 @@ class SortMergeJoin(Operator):
 
 				while ptr_r < len(right_input):
 					if right_input[ptr_r].getAttribute(self.right_attribute) == l_attr:
+						found = 1
 						for l in set_L:
-							found = 1
 							output = list(l.t)
 							output.extend(list(right_input[ptr_r].t))
 							yield Tuple(None, output)
@@ -374,7 +374,7 @@ class SortMergeJoin(Operator):
 					ptr_r += 1
 				
 				found = 0
-				
+			'''	
 			while ptr_l2 < len(left_input) and ptr_r2 < len(right_input):
 				set_R = [right_input[ptr_r2]]
 				r_attr = right_input[ptr_r2].getAttribute(self.right_attribute) 
@@ -396,7 +396,7 @@ class SortMergeJoin(Operator):
 					ptr_l2 += 1
 				
 				found = 0
-					
+			'''		
 		else:
 			raise ValueError("This should not happen")
 
