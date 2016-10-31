@@ -439,6 +439,10 @@ class SetMinus(Operator):
 		# If the length of the left_hashtable is 0 (empty relation), return None		
 		if len(left_hashtable.items()) == 0:
 			yield (None, None)
+			
+		elif len(right_hashtable.items()) == 0:
+			for r in self.left_child.get_next():
+				yield(None, r.t)
 		
 		# Otherwise iterate through each key in the left_hashtable. If the key is found in the right_hashtable
 		# and keep_duplicates is set to True, subtract the value at right_hashtable[key] (key = tuple) from the value
