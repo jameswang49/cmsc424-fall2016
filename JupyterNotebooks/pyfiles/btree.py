@@ -454,6 +454,7 @@ class DisplayBTree:
 			h += rects[k].html() + '\n'
 			if not rects[k].btreenode.isLeaf:
 				for (index, blockNo) in rects[k].getPointedBlocks():
+					print "index = {}, blockNo = {}".format(index, blockNo)
 					(x, y, z) = rects[k].getKthPointer(index)
 					if blockNo in rects:
 						(dest_x, dest_y) = rects[blockNo].getCenter()
