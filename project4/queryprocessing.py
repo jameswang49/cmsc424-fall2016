@@ -333,10 +333,13 @@ class SortMergeJoin(Operator):
 		elif self.jointype == self.FULL_OUTER_JOIN:
 			ptr_l = 0
 			ptr_r = 0
+			
+			ptr_l2 = 0
+			ptr_r2 = 0
 			found = 0
 			
-			left_schema_len = len(self.left_child.schema)
-			right_schema_len = len(self.right_child.schema)
+			left_schema_len = len(self.left_child.relation.schema)
+			right_schema_len = len(self.right_child.relation.schema)
 			
 
 			while ptr_l < len(left_input) and ptr_r < len(right_input):
@@ -360,7 +363,6 @@ class SortMergeJoin(Operator):
 							yield Tuple(None, output)
 							
 					elif right_input[ptr_r].getAttribute(self.right_attribute) > l_attr and found == 0:
-						print l
 						output = list(l.t)
 						for i in range (0, right_schema_len):
 							output.append(None)
@@ -372,6 +374,28 @@ class SortMergeJoin(Operator):
 					ptr_r += 1
 				
 				found = 0
+				
+			while ptr_l2 < len(left_input) and ptr_r2 < len(right_input):
+				set_R = [right_input[ptr_r2]]
+				r_attr = right_input[ptr_r2].getAttribute(self.right_attribute) 
+
+				ptr_r2 += 1
+
+				while ptr_l2 < len(left_input):
+					if left_input[ptr_l2].getAttribute(self.left_attribute) > r_attr and found = 0:
+						for r in set_R:
+							output = list(r.t)
+							for i in range (0, left_schema_len):
+								output.insert(0, None)
+							yield Tuple(None, output)
+							break
+					elif left_input[ptr_l2].getAttribute(self.left_attribute) == r_attr:
+						found = 1
+						
+					ptr_l2 += 1
+				
+				found = 0
+					
 		else:
 			raise ValueError("This should not happen")
 
