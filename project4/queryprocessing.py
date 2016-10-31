@@ -341,56 +341,70 @@ class SortMergeJoin(Operator):
 			left_schema_len = len(self.left_child.relation.schema)
 			right_schema_len = len(self.right_child.relation.schema)
 			
+			if len(left_input) == 0 and len(right_input) > 0:
+				for i in range (0, len(right_input)):
+					output = list(right_input[i].t)
+					for i in range (0, left_schema_len):
+						output.insert(0, None)
+					yield Tuple(None, output)
+						
+			elif len(right_input) == 0 and len(left_input) > 0:
+				for i in range (0, len(left_input)):
+					output = list(left_input[i].t)
+					for i in range (0, right_schema_len):
+						output.append(None)
+					yield Tuple(None, output)
+			
 
-			while ptr_l < len(left_input) and ptr_r < len(right_input):
-				found = 0
-				set_L = [left_input[ptr_l]]
-				l_attr = left_input[ptr_l].getAttribute(self.left_attribute) 
+			else:
+				while ptr_l < len(left_input) and ptr_r < len(right_input):
+					found = 0
+					set_L = [left_input[ptr_l]]
+					l_attr = left_input[ptr_l].getAttribute(self.left_attribute) 
 
-				ptr_l += 1
-				while ptr_l < len(left_input):
-					if left_input[ptr_l].getAttribute(self.left_attribute) == l_attr:
-						set_L.append(left_input[ptr_l])
-						ptr_l += 1
-					else:
-						break
+					ptr_l += 1
+					while ptr_l < len(left_input):
+						if left_input[ptr_l].getAttribute(self.left_attribute) == l_attr:
+							set_L.append(left_input[ptr_l])
+							ptr_l += 1
+						else:
+							break
 
-				while ptr_r < len(right_input) and right_input[ptr_r].getAttribute(self.right_attribute) <= l_attr:
-					if right_input[ptr_r].getAttribute(self.right_attribute) == l_attr:
-						found = 1
+					while ptr_r < len(right_input) and right_input[ptr_r].getAttribute(self.right_attribute) <= l_attr:
+						if right_input[ptr_r].getAttribute(self.right_attribute) == l_attr:
+							found = 1
+							for l in set_L:
+								output = list(l.t)
+								output.extend(list(right_input[ptr_r].t))
+								yield Tuple(None, output)
+						ptr_r += 1
+					
+					if found == 0:
 						for l in set_L:
 							output = list(l.t)
-							output.extend(list(right_input[ptr_r].t))
+							for i in range (0, right_schema_len):
+								output.append(None)
 							yield Tuple(None, output)
-					ptr_r += 1
-					
-				if found == 0:
-					for l in set_L:
-						output = list(l.t)
-						for i in range (0, right_schema_len):
-							output.append(None)
-						yield Tuple(None, output)
 						
-			while ptr_l2 < len(left_input) and ptr_r2 < len(right_input):
-				found = 0
-				set_R = [right_input[ptr_r2]]
-				r_attr = right_input[ptr_r2].getAttribute(self.right_attribute) 
+				while ptr_l2 < len(left_input) and ptr_r2 < len(right_input):
+					found = 0
+					set_R = [right_input[ptr_r2]]
+					r_attr = right_input[ptr_r2].getAttribute(self.right_attribute) 
 
-				ptr_r2 += 1
+					ptr_r2 += 1
 
-				while ptr_l2 < len(left_input) and left_input[ptr_l2].getAttribute(self.left_attribute) <= r_attr:			
-					if left_input[ptr_l2].getAttribute(self.left_attribute) == r_attr:
-						found = 1
+					while ptr_l2 < len(left_input) and left_input[ptr_l2].getAttribute(self.left_attribute) <= r_attr:			
+						if left_input[ptr_l2].getAttribute(self.left_attribute) == r_attr:
+							found = 1
 						
-					ptr_l2 += 1
+						ptr_l2 += 1
 				
-				if found == 0:
-						for r in set_R:
-							output = list(r.t)
-							for i in range (0, left_schema_len):
-								output.insert(0, None)
-							yield Tuple(None, output)
-							break
+					if found == 0:
+							for r in set_R:
+								output = list(r.t)
+								for i in range (0, left_schema_len):
+									output.insert(0, None)
+								yield Tuple(None, output)
 				
 		else:
 			raise ValueError("This should not happen")
