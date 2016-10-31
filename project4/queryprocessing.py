@@ -366,7 +366,7 @@ class SortMergeJoin(Operator):
 						output = list(l.t)
 						for i in range (0, right_schema_len):
 							output.append(None)
-							yield Tuple(None, output)
+						yield Tuple(None, output)
 						break
 						
 					elif right_input[ptr_r].getAttribute(self.right_attribute) > l_attr and found == 1:
