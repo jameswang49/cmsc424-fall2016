@@ -10,7 +10,7 @@ def setDefaultAnswer(rdd):
 
 def task1(playRDD):
 	
-	new_RDD = playRDD.map(lambda line: (line.split(" ")[0], (line, len(line)))).filter(lambda (x, (y,z)): (x, (y,z)) if z > 10 )
+	new_RDD = playRDD.map(lambda line: (line.split(" ")[0], (line, len(line)))).filter(lambda (x, (y,z)): (x, (y,z)) if (z > 10))
         return new_RDD
 
 def task2_flatmap(x):
