@@ -13,7 +13,11 @@ def task1(playRDD):
         return new_RDD
 
 def task2_flatmap(x):
-	return x['laureates']['surname']        
+	dict_list = x['laureates']
+	new_list = []
+	for i in range(0, len(dict_list)):
+		new_list.append(dict_list[i]['surname'])
+	return new_list
 
 def task3(nobelRDD):
         return dummyrdd
