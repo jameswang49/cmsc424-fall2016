@@ -9,11 +9,12 @@ def setDefaultAnswer(rdd):
 	dummyrdd = rdd
 
 def task1(playRDD):
-        return dummyrdd
+	
+	new_RDD = playRDD.map(lambda line: (line.split(" ")[0], (line, len(line)))).filter(lambda (x, (y,z)): if z > 10 (x, (y,z)))
+        return new_RDD
 
 def task2_flatmap(x):
-        return []
-        
+        return []        
 
 def task3(nobelRDD):
         return dummyrdd
