@@ -38,7 +38,8 @@ def task4_helper(line):
 	return (l[0], new_date)
 
 def task4(logsRDD, l):
-        new_RDD = logsRDD.map(lambda line: line.split(" "))
+        RDD = logsRDD.map(task4_helper).groupByKey().mapValues(list)
+	new_RDD = RDD.map(lambda (a,b): (a, list(set(b))))
 
 def task5(bipartiteGraphRDD):
         return dummyrdd
