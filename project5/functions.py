@@ -80,6 +80,9 @@ def task7_helper(x):
 				new_list.append((motiv_word_list[j], motiv_word_list[k]))
 				j = j + 1
 				k = k + 1
+	j = 0
+	k = 1
+	
 	return new_list
 
 def task7(nobelRDD):
