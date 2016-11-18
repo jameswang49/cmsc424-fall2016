@@ -38,8 +38,10 @@ def task4_helper(line):
 	return (l[0], new_date)
 
 def task4(logsRDD, l):
+	set_l = set(l)
         RDD = logsRDD.map(task4_helper).groupByKey().mapValues(list)
-	new_RDD = RDD.map(lambda (a,b): (a, list(set(b))))
+	new_RDD = RDD.map(lambda (a,b): (a, set(b)))
+	final_RDD = new_RDD.map(lambda (a,b): a if (set_l == set(b)))
 
 def task5(bipartiteGraphRDD):
         return dummyrdd
