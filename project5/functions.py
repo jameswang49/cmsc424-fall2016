@@ -19,7 +19,7 @@ def task2_flatmap(x):
 		new_list.append(dict_list[i]['surname'])
 	return new_list
 
-def ret_category_and_surnames(x):
+def task3_helper(x):
 	dict_list = x['laureates']
 	new_list = []
 	for i in range(0, len(dict_list)):
@@ -27,7 +27,7 @@ def ret_category_and_surnames(x):
 	return new_list
 
 def task3(nobelRDD):
-	result1 = nobelRDD.map(json.loads).flatMap(ret_category_and_surnames)
+	result1 = nobelRDD.map(json.loads).flatMap(task3_helper)
 	result2 = result1.groupByKey().mapValues(list)
 	return result2
 
@@ -67,8 +67,23 @@ def task6(logsRDD, day1, day2):
 	RDD5 = RDD4.filter(lambda (a, (b,c)): (a, (b,c)) if (b and c) else None)
 	return RDD5
 
+def task7_helper(x):
+	dict_list = x['laureates']
+	new_list = []
+	j = 0
+	k = 1
+	for i in range(0, len(dict_list)):
+		key = "motivation"
+		if key in dict_list[i]:
+			motiv_word_list = dict_list[i]['motivation'].split(" ")
+			while k < len(motiv_word_list):
+				new_list.append((motiv_word_list[j], motiv_word_list[k]))
+				j++
+				k++
+	return new_list
+
 def task7(nobelRDD):
-        return dummyrdd
+        result1 = nobelRDD.map(json.loads).flatMap(task7_helper)
 
 def task8(bipartiteGraphRDD, currentMatching):
         return dummyrdd
