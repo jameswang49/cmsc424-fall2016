@@ -78,12 +78,15 @@ def task7_helper(x):
 			motiv_word_list = dict_list[i]['motivation'].split(" ")
 			while k < len(motiv_word_list):
 				new_list.append((motiv_word_list[j], motiv_word_list[k]))
-				j++
-				k++
+				j = j + 1
+				k = k + 1
 	return new_list
 
 def task7(nobelRDD):
         result1 = nobelRDD.map(json.loads).flatMap(task7_helper)
+	result2 = result1.map(lambda (a, b): ((a, b), 1))
+	result3 = result2.reduceByKey(lambda v1, v2: v1 + v2)
+	return result3
 
 def task8(bipartiteGraphRDD, currentMatching):
         return dummyrdd
