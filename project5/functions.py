@@ -45,8 +45,12 @@ def task4(logsRDD, l):
 	return final_RDD
 
 def task5(bipartiteGraphRDD):
-        return dummyrdd
-
+        RDD = bipartiteGraphRDD.groupByKey().mapValues(list)
+	RDD1 = RDD.map(lambda (a,b): len(b))
+	RDD2 = RDD1.map(lambda x: (x, 1))
+	RDD3 = RDD2.reduceByKey(lambda v1, v2: v1 + v2)
+	return RDD3
+	
 def task6(logsRDD, day1, day2):
         return dummyrdd
 
