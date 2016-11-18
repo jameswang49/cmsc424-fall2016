@@ -19,8 +19,17 @@ def task2_flatmap(x):
 		new_list.append(dict_list[i]['surname'])
 	return new_list
 
+def ret_category_and_surnames(x):
+	dict_list = x['laureates']
+	new_list = []
+	for i in range(0, len(dict_list)):
+		 new_list.append((x['category'], dict_list[i]['surname']))
+	return new_list
+
 def task3(nobelRDD):
-        return dummyrdd
+	result1 = nobelRDD.map(json.loads).flatMap(ret_category_and_surnames)
+	result2 = result1.groupByKey().mapValues(list)
+	return result2
 
 def task4(logsRDD, l):
         return dummyrdd
