@@ -31,8 +31,14 @@ def task3(nobelRDD):
 	result2 = result1.groupByKey().mapValues(list)
 	return result2
 
+def task4_helper(line):
+	l = line.split(" ")
+	date = l[3].split(':')
+	new_date = date[0].replace("[", "")
+	return (l[0], new_date)
+
 def task4(logsRDD, l):
-        return dummyrdd
+        new_RDD = logsRDD.map(lambda line: line.split(" "))
 
 def task5(bipartiteGraphRDD):
         return dummyrdd
