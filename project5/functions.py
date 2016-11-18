@@ -51,9 +51,21 @@ def task5(bipartiteGraphRDD):
 	RDD3 = RDD2.reduceByKey(lambda v1, v2: v1 + v2)
 	return RDD3
 	
+def task6_helper(line):
+	l = line.split(" ")
+	return (l[0], l[6])
+	
 def task6(logsRDD, day1, day2):
-        return dummyrdd
-
+        RDD1 = logsRDD.filter(lambda line: day1 in line)
+	RDD2 = logsRDD.filter(lambda line: day2 in line)
+	
+	new_RDD1 = RDD1.map(task6_helper)
+	new_RDD2 = RDD2.map(task6_helper)
+	
+	RDD3 = new_RDD1.cogroup(new_RDD2)
+	RDD4 = RDD3.map(lambda (a, (b,c)): (a, (list(b), list(c))))
+	RDD5 = RDD4.filter(lambda (a, (b,c)): (a, (b,c)) if (b and c) else None)
+	return RDD5
 
 def task7(nobelRDD):
         return dummyrdd
