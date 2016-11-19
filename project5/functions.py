@@ -97,7 +97,8 @@ def task8_helper(RDD, tuple):
 
 def task8(bipartiteGraphRDD, currentMatching):
 	# Initialize a temp RDD
-	tempRDD = currentMatching
+	tempRDD = bipartiteGraphRDD
+	new_RDD = currentMatching
 	
 	for i in range(1, 292):
 		# Find users unmatched in currentMatching
@@ -117,20 +118,24 @@ def task8(bipartiteGraphRDD, currentMatching):
 				for (p,u) in product_user_RDD.collect():
 					match_list = flipped_graph.lookup(p)
 					
-					# If there's a matching product in currentMatching, filter tuple out of product_user_RDD
+					# If there's a matching product in currentMatching, filter tuple out of bipartiteGraphRDD
 					if match_list:
 						for j in range (0, len(match_list)):
-							tempRDD = product_user_RDD.filter(lambda (user,product): product != p)
+							tempRDD = bipartiteGraphRDD.filter(lambda (user,product): product != p and user != u)
 							
 				# Of the user-products in the unmatched RDD (temp), find the one with the minimum product
 				# ie, the string value is the least of all the other string values. DON'T FORGET TO REORDER
 				# RDD TO BE (USER, PRODUCT)!
 				tempRDD2 = tempRDD.map(lambda (product,user): (user,product))
-				new_product_user_RDD = tempRDD2.reduceByKey(lambda v1, v2: v1 if (v1 < v2) else v2)
+				new_RDD = tempRDD2.reduceByKey(lambda v1, v2: v1 if (v1 < v2) else v2)
 				
-			# But if currentMatching is empty, then there are no matching products in it
+			# But if currentMatching is empty, then there are no matching products in it and we can skip to the last step
 			else:
-				new_product_user_RDD = user_product_RDD.reduceBYKey(lambda v1, v2: v1 if (v1 < v2) else v2)
-				
-				
+				new_RDD = user_product_RDD.reduceByKey(lambda v1, v2: v1 if (v1 < v2) else v2)
+		
+		# If the user has a match in currentMatching, filter out all of those users from the graph
+		else: 
+			new_RDD = bipartiteGraphRDD.filter(lambda (user,product): user != current_user)
+	
+	return new_RDD
 				
