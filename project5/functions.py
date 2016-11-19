@@ -91,10 +91,6 @@ def task7(nobelRDD):
 	result3 = result2.reduceByKey(lambda v1, v2: v1 + v2)
 	return result3
 
-def task8_helper(RDD, tuple):
-	
-	
-
 def task8(bipartiteGraphRDD, currentMatching):
 	# Initialize a temp RDD
 	tempRDD = bipartiteGraphRDD
