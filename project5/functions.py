@@ -106,9 +106,9 @@ def task8(bipartiteGraphRDD, currentMatching):
 		
 		# If the user is not in currentMatching, find the products connected to that user.....
 		if not user_list:
-			user_product_RDD = bipartiteGraphRDD.filter(lambda (x,y): x == current_user)
+			user_product_RDD = bipartiteGraphRDD.filter(lambda (user,product): user == current_user)
 			# Make the product the key and the user the value....
-			product_user_RDD = user_product_RDD.map(lambda (x,y): (y,x))
+			product_user_RDD = user_product_RDD.map(lambda (user,product): (product,user))
 			
 			# Then find those products unmatched in currentMatching (if currentMatching is not empty)
 			if not currentMatching.isEmpty():
@@ -123,9 +123,14 @@ def task8(bipartiteGraphRDD, currentMatching):
 							tempRDD = product_user_RDD.filter(lambda (user,product): product != p)
 							
 				# Of the user-products in the unmatched RDD (temp), find the one with the minimum product
-				# ie, the string value is the least of all the other string values
-				new_product_user_RDD = tempRDD.reduceByKey(lambda v1, v2: v1 if (v1 < v2) else v2)
-						
+				# ie, the string value is the least of all the other string values. DON'T FORGET TO REORDER
+				# RDD TO BE (USER, PRODUCT)!
+				tempRDD2 = tempRDD.map(lambda (product,user): (user,product))
+				new_product_user_RDD = tempRDD2.reduceByKey(lambda v1, v2: v1 if (v1 < v2) else v2)
+				
+			# But if currentMatching is empty, then there are no matching products in it
+			else:
+				new_product_user_RDD = user_product_RDD.reduceBYKey(lambda v1, v2: v1 if (v1 < v2) else v2)
 				
 				
 				
