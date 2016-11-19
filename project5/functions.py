@@ -92,4 +92,15 @@ def task7(nobelRDD):
 	return result3
 
 def task8(bipartiteGraphRDD, currentMatching):
-        return dummyrdd
+	i = 1
+        current_user = "user%s" % (i)
+	flipped_graph = bipartiteGraphRDD.map(lambda (x,y): (y,x))
+	
+	for i in range(1, 292):
+		current_user = "user%s" % (i)
+		user_list = currentMatching.lookup(current_user)
+		
+		if not user_list:
+			user_product_RDD = bipartiteGraphRDD.filter(lambda (x,y): x == current_user)
+	
+	
