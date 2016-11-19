@@ -105,17 +105,19 @@ def task8(bipartiteGraphRDD, currentMatching):
 		# If the user is not in currentMatching, find the products connected to that user.....
 		if not user_list:
 			user_product_RDD = bipartiteGraphRDD.filter(lambda (x,y): x == current_user)
-			# Make the product the key and the user the value, then find the products unmatched in currentMatching
+			# Make the product the key and the user the value....
 			product_user_RDD = user_product_RDD.map(lambda (x,y): (y,x))
 			
-			if not RDD.isEmpty():
+			# Then find those products unmatched in currentMatching
+			if not currentMatching.isEmpty():
 				flipped_graph_list = currentMatching.map(lambda (x,y): (y,x))
 				
 				for (x,y) in product_user_RDD.collect():
 					match_list = flipped_graph_list.lookup(x)
 					
 					# If there's no matching products in currentMatching
-					if not match_list
+					if not match_list:
+						
 				
 				
 				
