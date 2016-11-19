@@ -91,16 +91,31 @@ def task7(nobelRDD):
 	result3 = result2.reduceByKey(lambda v1, v2: v1 + v2)
 	return result3
 
+def task8_helper(RDD, tuple):
+	
+	
+
 def task8(bipartiteGraphRDD, currentMatching):
-	i = 1
-        current_user = "user%s" % (i)
-	flipped_graph = bipartiteGraphRDD.map(lambda (x,y): (y,x))
 	
 	for i in range(1, 292):
+		# Find users unmatched in currentMatching
 		current_user = "user%s" % (i)
 		user_list = currentMatching.lookup(current_user)
 		
+		# If the user is not in currentMatching, find the products connected to that user.....
 		if not user_list:
 			user_product_RDD = bipartiteGraphRDD.filter(lambda (x,y): x == current_user)
-	
-	
+			# Make the product the key and the user the value, then find the products unmatched in currentMatching
+			product_user_RDD = user_product_RDD.map(lambda (x,y): (y,x))
+			
+			if not RDD.isEmpty():
+				flipped_graph_list = currentMatching.map(lambda (x,y): (y,x))
+				
+				for (x,y) in product_user_RDD.collect():
+					match_list = flipped_graph_list.lookup(x)
+					
+					# If there's no matching products in currentMatching
+					if not match_list
+				
+				
+				
