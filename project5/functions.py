@@ -121,6 +121,10 @@ def task8(bipartiteGraphRDD, currentMatching):
 					if match_list:
 						for j in range (0, len(match_list)):
 							tempRDD = product_user_RDD.filter(lambda (user,product): product != p)
+							
+				# Of the user-products in the unmatched RDD (temp), find the one with the minimum product
+				# ie, the string value is the least of all the other string values
+				new_product_user_RDD = tempRDD.reduceByKey(lambda v1, v2: v1 if (v1 < v2) else v2)
 						
 				
 				
