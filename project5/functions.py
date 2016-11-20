@@ -93,12 +93,13 @@ def task7(nobelRDD):
 
 def task8(bipartiteGraphRDD, currentMatching):
 	# Initialize a temp RDD
-	tempRDD = bipartiteGraphRDD
+	temp_RDD = bipartiteGraphRDD
 	new_RDD = currentMatching
+	first_iteration = 0
 	
 	for i in range(1, 292):
 		# Find users unmatched in currentMatching
-		current_user = "user%s" % (i)
+		current_user = "user%d" % (i)
 		user_list = currentMatching.lookup(current_user)
 		
 		# If the user is not in currentMatching, find the products connected to that user.....
@@ -109,7 +110,7 @@ def task8(bipartiteGraphRDD, currentMatching):
 			
 			# Then find those products unmatched in currentMatching (if currentMatching is not empty)
 			if not currentMatching.isEmpty():
-				flipped_graph = currentMatching.map(lambda (x,y): (y,x))  # change ordering to (product, user)
+				flipped_graph = currentMatching.map(lambda (user,product): (product,user))  # change ordering to (product, user)
 				
 				for (p,u) in product_user_RDD.collect():
 					match_list = flipped_graph.lookup(p)
@@ -117,13 +118,15 @@ def task8(bipartiteGraphRDD, currentMatching):
 					# If there's a matching product in currentMatching, filter tuple out of bipartiteGraphRDD
 					if match_list:
 						for j in range (0, len(match_list)):
-							tempRDD = bipartiteGraphRDD.filter(lambda (user,product): product != p and user != u)
+							if (first_iteration == 0):
+								temp_RDD = bipartiteGraphRDD.filter(lambda (user,product): product != p and user != u)
+								first_iteration = 1
+							else:
+								temp_RDD = temp_RDD.filter(lambda (user,product): product != p and user != u)
 							
 				# Of the user-products in the unmatched RDD (temp), find the one with the minimum product
-				# ie, the string value is the least of all the other string values. DON'T FORGET TO REORDER
-				# RDD TO BE (USER, PRODUCT)!
-				tempRDD2 = tempRDD.map(lambda (product,user): (user,product))
-				new_RDD = tempRDD2.reduceByKey(lambda v1, v2: v1 if (v1 < v2) else v2)
+				# ie, the string value is the least of all the other string values. 
+				new_RDD = temp_RDD.reduceByKey(lambda v1, v2: v1 if (v1 < v2) else v2)
 				
 			# But if currentMatching is empty, then there are no matching products in it and we can skip to the last step
 			else:
