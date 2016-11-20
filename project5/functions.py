@@ -2,6 +2,8 @@ import json
 import re
 from pyspark import SparkContext
 
+sc = SparkContext("local", "Simple App")
+
 # A hack to avoid having to pass 'sc' around
 dummyrdd = None
 def setDefaultAnswer(rdd): 
