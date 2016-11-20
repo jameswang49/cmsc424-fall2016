@@ -93,51 +93,20 @@ def task7(nobelRDD):
 	return result3
 
 def task8(bipartiteGraphRDD, currentMatching):
-	# Initialize an RDDs
-	temp_RDD = dummyrdd
-	new_RDD = dummyrdd
-	first_iteration = 0
-	
-	for i in range(1, 292):
-		# Find users unmatched in currentMatching
-		current_user = "user%d" % (i)
-		user_list = currentMatching.lookup(current_user)
-		
-		# If the user is not in currentMatching, find the products connected to that user.....
-		if not user_list:
-			user_product_RDD = bipartiteGraphRDD.filter(lambda (user,product): user == current_user)
-			# Make the product the key and the user the value....
-			product_user_RDD = user_product_RDD.map(lambda (user,product): (product,user))
-			
-			# Then find those products unmatched in currentMatching (if currentMatching is not empty)
-			if not currentMatching.isEmpty():
-				flipped_graph = currentMatching.map(lambda (user,product): (product,user))  # change ordering to (product, user)
-				
-				new_product_user_RDD = product_user_RDD.subtractByKey(flipped_graph)
-				
-				new_user_product_RDD = new_product_user_RDD.map(lambda (product,user): (user,product))
-							
-				# Of the user-products in the unmatched RDD (temp), find the one with the minimum product
-				# ie, the string value is the least of all the other string values. 
-				temp_RDD = new_user_product_RDD.reduceByKey(lambda v1, v2: min(v1,v2))
-				
-				if (first_iteration == 0):
-					new_RDD = temp_RDD
-					first_iteration = 1
-				else:
-					new_RDD = new_RDD.union(temp_RDD)
 
-				
-			# But if currentMatching is empty, then there are no matching products in it and we can skip to the last step
-			else:
-				temp_RDD = user_product_RDD.reduceByKey(lambda v1, v2: min(v1,v2))
-				
-				if (first_iteration == 0):
-					new_RDD = temp_RDD
-					first_iteration = 1
-				else:
-					new_RDD = new_RDD.union(temp_RDD)
-				
+	user_product_RDD = bipartiteGraphRDD.subtractByKey(currentMatching)
+	product_user_RDD = user_product_RDD.map(lambda (user,product): (product,user))
+
+	flipped_graph = currentMatching.map(lambda (user,product): (product,user))
 	
-	return new_RDD
+	new_product_user_RDD = product_user_RDD.subtractByKey(flipped_graph)
+	new_user_product_RDD = new_product_user_RDD.map(lambda (product,user): (user,product))
+
+	temp_user_RDD = new_user_product_RDD.reduceByKey(lambda v1, v2: min(v1,v2))
+	temp_product_RDD = temp_user_RDD.map(lambda (user,product): (product,user))
+	temp_product_RDD2 = temp_product_RDD.reduceByKey(lambda v1,v2: min(v1,v2))
+	
+	final_RDD = temp_product_RDD2.map(lambda (product,user): (user,product))
+	
+	return final_RDD
 				
