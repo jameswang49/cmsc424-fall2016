@@ -94,7 +94,9 @@ def task7(nobelRDD):
 
 def task8(bipartiteGraphRDD, currentMatching):
 	# Initialize an RDDs
+	temp_RDD = dummyrdd
 	new_RDD = dummyrdd
+	first_iteration = 0
 	
 	for i in range(1, 292):
 		# Find users unmatched in currentMatching
@@ -119,12 +121,24 @@ def task8(bipartiteGraphRDD, currentMatching):
 							
 				# Of the user-products in the unmatched RDD (temp), find the one with the minimum product
 				# ie, the string value is the least of all the other string values. 
-				new_RDD = new_user_product_RDD.reduceByKey(lambda v1, v2: min(v1,v2))
+				temp_RDD = new_user_product_RDD.reduceByKey(lambda v1, v2: min(v1,v2))
+				
+				if (first_iteration == 0):
+					new_RDD = temp_RDD
+					first_iteration = 1
+				else:
+					new_RDD = new_RDD.union(temp_RDD)
 
 				
 			# But if currentMatching is empty, then there are no matching products in it and we can skip to the last step
 			else:
-				new_RDD = user_product_RDD.reduceByKey(lambda v1, v2: min(v1,v2))
+				temp_RDD = user_product_RDD.reduceByKey(lambda v1, v2: min(v1,v2))
+				
+				if (first_iteration == 0):
+					new_RDD = temp_RDD
+					first_iteration = 1
+				else:
+					new_RDD = new_RDD.union(temp_RDD)
 				
 	
 	return new_RDD
