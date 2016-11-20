@@ -94,18 +94,26 @@ def task7(nobelRDD):
 
 def task8(bipartiteGraphRDD, currentMatching):
 
+	# Find unmatched users (users not in currentMatching)
 	user_product_RDD = bipartiteGraphRDD.subtractByKey(currentMatching)
+	# Turn above RDD from (user,product) to (product,user)
 	product_user_RDD = user_product_RDD.map(lambda (user,product): (product,user))
 
+	# Turn currentMatching from (user,product) to (product,user)
 	flipped_graph = currentMatching.map(lambda (user,product): (product,user))
 	
+	# Find the products in product_user_RDD not matched in flipped_graph ((product,user) version of currentMatching)
 	new_product_user_RDD = product_user_RDD.subtractByKey(flipped_graph)
+	# Flip above RDD back to original ordering (ie (user,product))
 	new_user_product_RDD = new_product_user_RDD.map(lambda (product,user): (user,product))
 
+	# For each user, take the minimun product (according to string alphabetical ordering)
 	temp_user_RDD = new_user_product_RDD.reduceByKey(lambda v1, v2: min(v1,v2))
+	# Flip above RDD around and find the minimum user for each product
 	temp_product_RDD = temp_user_RDD.map(lambda (user,product): (product,user))
 	temp_product_RDD2 = temp_product_RDD.reduceByKey(lambda v1,v2: min(v1,v2))
 	
+	# Flip back around to original ordering ((user,product)) and return final_RDD
 	final_RDD = temp_product_RDD2.map(lambda (product,user): (user,product))
 	
 	return final_RDD
