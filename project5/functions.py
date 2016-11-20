@@ -2,7 +2,6 @@ import json
 import re
 from pyspark import SparkContext
 
-sc = SparkContext("local", "Simple App")
 
 # A hack to avoid having to pass 'sc' around
 dummyrdd = None
@@ -95,8 +94,9 @@ def task7(nobelRDD):
 
 def task8(bipartiteGraphRDD, currentMatching):
 	# Initialize two RDDs
-	temp_RDD = sc.parallelize([])
-	new_RDD = sc.parallelize([])
+	temp_RDD = dummyrdd
+	new_RDD = dummyrdd
+	not_yet_set = 0
 	
 	for i in range(1, 292):
 		# Find users unmatched in currentMatching
@@ -125,14 +125,24 @@ def task8(bipartiteGraphRDD, currentMatching):
 				# Of the user-products in the unmatched RDD (temp), find the one with the minimum product
 				# ie, the string value is the least of all the other string values. 
 				temp_RDD = user_product_RDD.reduceByKey(lambda v1, v2: min(v1,v2))
-				new_RDD = new_RDD.union(temp_RDD)
-				print new_RDD.collects()
+				
+				if (not_yet_set == 0):
+					new_RDD = temp_RDD
+					not_yet_set = 1
+					
+				else: 
+					new_RDD = new_RDD.union(temp_RDD)
 				
 			# But if currentMatching is empty, then there are no matching products in it and we can skip to the last step
 			else:
 				temp_RDD = user_product_RDD.reduceByKey(lambda v1, v2: min(v1,v2))
-				new_RDD = new_RDD.union(temp_RDD)
-				print new_RDD.collects()
+				
+				if (not_yet_set == 0):
+					new_RDD = temp_RDD
+					not_yet_set = 1
+					
+				else: 
+					new_RDD = new_RDD.union(temp_RDD)
 	
 	return new_RDD
 				
