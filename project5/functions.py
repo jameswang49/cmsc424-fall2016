@@ -93,10 +93,8 @@ def task7(nobelRDD):
 	return result3
 
 def task8(bipartiteGraphRDD, currentMatching):
-	# Initialize two RDDs
-	temp_RDD = dummyrdd
+	# Initialize an RDDs
 	new_RDD = dummyrdd
-	not_yet_set = 0
 	
 	for i in range(1, 292):
 		# Find users unmatched in currentMatching
@@ -115,34 +113,19 @@ def task8(bipartiteGraphRDD, currentMatching):
 			if not currentMatching.isEmpty():
 				flipped_graph = currentMatching.map(lambda (user,product): (product,user))  # change ordering to (product, user)
 				
-				for (p,u) in product_user_RDD_list:
-					match_list = flipped_graph.lookup(p)
-					
-					# If there's a matching product in currentMatching, filter tuple out of bipartiteGraphRDD
-					if match_list:
-						user_product_RDD = user_product_RDD.filter(lambda (user,product): product != p)
+				new_product_user_RDD = product_user_RDD.subtractByKey(flipped_graph)
+				
+				new_user_product_RDD = new_product_user_RDD.map(lambda (product,user): (user,product))
 							
 				# Of the user-products in the unmatched RDD (temp), find the one with the minimum product
 				# ie, the string value is the least of all the other string values. 
-				temp_RDD = user_product_RDD.reduceByKey(lambda v1, v2: min(v1,v2))
-				
-				if (not_yet_set == 0):
-					new_RDD = temp_RDD
-					not_yet_set = 1
-					
-				else: 
-					new_RDD = new_RDD.union(temp_RDD)
+				new_RDD = new_user_product_RDD.reduceByKey(lambda v1, v2: min(v1,v2))
+
 				
 			# But if currentMatching is empty, then there are no matching products in it and we can skip to the last step
 			else:
-				temp_RDD = user_product_RDD.reduceByKey(lambda v1, v2: min(v1,v2))
+				new_RDD = user_product_RDD.reduceByKey(lambda v1, v2: min(v1,v2))
 				
-				if (not_yet_set == 0):
-					new_RDD = temp_RDD
-					not_yet_set = 1
-					
-				else: 
-					new_RDD = new_RDD.union(temp_RDD)
 	
 	return new_RDD
 				
