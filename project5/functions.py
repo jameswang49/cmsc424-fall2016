@@ -107,12 +107,14 @@ def task8(bipartiteGraphRDD, currentMatching):
 			user_product_RDD = bipartiteGraphRDD.filter(lambda (user,product): user == current_user)
 			# Make the product the key and the user the value....
 			product_user_RDD = user_product_RDD.map(lambda (user,product): (product,user))
+			# Make a list of the above RDD
+			product_user_RDD_list = product_user_RDD.collect()
 			
 			# Then find those products unmatched in currentMatching (if currentMatching is not empty)
 			if not currentMatching.isEmpty():
 				flipped_graph = currentMatching.map(lambda (user,product): (product,user))  # change ordering to (product, user)
 				
-				for (p,u) in product_user_RDD.collect():
+				for (p,u) in product_user_RDD_list:
 					match_list = flipped_graph.lookup(p)
 					
 					# If there's a matching product in currentMatching, filter tuple out of bipartiteGraphRDD
