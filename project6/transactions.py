@@ -286,7 +286,10 @@ class TransactionState:
 		return [relation.fileName, LockTable.S] in self.locks or self.getLock(relation.fileName, LockTable.S)
 
 	def getXLockTuple(self, relation, primary_id):
-		return [relation.fileName, LockTable.X] in self.locks or self.getLock(relation.fileName, LockTable.X)
+		if [relation.fileName, LockTable.IX] not in self.locks and [relation.fileName, LockTable.X] not in self.locks:
+			return self.getLock(relation.fileName, LockTable.IX) and self.getLock(primary_id, LockTable.X)
+		else:
+			return self.getLock(primary_id, LockTable.X)
 
 	def getSLockTuple(self, relation, primary_id):
 		if [relation.fileName, LockTable.IS] not in self.locks and [relation.fileName, LockTable.S] not in self.locks:
