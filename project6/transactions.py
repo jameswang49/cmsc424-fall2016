@@ -20,7 +20,7 @@ class LockTable:
 	IX = 3
 
 	# Compatibility matrix
-	compatibility_list = [(IS, IS), (IS, S), (S, IS), (S, S)]
+	compatibility_list = [(IS, IS), (IS, IX), (IS, S), (IX, IS), (IX, IX), (S, IS), (S, S)]
 	@staticmethod
 	def areCompatible(ltype1, ltype2):
 		return (ltype1, ltype2) in LockTable.compatibility_list
