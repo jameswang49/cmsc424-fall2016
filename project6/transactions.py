@@ -92,9 +92,6 @@ class LockTable:
 				cond.notifyAll()
 
 	@staticmethod
-	
-	@static method
-	
 	def find_cycles(string, graph, visited, recstack, cycles_list):
      		if string not in visited:
              		visited.append(string)
@@ -109,6 +106,7 @@ class LockTable:
      		recstack.remove(string)
     		return cycles_list
 
+	@staticmethod
 	def detectDeadlocksAndChooseTransactionsToAbort():
 		############################################
 		####
@@ -142,7 +140,7 @@ class LockTable:
 						i = i + 1
 				i = 0
 				
-			find_cycles(waits_for_graph.keys()[0], waits_for_graph, [], [], transactions_to_abort)
+			LockTable.find_cycles(waits_for_graph.keys()[0], waits_for_graph, [], [], transactions_to_abort)
 		
 		return transactions_to_abort
 
