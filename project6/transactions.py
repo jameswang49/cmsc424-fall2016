@@ -2,6 +2,7 @@ from disk_relations import *
 import threading
 from threading import Thread
 import time
+from collections import defaultdict
 
 #######################################################################################################
 # Locking Stuff
@@ -101,9 +102,28 @@ class LockTable:
 		#### 
 		#### Make sure to lock the hash table (using "with" as above) before processing it
 		####
-		############################################
-
+		#########################################
 		# Return the list of transactions to be aborted (empty if none)
+		waits_for_graph = defaultdict(list)
+		i = 0
+		
+		# Lock hashtable
+		with Locktable.hashtable_lock:
+			# For every object_id in the hashtable, for every transaction in the waiting list, that transaction waits
+			# on the transaction in front of it. The transaction at the front of the list (found by using i = 0) waits
+			# on the transaction currently running in the current transactions list. Create a waits_for_graph in which
+			# the key is the transaction id, and the value is a list of transactions it waits on
+			for obj_id in LockTable.lockhashtable:
+				e = LockTable.lockhashtable[obj_id]
+				for (t_id, ltype) in e.waiting_transactions_and_locks
+					if i = 0 and e.current_transactions_and_locks:
+						waits_for_graph[t_id].append(e.current_transactions_and_locks[0])
+						i++
+					else:
+						waits_for_graph[t_id].append(e.waiting_transactions_and_locks[i-1])
+						i++
+				i = 0
+		
 		return []
 
 	@staticmethod
