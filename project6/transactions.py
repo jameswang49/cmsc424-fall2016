@@ -132,7 +132,7 @@ class LockTable:
 			for obj_id in LockTable.lockhashtable:
 				e = LockTable.lockhashtable[obj_id]
 				for (t_id, ltype) in e.waiting_transactions_and_locks:
-					if i = 0 and e.current_transactions_and_locks:
+					if i == 0 and e.current_transactions_and_locks:
 						waits_for_graph[t_id].append(e.current_transactions_and_locks[0])
 						i = i + 1
 					else:
@@ -226,7 +226,7 @@ class LogManager:
 				next_trans = allrecords[i].info[0]
 				
 				# If you've found the start of the next transaction log....
-				if (next_trans != current_trans):
+				if next_trans != current_trans:
 					if (allrecords[i-1].info[1] != COMMIT or allrecords[i-1].info[1] != ABORT):
 						LogManager.revertChanges(allrecords[i-1].info[0])
 						LogManager.createAbortLogRecord(allrecords[i-1].info[0])
