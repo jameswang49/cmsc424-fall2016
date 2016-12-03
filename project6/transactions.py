@@ -131,7 +131,7 @@ class LockTable:
 			# the key is the transaction id, and the value is a list of transactions it waits on
 			for obj_id in LockTable.lockhashtable:
 				e = LockTable.lockhashtable[obj_id]
-				for (t_id, ltype) in e.waiting_transactions_and_locks
+				for (t_id, ltype) in e.waiting_transactions_and_locks:
 					if i = 0 and e.current_transactions_and_locks:
 						waits_for_graph[t_id].append(e.current_transactions_and_locks[0])
 						i = i + 1
