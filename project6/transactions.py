@@ -92,6 +92,23 @@ class LockTable:
 				cond.notifyAll()
 
 	@staticmethod
+	
+	@static method
+	
+	def find_cycles(string, graph, visited, recstack, cycles_list):
+     		if string not in visited:
+             		visited.append(string)
+             		recstack.append(string)
+		
+             		for i in graph[string]:
+                		if (i not in visited):
+                        		find_cycles(i, graph, visited, recstack, cycles_list)
+               			elif(i in recstack):
+                         		cycles_list.append(string)
+				
+     		recstack.remove(string)
+    		return cycles_list
+
 	def detectDeadlocksAndChooseTransactionsToAbort():
 		############################################
 		####
@@ -105,7 +122,8 @@ class LockTable:
 		#########################################
 		# Return the list of transactions to be aborted (empty if none)
 		waits_for_graph = defaultdict(list)
-		i = 0
+		transactions_to_abort = [];
+		i = 0		
 		
 		# Lock hashtable
 		with Locktable.hashtable_lock:
@@ -123,8 +141,10 @@ class LockTable:
 						waits_for_graph[t_id].append(e.waiting_transactions_and_locks[i-1])
 						i++
 				i = 0
+				
+			find_cycles(waits_for_graph.keys()[0], waits_for_graph, [], [], transactions_to_abort)
 		
-		return []
+		return transactions_to_abort
 
 	@staticmethod
 	def detectDeadlocks():
