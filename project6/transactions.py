@@ -227,7 +227,7 @@ class LogManager:
 				
 				# If you've found the start of the next transaction log....
 				if next_trans != current_trans:
-					if (allrecords[i-1].info[1] != COMMIT or allrecords[i-1].info[1] != ABORT):
+					if (allrecords[i-1].info[1] != LogRecord.COMMIT or allrecords[i-1].info[1] != LogRecord.ABORT):
 						LogManager.revertChanges(allrecords[i-1].info[0])
 						LogManager.createAbortLogRecord(allrecords[i-1].info[0])
 					current_trans = next_trans
