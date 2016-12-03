@@ -210,8 +210,32 @@ class LogManager:
 	@staticmethod
 	def restartRecovery():
 		print "Starting Restart Recovery......."
-		#raise ValueError("Functionality to be implemented")
-
+		# raise ValueError("Functionality to be implemented")
+		
+		with LogManager.logfile_lock:
+			f = open(LogManager.fileName, 'r')
+			allrecords = [LogManager.readLogRecord(line) for line in f.readlines()]
+			f.close()
+			
+		if allrecords:
+			# Save the current transaction id. Use this to find where the next transaction starts
+			current_trans = allrecords[0].info[0]
+			i = 1
+			
+			# Find the last log record of the current transaction. If the log record isn't a commit or abort,
+			# then revert the changes and write an abort log. 
+			while i != len(allrecords):
+				next_trans = allrecords[i].info[0]
+				
+				# If you've found the start of the next transaction log....
+				if (next_trans != current_trans):
+					if (allrecords[i-1].info[1] != COMMIT or allrecords[i-1].info[1] != ABORT):
+						LogManager.revertChanges(allrecords[i-1].info[0])
+						LogManager.createAbortLogRecord(allrecords[i-1].info[0])
+					current_trans = next_trans
+						
+				i = i + 1			
+			
 		# After the restart recovery is done (i.e., all the required changes redone, all the incomplete transactions
 		# undone, and all the pages have been written to disk), we can now write out a CHECKPOINT record to signify
 		# that the file contents are in a consistent state
