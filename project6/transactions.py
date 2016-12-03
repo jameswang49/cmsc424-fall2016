@@ -124,7 +124,7 @@ class LockTable:
 		i = 0		
 		
 		# Lock hashtable
-		with Locktable.hashtable_lock:
+		with LockTable.hashtable_lock:
 			# For every object_id in the hashtable, for every transaction in the waiting list, that transaction waits
 			# on the transaction in front of it. The transaction at the front of the list (found by using i = 0) waits
 			# on the transaction currently running in the current transactions list. Create a waits_for_graph in which
