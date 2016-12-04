@@ -219,15 +219,17 @@ class LogManager:
 		if allrecords:
 			i = 0
 			
-			while i != len(allrecords) and allrecords[i].info[1] == LogRecord.START:
-				current_trans = allrecords[i].info[0]
-				undo_records = [lr for lr in allrecords if lr.info[0] == current_trans]
+			while i < len(allrecords):
 				
-				print undo_records[-1].info[1]
+				if allrecords[i].info[1] == LogRecord.START:
+					current_trans = allrecords[i].info[0]
+					undo_records = [lr for lr in allrecords if lr.info[0] == current_trans]
 				
-				if (undo_records[-1].info[1] != LogRecord.COMMIT or undo_records[-1].info[1] != LogRecord.ABORT):
-					LogManager.revertChanges(current_trans)
-					LogManager.createAbortLogRecord(current_trans)
+					print undo_records[-1].info[1]
+				
+					if (undo_records[-1].info[1] != LogRecord.COMMIT or undo_records[-1].info[1] != LogRecord.ABORT):
+						LogManager.revertChanges(current_trans)
+						LogManager.createAbortLogRecord(current_trans)
 						
 				i = i + 1			
 			
