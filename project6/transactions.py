@@ -132,6 +132,7 @@ class LockTable:
 				i = 0
 				e = LockTable.lockhashtable[obj_id]
 				
+				print("HERE")
 				if e.waiting_transactions_and_locks:
 					print("HERE")
 					for (t_id, ltype) in e.waiting_transactions_and_locks:
