@@ -134,7 +134,7 @@ class LockTable:
 				
 				print("HERE")
 				if e.waiting_transactions_and_locks:
-					print("HERE")
+					print("THERE")
 					for (t_id, ltype) in e.waiting_transactions_and_locks:
 						if i < len(e.waiting_transactions_and_locks):
 							if i == 0 and e.current_transactions_and_locks:
