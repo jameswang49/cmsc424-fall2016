@@ -135,7 +135,7 @@ class LockTable:
 				if e.waiting_transactions_and_locks:
 					print("HERE")
 					for (t_id, ltype) in e.waiting_transactions_and_locks:
-						if i < len(e.waiting_transactions_and_locks:
+						if i < len(e.waiting_transactions_and_locks):
 							if i == 0 and e.current_transactions_and_locks:
 								waits_for_graph[t_id].append(e.current_transactions_and_locks[0][0])
 								i = i + 1
