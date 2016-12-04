@@ -140,8 +140,8 @@ class LockTable:
 						i = i + 1
 				i = 0
 			
-			print waits_for_graph.keys()
-			LockTable.find_cycles(waits_for_graph.keys()[0], waits_for_graph, [], [], transactions_to_abort)
+		print waits_for_graph.keys()
+		LockTable.find_cycles(waits_for_graph.keys()[0], waits_for_graph, [], [], transactions_to_abort)
 		
 		return transactions_to_abort
 
