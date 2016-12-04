@@ -133,10 +133,10 @@ class LockTable:
 				e = LockTable.lockhashtable[obj_id]
 				for (t_id, ltype) in e.waiting_transactions_and_locks:
 					if i == 0 and e.current_transactions_and_locks:
-						waits_for_graph[t_id].append(e.current_transactions_and_locks[0])
+						waits_for_graph[t_id].append(e.current_transactions_and_locks[0][0])
 						i = i + 1
 					else:
-						waits_for_graph[t_id].append(e.waiting_transactions_and_locks[i-1])
+						waits_for_graph[t_id].append(e.waiting_transactions_and_locks[i-1][0])
 						i = i + 1
 				i = 0
 			
