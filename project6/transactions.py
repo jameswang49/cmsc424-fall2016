@@ -120,8 +120,7 @@ class LockTable:
 		#########################################
 		# Return the list of transactions to be aborted (empty if none)
 		waits_for_graph = defaultdict(list)
-		transactions_to_abort = [];
-		i = 0		
+		transactions_to_abort = [];	
 		
 		# Lock hashtable
 		with LockTable.hashtable_lock:
@@ -130,15 +129,19 @@ class LockTable:
 			# on the transaction currently running in the current transactions list. Create a waits_for_graph in which
 			# the key is the transaction id, and the value is a list of transactions it waits on
 			for obj_id in LockTable.lockhashtable:
-				e = LockTable.lockhashtable[obj_id]
-				for (t_id, ltype) in e.waiting_transactions_and_locks:
-					if i == 0 and e.current_transactions_and_locks:
-						waits_for_graph[t_id].append(e.current_transactions_and_locks[0][0])
-						i = i + 1
-					else:
-						waits_for_graph[t_id].append(e.waiting_transactions_and_locks[i-1][0])
-						i = i + 1
 				i = 0
+				e = LockTable.lockhashtable[obj_id]
+				
+				if e.waiting_transactions_and_locks:
+					print("HERE")
+					for (t_id, ltype) in e.waiting_transactions_and_locks:
+						if i < len(e.waiting_transactions_and_locks:
+							if i == 0 and e.current_transactions_and_locks:
+								waits_for_graph[t_id].append(e.current_transactions_and_locks[0][0])
+								i = i + 1
+							else:
+								waits_for_graph[t_id].append(e.waiting_transactions_and_locks[i-1][0])
+								i = i + 1
 			
 		print waits_for_graph.keys()
 		LockTable.find_cycles(waits_for_graph.keys()[0], waits_for_graph, [], [], transactions_to_abort)
