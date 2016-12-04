@@ -227,7 +227,7 @@ class LogManager:
 				
 					print undo_records
 				
-					if (false):
+					if 0:
 						LogManager.revertChanges(current_trans)
 						LogManager.createAbortLogRecord(current_trans)
 						
