@@ -225,9 +225,7 @@ class LogManager:
 					current_trans = allrecords[i].info[0]
 					undo_records = [lr for lr in allrecords if lr.info[0] == current_trans]
 				
-					print undo_records
-				
-					if 0:
+					if undo_records[-1].info[1] != LogRecord.COMMIT and undo_records[-1].info[1] != LogRecord.ABORT:
 						LogManager.revertChanges(current_trans)
 						LogManager.createAbortLogRecord(current_trans)
 						
