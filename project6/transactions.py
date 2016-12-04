@@ -231,6 +231,17 @@ class LogManager:
 						LogManager.revertChanges(current_trans)
 						LogManager.createAbortLogRecord(current_trans)
 						
+						# Start the redo of the aborted transaction
+						for lr in undo_records:
+							if lr.info[1] == LogRecord.UPDATE:
+								tup = Relation.getRelationByName(lr.info[2]).getTuple(lr.info[3])
+								# Set the attribute to be the new value again
+								tup.setAttribute(lr.info[4], lr.info[6])
+								# Write the redone transaction to the log and commit
+								redo_trans = lr
+								LogManager.writeLogRecord(redo_trans)
+								LogManager.createCommittLogRecord(current_trans)
+						
 				i = i + 1			
 			
 		# After the restart recovery is done (i.e., all the required changes redone, all the incomplete transactions
