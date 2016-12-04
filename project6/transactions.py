@@ -218,20 +218,15 @@ class LogManager:
 			
 		if allrecords:
 			# Save the current transaction id. Use this to find where the next transaction starts
-			current_trans = allrecords[0].info[0]
-			i = 1
+			i = 0
 			
-			# Find the last log record of the current transaction. If the log record isn't a commit or abort,
-			# then revert the changes and write an abort log. 
-			while i != len(allrecords):
-				next_trans = allrecords[i].info[0]
+			while i != len(allrecords) and allrecords[i].info[1] == LogRecord.START:
+				current_trans = allrecords[i].info[0]
+				undo_records = [lr for lr in allrecords if lr.info[0] == current_trans]
 				
-				# If you've found the start of the next transaction log....
-				if next_trans != current_trans:
-					if (allrecords[i-1].info[1] != LogRecord.COMMIT or allrecords[i-1].info[1] != LogRecord.ABORT):
-						LogManager.revertChanges(allrecords[i-1].info[0])
-						LogManager.createAbortLogRecord(allrecords[i-1].info[0])
-					current_trans = next_trans
+				if (undo_records[-1].info[1] != LogRecord.COMMIT or undo_records[-1].info[1] != LogRecord.ABORT):
+					LogManager.revertChanges(current_trans)
+					LogManager.createAbortLogRecord(current_trans)
 						
 				i = i + 1			
 			
