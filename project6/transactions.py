@@ -240,6 +240,12 @@ class LogManager:
 					tup.setAttribute(allrecords[i].info[4], allrecords[i].info[6])
 					# Write back to disk
 					BufferPool.writeAllToDisk(allrecords[i].info[2])
+				elif allrecords[i].info[1] == LogRecord.CLR:
+					tup = Relation.getRelationByName(allrecords[i].info[2]).getTuple(allrecords[i].info[3])
+					# Set the attribute to be the old value again (redo the clr transaction)
+					tup.setAttribute(allrecords[i].info[4], allrecords[i].info[5])
+					# Write back to disk
+					BufferPool.writeAllToDisk(allrecords[i].info[2])
 				elif allrecords[i].info[1] == LogRecord.START:
 					undo_list.append(allrecords[i].info[0])
 				elif allrecords[i].info[1] == LogRecord.ABORT or allrecords[i].info[1] == LogRecord.COMMIT:
