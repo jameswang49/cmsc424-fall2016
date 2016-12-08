@@ -151,7 +151,7 @@ class LockTable:
 		
 		while set(traversed_transactions) != set(waits_for_graph.keys()):
 			for i in range(0, len(waits_for_graph.keys())):
-				if waits_for_graph.keys()[i] not in traversed_list:
+				if waits_for_graph.keys()[i] not in traversed_transactions:
 					LockTable.find_cycles(waits_for_graph.keys()[0], waits_for_graph, new_list, [], transactions_to_abort)
 					traversed_transactions.extend(new_list)
 					new_list = []
