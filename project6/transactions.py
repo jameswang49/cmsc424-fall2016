@@ -242,13 +242,14 @@ class LogManager:
 				elif allrecords[i].info[1] == LogRecord.ABORT or allrecords[i].info[1] == LogRecord.COMMIT:
 					undo_list.remove(allrecords[i].info[0])
 		
-		for i in range(0, len(allrecords)):
-			if allrecords[i].info[1] == LogRecord.START:
-				if allrecords[i].info[0] in undo_list:
-					LogManager.createAbortLogRecord(allrecords[i].info[0])
-			elif allrecords[i].info[1] == LogRecord.UPDATE:
-				if allrecords[i].info[0] in undo_list:
-					LogManager.revertChanges(allrecords[i].info[0])
+		for lr in reversed(allrecords):
+			if lr.info[1] == LogRecord.UPDATE:
+				if lr.info[0] in undo_list:
+					LogManager.revertChanges(lr.info[0])
+			elif lr.info[1] == LogRecord.START:
+				if lr.info[0] in undo_list:
+					LogManager.createAbortLogRecord(lr.info[0])
+			
 		
 			
 		# After the restart recovery is done (i.e., all the required changes redone, all the incomplete transactions
