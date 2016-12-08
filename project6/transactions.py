@@ -132,9 +132,6 @@ class LockTable:
 				i = 0
 				e = LockTable.lockhashtable[obj_id]
 				
-				if e.current_transactions_and_locks:
-					print("TRUEEE")
-				
 				if e.waiting_transactions_and_locks:
 					for (t_id, ltype) in e.waiting_transactions_and_locks:
 						if i < len(e.waiting_transactions_and_locks):
@@ -215,6 +212,7 @@ class LogManager:
 	def restartRecovery():
 		print "Starting Restart Recovery......."
 		# raise ValueError("Functionality to be implemented")
+		undo_list = []
 		
 		with LogManager.logfile_lock:
 			f = open(LogManager.fileName, 'r')
@@ -222,19 +220,20 @@ class LogManager:
 			f.close()
 			
 		if allrecords:
-			i = 0
 			
-			while i < len(allrecords):
-				
-				if allrecords[i].info[1] == LogRecord.START:
-					current_trans = allrecords[i].info[0]
-					undo_records = [lr for lr in allrecords if lr.info[0] == current_trans]
-				
-					if undo_records[-1].info[1] != LogRecord.COMMIT and undo_records[-1].info[1] != LogRecord.ABORT:
-						LogManager.revertChanges(current_trans)
-						LogManager.createAbortLogRecord(current_trans)
-						
-				i = i + 1			
+			for i in range(0, len(allrecords)):
+				if allrecords[i].info[1] == LogRecord.UPDATE:
+					tup = Relation.getRelationByName(lr.info[2]).getTuple(lr.info[3])
+					# Set the attribute to be the new value again (redo the transaction)
+					tup.setAttribute(lr.info[4], lr.info[6])
+				elif allrecords[i].info[1] == LogRecord.START:
+					undo_list.append(allrecords[i].info[0])
+				elif allrecords[i].info[1] == LogRecord.ABORT or allrecords[i].info[1] == LogRecord.COMMIT:
+					undo_list.remove(allrecords[i].info[0])
+					
+		for i in range(0, len(undo_list)):
+			revertChanges(undo_list[i])
+		
 			
 		# After the restart recovery is done (i.e., all the required changes redone, all the incomplete transactions
 		# undone, and all the pages have been written to disk), we can now write out a CHECKPOINT record to signify
