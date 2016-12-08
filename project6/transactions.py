@@ -244,7 +244,7 @@ class LogManager:
 					undo_list.remove(allrecords[i].info[0])
 					
 		for i in range(0, len(undo_list)):
-			revertChanges(undo_list[i])
+			LogManager.revertChanges(undo_list[i])
 		
 			
 		# After the restart recovery is done (i.e., all the required changes redone, all the incomplete transactions
