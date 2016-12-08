@@ -257,7 +257,7 @@ class LogManager:
 				if lr.info[0] in undo_list:
 					tup = Relation.getRelationByName(lr.info[2]).getTuple(lr.info[3])
 					tup.setAttribute(lr.info[4], lr.info[5])
-					clr = LogRecord([transactionid, LogRecord.CLR, lr.info[2], lr.info[3], lr.info[4], lr.info[5]])
+					clr = LogRecord([lr.info[0], LogRecord.CLR, lr.info[2], lr.info[3], lr.info[4], lr.info[5]])
 					LogManager.writeLogRecord(clr)
 					# Write back to disk
 					BufferPool.writeAllToDisk(Relation.getRelationByName(allrecords[i].info[2]))
