@@ -142,8 +142,7 @@ class LockTable:
 								waits_for_graph[t_id].append(e.waiting_transactions_and_locks[i-1][0])
 								i = i + 1
 			
-		for i in range(0, len(waits_for_graph.keys())):
-			LockTable.find_cycles(waits_for_graph.keys()[i], waits_for_graph, [], [], transactions_to_abort)
+		LockTable.find_cycles(waits_for_graph.keys()[0], waits_for_graph, [], [], transactions_to_abort)
 		
 		print (list(set(transactions_to_abort)))
 		return list(set(transactions_to_abort))
