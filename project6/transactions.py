@@ -102,6 +102,7 @@ class LockTable:
                         		LockTable.find_cycles(i, graph, visited, recstack, cycles_list)
                			elif(i in recstack):
                          		cycles_list.append(string)
+					cycles_list.append(i)
 				
      		recstack.remove(string)
     		return cycles_list
