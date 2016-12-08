@@ -146,6 +146,7 @@ class LockTable:
 		for i in range(0, len(waits_for_graph.keys())):
 			LockTable.find_cycles(waits_for_graph.keys()[i], waits_for_graph, [], [], transactions_to_abort)
 		
+		print transactions_to_abort
 		return list(set(transactions_to_abort))
 
 	@staticmethod
