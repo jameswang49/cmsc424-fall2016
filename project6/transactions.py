@@ -99,7 +99,7 @@ class LockTable:
 		
              		for i in graph[string]:
                 		if (i not in visited):
-                        		find_cycles(i, graph, visited, recstack, cycles_list)
+                        		LockTable.find_cycles(i, graph, visited, recstack, cycles_list)
                			elif(i in recstack):
                          		cycles_list.append(string)
 				
