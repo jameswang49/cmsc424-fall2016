@@ -239,13 +239,13 @@ class LogManager:
 					# Set the attribute to be the new value again (redo the transaction)
 					tup.setAttribute(allrecords[i].info[4], allrecords[i].info[6])
 					# Write back to disk
-					BufferPool.writeAllToDisk(allrecords[i].info[2])
+					BufferPool.writeAllToDisk(Relation.getRelationByName(allrecords[i].info[2]))
 				elif allrecords[i].info[1] == LogRecord.CLR:
 					tup = Relation.getRelationByName(allrecords[i].info[2]).getTuple(allrecords[i].info[3])
 					# Set the attribute to be the old value again (redo the clr transaction)
 					tup.setAttribute(allrecords[i].info[4], allrecords[i].info[5])
 					# Write back to disk
-					BufferPool.writeAllToDisk(allrecords[i].info[2])
+					BufferPool.writeAllToDisk(Relation.getRelationByName(allrecords[i].info[2]))
 				elif allrecords[i].info[1] == LogRecord.START:
 					undo_list.append(allrecords[i].info[0])
 				elif allrecords[i].info[1] == LogRecord.ABORT or allrecords[i].info[1] == LogRecord.COMMIT:
@@ -260,7 +260,7 @@ class LogManager:
 					clr = LogRecord([transactionid, LogRecord.CLR, lr.info[2], lr.info[3], lr.info[4], lr.info[5]])
 					LogManager.writeLogRecord(clr)
 					# Write back to disk
-					BufferPool.writeAllToDisk(lr.info[2])
+					BufferPool.writeAllToDisk(Relation.getRelationByName(allrecords[i].info[2]))
 			elif lr.info[1] == LogRecord.START:
 				if lr.info[0] in undo_list:
 					LogManager.createAbortLogRecord(lr.info[0])
