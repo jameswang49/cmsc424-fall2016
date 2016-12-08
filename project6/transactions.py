@@ -120,7 +120,8 @@ class LockTable:
 		#########################################
 		# Return the list of transactions to be aborted (empty if none)
 		waits_for_graph = defaultdict(list)
-		transactions_to_abort = [];	
+		traversed_transactions = []
+		transactions_to_abort = [];
 		
 		# Lock hashtable
 		with LockTable.hashtable_lock:
@@ -142,8 +143,9 @@ class LockTable:
 								waits_for_graph[t_id].append(e.waiting_transactions_and_locks[i-1][0])
 								i = i + 1
 			
-		LockTable.find_cycles(waits_for_graph.keys()[0], waits_for_graph, [], [], transactions_to_abort)
+		LockTable.find_cycles(waits_for_graph.keys()[0], waits_for_graph, traversed_transactions, [], transactions_to_abort)
 		
+		print traversed_transactions
 		print (list(set(transactions_to_abort)))
 		return list(set(transactions_to_abort))
 
