@@ -248,7 +248,10 @@ class LogManager:
 		for lr in reversed(allrecords):
 			if lr.info[1] == LogRecord.UPDATE:
 				if lr.info[0] in undo_list:
-					LogManager.revertChanges(lr.info[0])
+					tup = Relation.getRelationByName(lr.info[2]).getTuple(lr.info[3])
+					tup.setAttribute(lr.info[4], lr.info[5])
+					clr = LogRecord([transactionid, LogRecord.CLR, lr.info[2], lr.info[3], lr.info[4], lr.info[5]])
+					LogManager.writeLogRecord(clr)
 					BufferPool.writeAllToDisk(lr.info[2])
 			elif lr.info[1] == LogRecord.START:
 				if lr.info[0] in undo_list:
