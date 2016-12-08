@@ -123,7 +123,7 @@ class LockTable:
 		all_transactions_list = []
 		traversed_transactions = []
 		transactions_to_abort = []
-		new_list = []
+
 		
 		# Lock hashtable
 		with LockTable.hashtable_lock:
@@ -152,9 +152,7 @@ class LockTable:
 		while set(traversed_transactions) != set(waits_for_graph.keys()):
 			for i in range(0, len(waits_for_graph.keys())):
 				if waits_for_graph.keys()[i] not in traversed_transactions:
-					LockTable.find_cycles(waits_for_graph.keys()[i], waits_for_graph, new_list, [], transactions_to_abort)
-					traversed_transactions.extend(new_list)
-					new_list = []
+					LockTable.find_cycles(waits_for_graph.keys()[i], waits_for_graph, traversed_transactions, [], transactions_to_abort)
 				
 		
 		print traversed_transactions
