@@ -155,8 +155,8 @@ class LockTable:
 					LockTable.find_cycles(waits_for_graph.keys()[i], waits_for_graph, traversed_transactions, [], transactions_to_abort)
 				
 		
-		print traversed_transactions
-		print (list(set(transactions_to_abort)))
+		# print traversed_transactions
+		# print (list(set(transactions_to_abort)))
 		return list(set(transactions_to_abort))
 
 	@staticmethod
@@ -235,9 +235,9 @@ class LogManager:
 			
 			for i in range(0, len(allrecords)):
 				if allrecords[i].info[1] == LogRecord.UPDATE:
-					tup = Relation.getRelationByName(lr.info[2]).getTuple(lr.info[3])
+					tup = Relation.getRelationByName(allrecords[i].info[2]).getTuple(allrecords[i].info[3])
 					# Set the attribute to be the new value again (redo the transaction)
-					tup.setAttribute(lr.info[4], lr.info[6])
+					tup.setAttribute(allrecords[i].info[4], allrecords[i].info[6])
 				elif allrecords[i].info[1] == LogRecord.START:
 					undo_list.append(allrecords[i].info[0])
 				elif allrecords[i].info[1] == LogRecord.ABORT or allrecords[i].info[1] == LogRecord.COMMIT:
