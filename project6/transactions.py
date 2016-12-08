@@ -102,7 +102,6 @@ class LockTable:
                         		LockTable.find_cycles(i, graph, visited, recstack, cycles_list)
                			elif(i in recstack):
                          		cycles_list.append(string)
-					cycles_list.append(i)
 				
      		recstack.remove(string)
     		return cycles_list
@@ -146,7 +145,7 @@ class LockTable:
 		for i in range(0, len(waits_for_graph.keys())):
 			LockTable.find_cycles(waits_for_graph.keys()[i], waits_for_graph, [], [], transactions_to_abort)
 		
-		print transactions_to_abort
+		print (list(set(transactions_to_abort)))
 		return list(set(transactions_to_abort))
 
 	@staticmethod
