@@ -223,7 +223,7 @@ class LogManager:
 	@staticmethod
 	def restartRecovery():
 		print "Starting Restart Recovery......."
-		# raise ValueError("Functionality to be implemented")
+		# Raise ValueError("Functionality to be implemented")
 		undo_list = []
 		
 		with LogManager.logfile_lock:
@@ -231,27 +231,23 @@ class LogManager:
 			allrecords = [LogManager.readLogRecord(line) for line in f.readlines()]
 			f.close()
 		
-		# redo phase
+		# Redo phase
 		if allrecords:		
 			for i in range(0, len(allrecords)):
 				if allrecords[i].info[1] == LogRecord.UPDATE:
 					tup = Relation.getRelationByName(allrecords[i].info[2]).getTuple(allrecords[i].info[3])
 					# Set the attribute to be the new value again (redo the transaction)
 					tup.setAttribute(allrecords[i].info[4], allrecords[i].info[6])
-					# Write back to disk
-					# BufferPool.writeAllToDisk(Relation.getRelationByName(allrecords[i].info[2]))
 				elif allrecords[i].info[1] == LogRecord.CLR:
 					tup = Relation.getRelationByName(allrecords[i].info[2]).getTuple(allrecords[i].info[3])
 					# Set the attribute to be the old value again (redo the clr transaction)
 					tup.setAttribute(allrecords[i].info[4], allrecords[i].info[5])
-					# Write back to disk
-					# BufferPool.writeAllToDisk(Relation.getRelationByName(allrecords[i].info[2]))
 				elif allrecords[i].info[1] == LogRecord.START:
 					undo_list.append(allrecords[i].info[0])
 				elif allrecords[i].info[1] == LogRecord.ABORT or allrecords[i].info[1] == LogRecord.COMMIT:
 					undo_list.remove(allrecords[i].info[0])
 		
-			# undo phase
+			# Undo phase
 			for lr in reversed(allrecords):
 				if lr.info[1] == LogRecord.UPDATE:
 					if lr.info[0] in undo_list:
@@ -259,13 +255,12 @@ class LogManager:
 						tup.setAttribute(lr.info[4], lr.info[5])
 						clr = LogRecord([lr.info[0], LogRecord.CLR, lr.info[2], lr.info[3], lr.info[4], lr.info[5]])
 						LogManager.writeLogRecord(clr)
-						# Write back to disk
-						# BufferPool.writeAllToDisk(Relation.getRelationByName(allrecords[i].info[2]))
 				elif lr.info[1] == LogRecord.START:
 					if lr.info[0] in undo_list:
 						LogManager.createAbortLogRecord(lr.info[0])
 						undo_list.remove(lr.info[0])
 			
+			# Write updated relations back to disk
 			for i in range(0, len(allrecords)): 
 				if len(allrecords[i].info) > 2:
 					rel = Relation.getRelationByName(allrecords[i].info[2])
