@@ -251,22 +251,24 @@ class LogManager:
 				elif allrecords[i].info[1] == LogRecord.ABORT or allrecords[i].info[1] == LogRecord.COMMIT:
 					undo_list.remove(allrecords[i].info[0])
 		
-		# undo phase
-		for lr in reversed(allrecords):
-			if lr.info[1] == LogRecord.UPDATE:
-				if lr.info[0] in undo_list:
-					tup = Relation.getRelationByName(lr.info[2]).getTuple(lr.info[3])
-					tup.setAttribute(lr.info[4], lr.info[5])
-					clr = LogRecord([lr.info[0], LogRecord.CLR, lr.info[2], lr.info[3], lr.info[4], lr.info[5]])
-					LogManager.writeLogRecord(clr)
-					# Write back to disk
-					# BufferPool.writeAllToDisk(Relation.getRelationByName(allrecords[i].info[2]))
-			elif lr.info[1] == LogRecord.START:
-				if lr.info[0] in undo_list:
-					LogManager.createAbortLogRecord(lr.info[0])
-					undo_list.remove(lr.info[0])
+			# undo phase
+			for lr in reversed(allrecords):
+				if lr.info[1] == LogRecord.UPDATE:
+					if lr.info[0] in undo_list:
+						tup = Relation.getRelationByName(lr.info[2]).getTuple(lr.info[3])
+						tup.setAttribute(lr.info[4], lr.info[5])
+						clr = LogRecord([lr.info[0], LogRecord.CLR, lr.info[2], lr.info[3], lr.info[4], lr.info[5]])
+						LogManager.writeLogRecord(clr)
+						# Write back to disk
+						# BufferPool.writeAllToDisk(Relation.getRelationByName(allrecords[i].info[2]))
+				elif lr.info[1] == LogRecord.START:
+					if lr.info[0] in undo_list:
+						LogManager.createAbortLogRecord(lr.info[0])
+						undo_list.remove(lr.info[0])
 			
-			
+			for i in range(0, len(allrecords)): 
+				rel = Relation.getRelationByName(allrecords[i].info[2])
+				BufferPool.writeAllToDisk(rel)
 		# After the restart recovery is done (i.e., all the required changes redone, all the incomplete transactions
 		# undone, and all the pages have been written to disk), we can now write out a CHECKPOINT record to signify
 		# that the file contents are in a consistent state
