@@ -267,8 +267,9 @@ class LogManager:
 						undo_list.remove(lr.info[0])
 			
 			for i in range(0, len(allrecords)): 
-				rel = Relation.getRelationByName(allrecords[i].info[2])
-				BufferPool.writeAllToDisk(rel)
+				if len(allrecords[i].info) > 2:
+					rel = Relation.getRelationByName(allrecords[i].info[2])
+					BufferPool.writeAllToDisk(rel)
 		# After the restart recovery is done (i.e., all the required changes redone, all the incomplete transactions
 		# undone, and all the pages have been written to disk), we can now write out a CHECKPOINT record to signify
 		# that the file contents are in a consistent state
